@@ -7,8 +7,14 @@
         <ol>
           <li>
             <p>Paste your data below:</p>
-            <textarea ng-model="form.data">
-            </textarea>
+            <div class="form-group">
+              <textarea
+                class="form-control"
+                rows="5"
+                ng-model="form.data"
+                ng-change="parseRawData()"
+              ></textarea>
+            </div>
           </li>
           <li>
             <p>Choose delimiter:</p>
@@ -21,21 +27,21 @@
             <div class="form-group">
               <label for="fmq-load-data-latitude">Latitude:</label>
               <select class="form-control" ng-model="form.latitude" name="latitude" id="fmq-load-data-latutude">
-                <option value="lat">TODO-Lat</option>
+                <option ng-repeat="column in columns" ng-value="$index">{{column}}</option>
               </select>
             </div>
 
             <div class="form-group">
               <label for="fmq-load-data-latitude">Longitude:</label>
               <select class="form-control" ng-model="form.longitude" name="longitude" id="fmq-load-data-latutude">
-                <option value="lng">TODO-Lng</option>
+                <option ng-repeat="column in columns" ng-value="$index">{{column}}</option>
               </select>
             </div>
           </li>
         </ol>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" type="submit">Load</button>
+        <button class="btn btn-primary" ng-disabled="!formValid" type="submit">Load</button>
         <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
     </div>
   </form>
