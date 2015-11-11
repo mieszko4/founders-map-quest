@@ -16,18 +16,12 @@ angular.module('foundersMapQuestApp')
         animation: $scope.animationsEnabled,
         templateUrl: 'views/load-data.html',
         controller: 'LoadDataCtrl',
-        resolve: {
-          items: function () {
-            return $scope.items;
-          }
-        },
         backdrop: 'static'
       });
 
-      modalInstance.result.then(function (items) {
-        Founders.setItems(items);
+      modalInstance.result.then(function (result) {
+        Founders.setFounders(result.header, result.items, result.latitudeColumn, result.longitudeColumn);
       }, function () {
-        console.log('Gave up on data loading');
       });
     };
   });

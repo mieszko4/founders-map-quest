@@ -8,17 +8,27 @@
  * Controller of the foundersMapQuestApp
  */
 angular.module('foundersMapQuestApp')
-  .controller('LoadDataCtrl', function ($scope, $uibModalInstance) {
+  .controller('LoadDataCtrl', function ($scope, $uibModalInstance, Founders) {
     $scope.form = {
       data: '',
-      delimiter: 'Comma',
+      delimiter: ',',
       latitude: null,
       longitude: null
     };
 
     $scope.ok = function () {
-      console.log($scope.form);
-      //$uibModalInstance.close(items);
+      var result = Founders.parseRawData($scope.form.data, $scope.form.delimiter);
+
+      if (result !== false) {
+        $uibModalInstance.close({
+          header: result.header,
+          items: result.items,
+          latitudeColumn: $scope.form.latitude,
+          longitudeColumn: $scope.form.longitude
+        });
+      } else {
+        console.error('TODO: could not parse data');
+      }
     };
 
     $scope.cancel = function () {
