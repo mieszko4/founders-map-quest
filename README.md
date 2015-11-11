@@ -1,5 +1,5 @@
 # Founders Map Quest
->A 'Try Catch' challenge
+>A *Try Catch* challenge
 
 ## Trello
 
