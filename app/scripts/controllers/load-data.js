@@ -9,10 +9,16 @@
  */
 angular.module('foundersMapQuestApp')
   .controller('LoadDataCtrl', function ($scope, $uibModalInstance) {
-    var items = [1, 2, 3];
+    $scope.form = {
+      data: '',
+      delimiter: 'Comma',
+      latitude: null,
+      longitude: null
+    };
 
     $scope.ok = function () {
-      $uibModalInstance.close(items);
+      console.log($scope.form);
+      //$uibModalInstance.close(items);
     };
 
     $scope.cancel = function () {
