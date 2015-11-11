@@ -1,7 +1,18 @@
-# founders-map-quest
+# Founders Map Quest
+>A 'Try Catch' challenge
 
-This project is generated with [yo angular generator](https://github.com/yeoman/generator-angular)
-version 0.14.0.
+## Trello
+
+Please see [Trello board](https://trello.com/b/0NsrOTRq/founder-s-map-quest/) for project management details.
+
+## Set up
+
+### Pre-requirments
+
+* node v0.12.7
+* npm 2.11.3
+
+After cloning, run `npm install` and `bower install`.
 
 ## Build & development
 
