@@ -9,7 +9,8 @@
  * Main module of the application.
  */
  angular.module('foundersMapQuestApp', [
-   'ngRoute'
+   'ngRoute',
+   'ui.bootstrap'
  ])
 
  .config(function ($routeProvider) {

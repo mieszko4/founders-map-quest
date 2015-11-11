@@ -11,9 +11,8 @@ angular.module('foundersMapQuestApp')
   .factory('Founders', function () {
     var service = {
       items: [],
-      setFounders: function (csv, delimiter) {
-        //TODO: parse csv
-        console.log(csv, delimiter);
+      setItems: function (items) {
+        this.items = items;
         return this.items;
       }
     };
