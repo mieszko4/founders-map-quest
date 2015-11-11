@@ -29,12 +29,14 @@ angular.module('foundersMapQuestApp')
       latitudeColumn: null,
       longitudeColumn: null,
 
-      parseRawData: function (raw, delimiter) {
+      defaultDelimiter: ',',
+
+      decode: function (raw, delimiter) {
        var items = [];
 
-       var rows = raw.split(/\n\r?/);
+       var rows = raw.trim().split(/\n\r?/);
        rows = trimItems(rows, true);
-
+       
        //first row is column data
        var header = rows.shift().split(delimiter);
        header = trimItems(header, false);
@@ -61,6 +63,22 @@ angular.module('foundersMapQuestApp')
          };
        }
      },
+     encode: function (header, items, delimiter) {
+       if (header === null || typeof header === 'undefined') {
+         return '';
+       }
+
+       var raw = header.join(delimiter);
+       var rows = [];
+
+       angular.forEach(items, function (item) {
+         rows.push(item.join(delimiter));
+       });
+       raw += '\n' + rows.join('\n');
+
+       return raw;
+     },
+
       setFounders: function (header, items, latitudeColumn, longitudeColumn) {
         this.header = header;
         this.items = items;
