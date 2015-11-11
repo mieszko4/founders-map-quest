@@ -9,8 +9,10 @@ Please see [Trello board](https://trello.com/b/0NsrOTRq/founder-s-map-quest/) fo
 
 ### Pre-requirments
 
-* node v0.12.7
-* npm 2.11.3
+* node (0.12.7)
+* npm (2.11.3)
+* compass
+* phantomjs
 
 After cloning, run `npm install` and `bower install`.
 
