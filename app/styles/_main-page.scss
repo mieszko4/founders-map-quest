@@ -1,2 +1,16 @@
 .fmq-main-page {
+  .btn-load-data {
+    font-size: 24px;
+    padding: 12px 24px;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 30px;
+  }
+
+  .data-loaded .btn-load-data {
+    font-size: 10px;
+    padding: 10px 14px;
+    margin-top: 0;
+    margin-left: 0;
+  }
 }

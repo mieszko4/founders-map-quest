@@ -8,5 +8,6 @@
  * Controller of the foundersMapQuestApp
  */
 angular.module('foundersMapQuestApp')
-  .controller('MainCtrl', function () {
+  .controller('MainCtrl', function ($scope, Founders) {
+    $scope.Founders = Founders;
   });

@@ -8,6 +8,15 @@
  * Service in the foundersMapQuestApp.
  */
 angular.module('foundersMapQuestApp')
-  .service('Founders', function () {
-    // AngularJS will instantiate a singleton by calling "new" on this function
+  .factory('Founders', function () {
+    var service = {
+      items: [],
+      setFounders: function (csv, delimiter) {
+        //TODO: parse csv
+        console.log(csv, delimiter);
+        return this.items;
+      }
+    };
+
+    return service;
   });

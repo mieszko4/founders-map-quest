@@ -1,7 +1,8 @@
 <div class="fmq-main-page">
-  <div class="jumbotron">
-    <p>TODO: load CSV</p>
-    <p>TODO: show table</p>
-    <p>TODO: show map</p>
+  <div class="container" ng-class="{'data-loaded': Founders.items.length > 0}">
+    <button class="btn btn-primary btn-load-data">
+      <span ng-if="Founders.items.length == 0">Load data</span>
+      <span ng-if="Founders.items.length > 0">Load data again</span>
+    </button>
   </div>
 <div>
