@@ -40,7 +40,8 @@ angular.module('foundersMapQuestApp')
     $scope.$watch(function() {
       return $scope.data.items !== false &&
         $scope.form.latitudeColumn !== null &&
-        $scope.form.longitudeColumn !== null
+        $scope.form.longitudeColumn !== null &&
+        $scope.form.latitudeColumn !== $scope.form.longitudeColumn
       ;
     }, function (newValue) {
       $scope.formValid = newValue;
