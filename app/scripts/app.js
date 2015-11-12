@@ -11,8 +11,17 @@
  angular.module('foundersMapQuestApp', [
    'ngRoute',
    'LocalStorageModule',
+   'uiGmapgoogle-maps',
    'ui.bootstrap'
  ])
+
+ .config(function (uiGmapGoogleMapApiProvider) {
+    uiGmapGoogleMapApiProvider.configure({
+      //key: 'your api key',
+      // v: '3.20',
+      libraries: 'weather,geometry,visualization'
+    });
+  })
 
  .config(function ($routeProvider) {
    $routeProvider

@@ -1,0 +1,12 @@
+<div ui-gmap-google-map
+  center="map.center"
+  zoom="map.zoom" aria-label="Google map">
+
+  <div ui-gmap-marker ng-repeat="marker in markers"
+    coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id">
+    <div ui-gmap-window>
+      <div>{{marker.window.title}}</div>
+    </div>
+  </div>
+
+</div>
