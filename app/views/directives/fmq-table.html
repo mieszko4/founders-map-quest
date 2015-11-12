@@ -12,5 +12,10 @@
         {{column}}
       <td>
     </tr>
+    <tr ng-if="items.length == 0">
+      <td colspan="{{header.length}}" class="alert alert-info">
+        <p>No items</p>
+      </td>
+    </tr>
   </tbody>
 </table>
