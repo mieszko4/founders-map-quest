@@ -26,7 +26,10 @@ angular.module('foundersMapQuestApp')
         latitudeColumn: null,
         longitudeColumn: null
       };
-      $scope.data = false;
+      $scope.data = {
+        header: null,
+        items: false
+      };
     }
 
     $scope.parseRawData = function () {
@@ -35,7 +38,7 @@ angular.module('foundersMapQuestApp')
 
     $scope.formValid = false;
     $scope.$watch(function() {
-      return $scope.data &&
+      return $scope.data.items !== false &&
         $scope.form.latitudeColumn !== null &&
         $scope.form.longitudeColumn !== null
       ;
@@ -47,8 +50,10 @@ angular.module('foundersMapQuestApp')
     $scope.$watch(function() {
       return $scope.data;
     }, function (newValue) {
-      if (newValue) {
-        if (!angular.equals($scope.columns, newValue.header)) {
+      var headersEqual = angular.equals($scope.columns, newValue.header);
+
+      if (newValue.items !== false) {
+        if (!headersEqual) {
           $scope.form.latitudeColumn = null;
           $scope.form.longitudeColumn = null;
           $scope.columns = newValue.header;
@@ -60,7 +65,7 @@ angular.module('foundersMapQuestApp')
             }
           }
         }
-      } else {
+      } else if (!headersEqual) {
         $scope.form.latitudeColumn = null;
         $scope.form.longitudeColumn = null;
         $scope.columns = [];

@@ -36,7 +36,7 @@ angular.module('foundersMapQuestApp')
 
        var rows = raw.trim().split(/\n\r?/);
        rows = trimItems(rows, true);
-       
+
        //first row is column data
        var header = rows.shift().split(delimiter);
        header = trimItems(header, false);
@@ -55,13 +55,13 @@ angular.module('foundersMapQuestApp')
        });
 
        if (!valid) {
-         return false;
-       } else {
-         return {
-           header: header,
-           items: items
-         };
+         items = false;
        }
+
+       return {
+         header: header,
+         items: items
+       };
      },
      encode: function (header, items, delimiter) {
        if (header === null || typeof header === 'undefined') {
