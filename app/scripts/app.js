@@ -10,6 +10,7 @@
  */
  angular.module('foundersMapQuestApp', [
    'ngRoute',
+   'LocalStorageModule',
    'ui.bootstrap'
  ])
 

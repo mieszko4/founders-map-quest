@@ -8,10 +8,17 @@
  * Controller of the foundersMapQuestApp
  */
 angular.module('foundersMapQuestApp')
-  .controller('MainCtrl', function ($scope, Founders, $uibModal) {
+  .controller('MainCtrl', function ($scope, Founders, $uibModal, State) {
     $scope.Founders = Founders;
 
-    $scope.state = null; //TODO load/save automaticaly from localStorage
+    if (State.state !== null) {
+      Founders.setFounders(
+        State.state.header,
+        State.state.items,
+        State.state.latitudeColumn,
+        State.state.longitudeColumn
+      );
+    }
 
     $scope.openLoadDataForm = function () {
       var modalInstance = $uibModal.open({
@@ -21,13 +28,13 @@ angular.module('foundersMapQuestApp')
         backdrop: 'static',
         resolve: {
           state: function () {
-            return $scope.state;
+            return State.state;
           }
         }
       });
 
       modalInstance.result.then(function (result) {
-        $scope.state = {
+        State.state = {
           delimiter: result.delimiter,
           header: result.header,
           items: result.items,
