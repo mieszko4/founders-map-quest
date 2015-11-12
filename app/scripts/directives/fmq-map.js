@@ -11,26 +11,26 @@ angular.module('foundersMapQuestApp')
     return {
       scope: {
         items: '=',
-        markerColumnIndex: '=',
-        latitudeColumnIndex: '=',
-        longitudeColumnIndex: '='
+        markerColumn: '=',
+        latitudeColumn: '=',
+        longitudeColumn: '='
       },
       templateUrl: 'views/directives/fmq-map.html',
       restrict: 'A',
       link: function (scope) {
         scope.markers = [];
 
-        scope.$watchGroup(['items', 'markerColumnIndex', 'latitudeColumnIndex', 'longitudeColumnIndex'], function () {
+        scope.$watchGroup(['items', 'markerColumn', 'latitudeColumn', 'longitudeColumn'], function () {
           scope.markers = [];
           angular.forEach(scope.items, function (item, i) {
             scope.markers.push({
               id: i,
               coords: {
-                latitude: item[scope.latitudeColumnIndex],
-                longitude: item[scope.longitudeColumnIndex]
+                latitude: item[scope.latitudeColumn],
+                longitude: item[scope.longitudeColumn]
               },
               window: {
-                title: item[scope.markerColumnIndex]
+                title: item[scope.markerColumn]
               }
             });
           });
