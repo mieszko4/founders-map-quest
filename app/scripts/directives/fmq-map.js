@@ -38,10 +38,8 @@ angular.module('foundersMapQuestApp')
           scope.markers = markers;
         }, true);
 
-        //TODO: calculate bound based on markers and zoom in?
-
         scope.map = {
-          center: { latitude: 39.8282, longitude: -98.5795 },
+          center: {latitude: 0, longitude: 0},
           zoom: 4,
           markersEvents: {
             click: function(marker, eventName, model) {
