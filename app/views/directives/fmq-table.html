@@ -3,6 +3,7 @@
     <tr>
       <th ng-repeat="column in header">
         {{column}}
+        <small><a ng-click="chooseAsMarker($index)" ng-class="{active: markerColumnIndex == $index}">Choose as marker</a></small>
       </th>
     </tr>
   </thead>

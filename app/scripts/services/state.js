@@ -11,11 +11,11 @@ angular.module('foundersMapQuestApp')
   .factory('State', function ($rootScope, localStorageService) {
     var key = 'founders';
     var service = {
-      state: null
+      state: {}
     };
 
     var state = localStorageService.get(key);
-    service.state = state || null;
+    service.state = state || {};
 
     $rootScope.$watch(function () {
       return service.state;

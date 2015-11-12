@@ -10,15 +10,21 @@
 angular.module('foundersMapQuestApp')
   .controller('MainCtrl', function ($scope, Founders, $uibModal, State) {
     $scope.Founders = Founders;
+    $scope.markerColumnIndex = 0;
 
-    if (State.state !== null) {
+    if (!angular.equals(State.state, {})) {
       Founders.setFounders(
         State.state.header,
         State.state.items,
         State.state.latitudeColumn,
         State.state.longitudeColumn
       );
+      $scope.markerColumnIndex = State.state.markerColumnIndex || 0;
     }
+
+    $scope.$watch('markerColumnIndex', function (newValue) {
+      State.state.markerColumnIndex = newValue;
+    });
 
     $scope.openLoadDataForm = function () {
       var modalInstance = $uibModal.open({
@@ -34,13 +40,13 @@ angular.module('foundersMapQuestApp')
       });
 
       modalInstance.result.then(function (result) {
-        State.state = {
+        State.state = angular.extend(State.state, {
           delimiter: result.delimiter,
           header: result.header,
           items: result.items,
           latitudeColumn: result.latitudeColumn,
           longitudeColumn: result.longitudeColumn
-        };
+        });
 
         Founders.setFounders(
           result.header,

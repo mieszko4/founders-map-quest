@@ -9,11 +9,14 @@
 angular.module('foundersMapQuestApp')
   .directive('fmqTable', function () {
     return {
-      scope: {header: '=', items: '='},
+      scope: {header: '=', items: '=', markerColumnIndex: '='},
       templateUrl: 'views/directives/fmq-table.html',
       restrict: 'A',
       replace: true,
-      link: function () {
+      link: function (scope) {
+        scope.chooseAsMarker = function ($index) {
+          scope.markerColumnIndex = $index;
+        };
       }
     };
   });
