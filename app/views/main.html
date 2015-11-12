@@ -12,7 +12,6 @@
   <div class="container table-container" ng-show="Founders.header.length > 0">
     <h2>Table</h2>
     <table
-      ng-show="Founders.header.length > 0"
       fmq-table header="Founders.header"
       items="Founders.items"
       marker-column-index="markerColumnIndex"
@@ -21,9 +20,12 @@
 
   <div class="container map-container" ng-show="Founders.header.length > 0">
     <h2>Map</h2>
-    <div fmq-map></div>
-    LatitudeColumn: <pre>{{Founders.header[Founders.latitudeColumn]}}</pre>
-    LongitudeColumn: <pre>{{Founders.header[Founders.longitudeColumn]}}</pre>
-    MarkerColumn: <pre>{{Founders.header[markerColumnIndex]}}</pre>
+    <div
+      fmq-map
+      items="Founders.items"
+      marker-column-index="markerColumnIndex"
+      latitude-column-index="Founders.latitudeColumn"
+      longitude-column-index="Founders.longitudeColumn"
+    ></div>
   </div>
 <div>

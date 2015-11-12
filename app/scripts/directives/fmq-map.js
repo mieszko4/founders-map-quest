@@ -9,32 +9,53 @@
 angular.module('foundersMapQuestApp')
   .directive('fmqMap', function () {
     return {
+      scope: {
+        items: '=',
+        markerColumnIndex: '=',
+        latitudeColumnIndex: '=',
+        longitudeColumnIndex: '='
+      },
       templateUrl: 'views/directives/fmq-map.html',
       restrict: 'A',
       link: function (scope) {
-        //TODO: move to another directive
-        //TODO: watch for (selected) items change
-        //TODO: watch for markerDescription change
-        //TODO: watch for lng/lat column change
-        //TODO: calculate bound based on markers
-        //TODO: on-change: create markers field
+        scope.markers = [];
+
+        scope.$watchGroup(['items', 'markerColumnIndex', 'latitudeColumnIndex', 'longitudeColumnIndex'], function () {
+          scope.markers = [];
+          angular.forEach(scope.items, function (item, i) {
+            scope.markers.push({
+              id: i,
+              coords: {
+                latitude: item[scope.latitudeColumnIndex],
+                longitude: item[scope.longitudeColumnIndex]
+              },
+              window: {
+                title: item[scope.markerColumnIndex]
+              }
+            });
+          });
+        }, true);
+
+        //TODO: calculate bound based on markers and zoom in?
 
         scope.map = {
           center: { latitude: 39.8282, longitude: -98.5795 },
-          zoom: 4
-        };
-        scope.markers = [
-          {
-            id: 0,
-            coords: {
-              latitude: 45.5200,
-              longitude: -122.6819
-            },
-            window: {
-              title: 'Portland, OR'
+          zoom: 4,
+          markersEvents: {
+            click: function(marker, eventName, model) {
+              scope.map.window.model = model;
+              scope.map.window.show = true;
             }
+          },
+          window: {
+              marker: {},
+              show: false,
+              closeClick: function() {
+                scope.map.window.show = false;
+              },
+              options: {}
           }
-        ];
+        };
       }
     };
   });

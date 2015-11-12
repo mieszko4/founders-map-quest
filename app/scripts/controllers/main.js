@@ -55,7 +55,6 @@ angular.module('foundersMapQuestApp')
           result.latitudeColumn,
           result.longitudeColumn
         );
-      }, function () {
       });
     };
   });

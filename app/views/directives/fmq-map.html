@@ -1,12 +1,19 @@
 <div ui-gmap-google-map
   center="map.center"
-  zoom="map.zoom" aria-label="Google map">
+  zoom="map.zoom"
+>
+  <div ui-gmap-window
+    show="map.window.show"
+    coords="map.window.model.coords"
+    options="map.window.options"
+    closeClick="map.window.closeClick()"
+    templateUrl="'views/marker.html'"
+    templateParameter="map.window"
+  ></div>
 
-  <div ui-gmap-marker ng-repeat="marker in markers"
-    coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id">
-    <div ui-gmap-window>
-      <div>{{marker.window.title}}</div>
-    </div>
-  </div>
-
+  <div ui-gmap-markers
+    models="markers"
+    coords="'coords'"
+    events="map.markersEvents"
+  ></div>
 </div>
