@@ -2,8 +2,19 @@
   <thead>
     <tr>
       <th ng-repeat="column in header">
-        {{column}}
-        <small><a ng-click="chooseAsMarker($index)" ng-class="{active: markerColumnIndex == $index}">Choose as marker</a></small>
+        <span class="column-label">{{column}}</span>
+        <a class="marker-column-chooser" ng-click="chooseAsMarker($index)">
+          <span
+            ng-show="markerColumnIndex != $index"
+            class="glyphicon glyphicon-star-empty"
+            title="Click here to choose this column as description for markers"
+          ></span>
+          <span
+            ng-show="markerColumnIndex == $index"
+            class="glyphicon glyphicon-star"
+            title="This column is used as description for markers"
+          ></span>
+        </a>
       </th>
     </tr>
   </thead>
