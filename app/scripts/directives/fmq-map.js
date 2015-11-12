@@ -21,9 +21,9 @@ angular.module('foundersMapQuestApp')
         scope.markers = [];
 
         scope.$watchGroup(['items', 'markerColumn', 'latitudeColumn', 'longitudeColumn'], function () {
-          scope.markers = [];
+          var markers = [];
           angular.forEach(scope.items, function (item, i) {
-            scope.markers.push({
+            markers.push({
               id: i,
               coords: {
                 latitude: item[scope.latitudeColumn],
@@ -34,6 +34,8 @@ angular.module('foundersMapQuestApp')
               }
             });
           });
+
+          scope.markers = markers;
         }, true);
 
         //TODO: calculate bound based on markers and zoom in?
@@ -48,7 +50,6 @@ angular.module('foundersMapQuestApp')
             }
           },
           window: {
-              marker: {},
               show: false,
               closeClick: function() {
                 scope.map.window.show = false;
