@@ -40,13 +40,14 @@ angular.module('foundersMapQuestApp')
       });
 
       modalInstance.result.then(function (result) {
-        State.state = angular.extend(State.state, {
+        State.state = {
           delimiter: result.delimiter,
           header: result.header,
           items: result.items,
           latitudeColumn: result.latitudeColumn,
           longitudeColumn: result.longitudeColumn
-        });
+        };
+        $scope.markerColumnIndex = 0;
 
         Founders.setFounders(
           result.header,
