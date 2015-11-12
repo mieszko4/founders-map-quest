@@ -1,0 +1,16 @@
+<table class="fmq-table table table-striped">
+  <thead>
+    <tr>
+      <th ng-repeat="column in header">
+        {{column}}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="item in items">
+      <td ng-repeat="column in item">
+        {{column}}
+      <td>
+    </tr>
+  </tbody>
+</table>

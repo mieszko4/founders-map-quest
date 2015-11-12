@@ -7,10 +7,16 @@
       <span ng-if="Founders.items.length == 0">Load data</span>
       <span ng-if="Founders.items.length > 0">Load data again</span>
     </button>
+  </div>
 
-    <pre>{{Founders.items}}</pre>
-    <pre>{{Founders.header}}</pre>
-    <pre>{{Founders.latitudeColumn}}</pre>
-    <pre>{{Founders.longitudeColumn}}</pre>
+  <div class="container table-container" ng-show="Founders.items.length > 0">
+    <h2>Table</h2>
+    <table ng-show="Founders.items.length > 0" fmq-table header="Founders.header" items="Founders.items"></table>
+  </div>
+
+  <div class="container map-container" ng-show="Founders.items.length > 0">
+    <h2>Map</h2>
+    LatitudeColumn: <pre>{{Founders.header[Founders.latitudeColumn]}}</pre>
+    LongitudeColumn: <pre>{{Founders.header[Founders.longitudeColumn]}}</pre>
   </div>
 <div>
