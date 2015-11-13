@@ -40,6 +40,10 @@ angular.module('foundersMapQuestApp')
         scope.chooseAsMarker = function ($index) {
           scope.markerColumn = $index;
         };
+
+        scope.applySortChange = function ($index) {
+          SortHandler.setNextState(scope.sortStates, $index);
+        };
       }
     };
   });

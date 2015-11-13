@@ -9,6 +9,12 @@
  */
 angular.module('foundersMapQuestApp')
   .factory('SortHandler', function () {
+    var transitions = {
+      0: 1,
+      1: 2,
+      2: 0
+    };
+
     var service = {
       NONE: 0,
       ASC: 1,
@@ -22,6 +28,19 @@ angular.module('foundersMapQuestApp')
       },
       sortedDescending: function (sortStates, key) {
         return sortStates[key] === service.DESC;
+      },
+
+      setNextState: function (sortStates, key) {
+        var currentState = sortStates[key];
+        var nextState = (typeof currentState === 'undefined') ? service.ASC : transitions[currentState];
+
+        //remove all keys - supports only one column support
+        angular.forEach(sortStates, function (sortState, key) {
+          delete sortStates[key];
+        });
+
+        sortStates[key] = nextState;
+        return nextState;
       }
     };
 

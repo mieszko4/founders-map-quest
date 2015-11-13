@@ -36,7 +36,7 @@
       <th ng-repeat="column in header">
         <div class="column-filter-and-sorter">
           <input type="text" value="" placeholder="Filter" />
-          <a class="column-sorter">
+          <a class="column-sorter" ng-click="applySortChange($index)">
             <span
               ng-show="SortHandler.notSorted(sortStates, $index)"
               class="glyphicon glyphicon-sort"
