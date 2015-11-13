@@ -6,7 +6,7 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;
-  color: #000;
+  color: $gray-base;
   padding: 0.2em 0;
 }
 
@@ -20,15 +20,9 @@ body {
   padding-right: 0;
 }
 
-/* Custom page header */
-.header {
-  border-bottom: 1px solid #e5e5e5;
-  margin-bottom: 10px;
-}
-
 /* Custom page footer */
 .footer {
-  padding-top: 19px;
+  padding-top: 20px;
   color: #777;
   border-top: 1px solid #e5e5e5;
 }
