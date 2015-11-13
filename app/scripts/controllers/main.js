@@ -15,7 +15,8 @@ angular.module('foundersMapQuestApp')
         return 0;
       },
       selectedItems: function () {
-        return SelectHandler.selectAll([]);
+        console.log(Founders);
+        return SelectHandler.selectAll(Founders.items);
       },
       selectColumnForMarkerDismissed: function () {
         return false;
@@ -77,16 +78,16 @@ angular.module('foundersMapQuestApp')
           longitudeColumn: result.longitudeColumn
         };
 
-        angular.forEach(defaults, function (callback, variable) {
-          $scope[variable] = State.state[variable] || callback();
-        });
-
         Founders.setFounders(
           result.header,
           result.items,
           result.latitudeColumn,
           result.longitudeColumn
         );
+
+        angular.forEach(defaults, function (callback, variable) {
+          $scope[variable] = State.state[variable] || callback();
+        });
       });
     };
   });
