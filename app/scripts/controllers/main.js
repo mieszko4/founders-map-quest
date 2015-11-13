@@ -20,6 +20,7 @@ angular.module('foundersMapQuestApp')
     $scope.Founders = Founders;
     $scope.markerColumn = getDefaultMarkerColumn();
     $scope.selectedItems = getDefaultItemsSelection([]);
+    $scope.sortStates = {};
     $scope.selectColumnForMarkerDismissed = false;
 
     if (!angular.equals(State.state, {})) {
@@ -31,6 +32,7 @@ angular.module('foundersMapQuestApp')
       );
       $scope.markerColumn = State.state.markerColumn || getDefaultMarkerColumn();
       $scope.selectedItems = State.state.selectedItems || getDefaultItemsSelection(State.state.items);
+      $scope.sortStates = State.state.sortStates || {};
       $scope.selectColumnForMarkerDismissed = State.state.selectColumnForMarkerDismissed;
     }
 
@@ -66,6 +68,7 @@ angular.module('foundersMapQuestApp')
         };
         $scope.markerColumn = getDefaultMarkerColumn();
         $scope.selectedItems = getDefaultItemsSelection(State.state.items);
+        $scope.sortStates = {};
 
         Founders.setFounders(
           result.header,

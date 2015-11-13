@@ -7,19 +7,21 @@
  * # fmqTable
  */
 angular.module('foundersMapQuestApp')
-  .directive('fmqTable', function (SelectHandler) {
+  .directive('fmqTable', function (SelectHandler, SortHandler) {
     return {
       scope: {
         header: '=',
         items: '=',
         markerColumn: '=',
-        selectedItems: '='
+        selectedItems: '=',
+        sortStates: '='
       },
       templateUrl: 'views/directives/fmq-table.html',
       restrict: 'A',
       replace: true,
       link: function (scope) {
         scope.SelectHandler = SelectHandler;
+        scope.SortHandler = SortHandler;
         //check if all selected items
         scope.$watch(function () {
           return SelectHandler.allSelected(scope.items, scope.selectedItems);

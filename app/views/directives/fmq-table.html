@@ -38,8 +38,19 @@
           <input type="text" value="" placeholder="Filter" />
           <a class="column-sorter">
             <span
+              ng-show="SortHandler.notSorted(sortStates, $index)"
               class="glyphicon glyphicon-sort"
-              title="Sort ascending"
+              title="Not sorted"
+            ></span>
+            <span
+              ng-show="SortHandler.sortedAscending(sortStates, $index)"
+              class="glyphicon glyphicon glyphicon-sort-by-attributes"
+              title="Sorted ascending"
+            ></span>
+            <span
+              ng-show="SortHandler.sortedDescending(sortStates, $index)"
+              class="glyphicon glyphicon-sort-by-attributes-alt"
+              title="Sorted descending"
             ></span>
           </a>
         </div>
