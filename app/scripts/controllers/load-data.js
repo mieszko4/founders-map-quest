@@ -8,7 +8,7 @@
  * Controller of the foundersMapQuestApp
  */
 angular.module('foundersMapQuestApp')
-  .controller('LoadDataCtrl', function ($scope, $uibModalInstance, Founders, state) {
+  .controller('LoadDataCtrl', function ($scope, $uibModalInstance, Founders, state, $window) {
     if (state !== null) {
       $scope.columns = state.header;
       $scope.form = {
@@ -46,8 +46,15 @@ angular.module('foundersMapQuestApp')
       return newValue;
     };
 
+    $scope.delimiters = Founders.delimiters;
     $scope.parseRawData = function () {
       $scope.data = Founders.decode($scope.form.raw, $scope.form.delimiter);
+    };
+    $scope.detectDelimiter = function () {
+      var delimiter = Founders.detectDelimiter($scope.form.raw);
+      if (delimiter !== null) {
+        $scope.form.delimiter = delimiter;
+      }
     };
 
     $scope.formValid = false;
@@ -106,4 +113,14 @@ angular.module('foundersMapQuestApp')
     $scope.cancel = function () {
       $uibModalInstance.dismiss('cancel');
     };
+
+    // upload local file
+    $scope.supportsFileReader = typeof $window.FileReader !== 'undefined';
+    $scope.$watch('fileText', function (newValue) {
+      if (newValue) {
+        $scope.form.raw = $scope.fileText;
+        $scope.parseRawData();
+        $scope.fileText = '';
+      }
+    });
   });

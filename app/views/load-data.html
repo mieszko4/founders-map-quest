@@ -6,21 +6,40 @@
     <div class="modal-body">
         <ol>
           <li>
-            <p>Paste your data below:</p>
+            <p ng-show="supportsFileReader">
+              <span fmq-file-reader
+                class="btn btn-primary"
+                text="fileText"
+                reset="true"
+              >
+                Choose File
+              </span>
+              <span>or paste your data below directly:</span>
+            </p>
+            <p ng-if="!supportsFileReader">
+              Paste your data below:
+            </p>
             <div class="form-group">
               <textarea
                 class="form-control"
                 rows="5"
                 ng-model="form.raw"
-                ng-change="parseRawData()"
+                ng-change="parseRawData(); detectDelimiter()"
               ></textarea>
             </div>
           </li>
           <li>
             <p>Choose delimiter:</p>
-            <label class="checkbox-inline"><input type="radio" ng-model="form.delimiter" name="delimiter" value="," ng-change="parseRawData()">Comma</label>
-            <label class="checkbox-inline"><input type="radio" ng-model="form.delimiter" name="delimiter" value=";" ng-change="parseRawData()">Semicolon</label>
-            <label class="checkbox-inline"><input type="radio" ng-model="form.delimiter" name="delimiter" ng-value="'\t'" ng-change="parseRawData()">Tab</label>
+            <label class="checkbox-inline" ng-repeat="item in delimiters">
+              <input
+                type="radio"
+                ng-model="form.delimiter"
+                name="delimiter"
+                ng-value="item.delimiter"
+                ng-change="parseRawData()"
+              />
+              {{item.label}}
+            </label>
           </li>
           <li>
             <p>Choose latitude and longitude columns:</p>

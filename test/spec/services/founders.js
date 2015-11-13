@@ -85,4 +85,35 @@ describe('Service: Founders', function () {
     expect(raw).toEqual('a,b,c\n1,2,3\n4,5,6');
   });
 
+
+  it('should automatically detect , as delimiter', function () {
+    var raw = 'a,b,c\n1,2,3\n4,5,6';
+
+    expect(Founders.detectDelimiter(raw)).toEqual(',');
+  });
+
+  it('should automatically detect ; as delimiter', function () {
+    var raw = 'a;b;c\n1;2;3\n4;5;6';
+
+    expect(Founders.detectDelimiter(raw)).toEqual(';');
+  });
+
+  it('should automatically detect <tab> as delimiter', function () {
+    var raw = 'a\tb\tc\n1\t2\t3\n4\t5\t6';
+
+    expect(Founders.detectDelimiter(raw)).toEqual('\t');
+  });
+
+  it('should not automatically detect delimiter', function () {
+    var raw = 'a,b\tc\n1\t2\t3\n4\t5\t6';
+
+    expect(Founders.detectDelimiter(raw)).toEqual(null);
+  });
+
+  it('should automatically detect , as delimiter where <tab> and ; exist', function () {
+    var raw = 'a12,345\t,b12,3;45,c12345\n112,;345,21\t2,3;45,312345\n4123,;45,512,345,612\t345';
+
+    expect(Founders.detectDelimiter(raw)).toEqual(',');
+  });
+
 });
