@@ -15,7 +15,8 @@ angular.module('foundersMapQuestApp')
         markerColumn: '=',
         selectedItems: '=',
         sortStates: '=',
-        filterStates: '='
+        filterStates: '=',
+        viewItemCallback: '&'
       },
       templateUrl: 'views/directives/fmq-table.html',
       restrict: 'A',
@@ -71,13 +72,12 @@ angular.module('foundersMapQuestApp')
           return FilterHandler.passesFilter(scope.filterStates, item);
         };
 
-        // Show on Map
-        scope.viewOnMap = function ($index) {
+        scope.viewItem = function ($index) {
           if (!SelectHandler.isSelected(scope.selectedItems, $index)) {
             return;
           }
 
-          console.log('show', $index);
+          scope.viewItemCallback({index: $index});
         };
       }
     };

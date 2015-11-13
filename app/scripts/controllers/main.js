@@ -90,4 +90,9 @@ angular.module('foundersMapQuestApp')
         });
       });
     };
+
+    // View item on Map
+    $scope.viewOnMap = function (index) {
+      $scope.activeMarker = index;
+    };
   });
