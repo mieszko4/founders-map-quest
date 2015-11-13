@@ -13,30 +13,40 @@ angular.module('foundersMapQuestApp')
         items: '=',
         markerColumn: '=',
         latitudeColumn: '=',
-        longitudeColumn: '='
+        longitudeColumn: '=',
+        selectedItems: '='
       },
       templateUrl: 'views/directives/fmq-map.html',
       restrict: 'A',
       link: function (scope) {
         scope.markers = [];
 
-        scope.$watchGroup(['items', 'markerColumn', 'latitudeColumn', 'longitudeColumn'], function () {
+        var updateMarkers = function () {
           var markers = [];
           angular.forEach(scope.items, function (item, i) {
-            markers.push({
-              id: i,
-              coords: {
-                latitude: item[scope.latitudeColumn],
-                longitude: item[scope.longitudeColumn]
-              },
-              window: {
-                title: item[scope.markerColumn]
-              }
-            });
+            if (typeof scope.selectedItems[i] !== 'undefined') {
+              markers.push({
+                id: i,
+                coords: {
+                  latitude: item[scope.latitudeColumn],
+                  longitude: item[scope.longitudeColumn]
+                },
+                window: {
+                  title: item[scope.markerColumn]
+                }
+              });
+            }
           });
 
           scope.markers = markers;
-        }, true);
+        };
+
+        //register deep watches for couple variables, since $watchGroup does not support deep
+        angular.forEach(['items', 'markerColumn', 'latitudeColumn', 'longitudeColumn', 'selectedItems'], function (variable) {
+          scope.$watch(variable, function () {
+            updateMarkers();
+          }, true);
+        });
 
         scope.map = {
           center: {latitude: 0, longitude: 0},
