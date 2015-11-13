@@ -7,14 +7,15 @@
  * # fmqMap
  */
 angular.module('foundersMapQuestApp')
-  .directive('fmqMap', function () {
+  .directive('fmqMap', function (FilterHandler) {
     return {
       scope: {
         items: '=',
         markerColumn: '=',
         latitudeColumn: '=',
         longitudeColumn: '=',
-        selectedItems: '='
+        selectedItems: '=',
+        filterStates: '='
       },
       templateUrl: 'views/directives/fmq-map.html',
       restrict: 'A',
@@ -24,7 +25,7 @@ angular.module('foundersMapQuestApp')
         var updateMarkers = function () {
           var markers = [];
           angular.forEach(scope.items, function (item, i) {
-            if (typeof scope.selectedItems[i] !== 'undefined') {
+            if (typeof scope.selectedItems[i] !== 'undefined' && FilterHandler.passesFilter(scope.filterStates, item)) {
               markers.push({
                 id: i,
                 coords: {
@@ -42,7 +43,7 @@ angular.module('foundersMapQuestApp')
         };
 
         //register deep watches for couple variables, since $watchGroup does not support deep
-        angular.forEach(['items', 'markerColumn', 'latitudeColumn', 'longitudeColumn', 'selectedItems'], function (variable) {
+        angular.forEach(['items', 'markerColumn', 'latitudeColumn', 'longitudeColumn', 'selectedItems', 'filterStates'], function (variable) {
           scope.$watch(variable, function () {
             updateMarkers();
           }, true);
