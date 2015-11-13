@@ -73,14 +73,14 @@
   <tbody>
     <tr ng-repeat="item in items | orderBy:predicate:reverse | filter:search">
       <td>
-        <a class="item-selector" ng-click="toggleSelection(item.id)">
+        <a class="item-selector" ng-click="toggleSelection(items.indexOf(item))">
           <span
-            ng-show="!SelectHandler.isSelected(selectedItems, item.id)"
+            ng-show="!SelectHandler.isSelected(selectedItems, items.indexOf(item))"
             class="glyphicon glyphicon-unchecked"
             uib-tooltip="Display on map"
           ></span>
           <span
-            ng-show="SelectHandler.isSelected(selectedItems, item.id)"
+            ng-show="SelectHandler.isSelected(selectedItems, items.indexOf(item))"
             class="glyphicon glyphicon-check"
             uib-tooltip="Do not display on map"
           ></span>
@@ -89,8 +89,8 @@
       <td>
         <button
           class="item-map-view btn btn-sm btn-default"
-          ng-class="{disabled: !SelectHandler.isSelected(selectedItems, item.id)}"
-          ng-click="viewItem(item.id)"
+          ng-class="{disabled: !SelectHandler.isSelected(selectedItems, items.indexOf(item))}"
+          ng-click="viewItem(items.indexOf(item))"
         >
           <span
             class="glyphicon glyphicon-map-marker"
