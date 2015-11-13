@@ -17,8 +17,8 @@ angular.module('foundersMapQuestApp')
       selectedItems: function () {
         return SelectHandler.selectAll(Founders.items);
       },
-      selectColumnForMarkerDismissed: function () {
-        return false;
+      selectColumnForMarkerDismissed: function (previousValue) {
+        return (typeof previousValue !== undefined) ? previousValue : false;
       },
       sortStates: function () {
         return {};
@@ -85,7 +85,7 @@ angular.module('foundersMapQuestApp')
         );
 
         angular.forEach(defaults, function (callback, variable) {
-          $scope[variable] = State.state[variable] || callback();
+          $scope[variable] = (typeof State.state[variable] !== 'undefined') ? State.state[variable] : callback($scope[variable]);
         });
       });
     };
