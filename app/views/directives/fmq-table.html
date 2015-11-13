@@ -94,7 +94,7 @@
             <span
               class="glyphicon glyphicon-map-marker"
             ></span>
-            <span>{{column | number:3}}</span>
+            <span>{{column | decimal2dms:($index == latitudeColumn)}}</span>
           </a>
           <span ng-if="!SelectHandler.isSelected(selectedItems, items.indexOf(item))">{{column}}</span>
         </span>
