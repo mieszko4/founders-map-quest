@@ -18,9 +18,16 @@
           </li>
           <li>
             <p>Choose delimiter:</p>
-            <label class="checkbox-inline"><input type="radio" ng-model="form.delimiter" name="delimiter" value="," ng-change="parseRawData()">Comma</label>
-            <label class="checkbox-inline"><input type="radio" ng-model="form.delimiter" name="delimiter" value=";" ng-change="parseRawData()">Semicolon</label>
-            <label class="checkbox-inline"><input type="radio" ng-model="form.delimiter" name="delimiter" ng-value="'\t'" ng-change="parseRawData()">Tab</label>
+            <label class="checkbox-inline" ng-repeat="item in delimiters">
+              <input
+                type="radio"
+                ng-model="form.delimiter"
+                name="delimiter"
+                ng-value="item.delimiter"
+                ng-change="parseRawData()"
+              />
+              {{item.label}}
+            </label>
           </li>
           <li>
             <p>Choose latitude and longitude columns:</p>
