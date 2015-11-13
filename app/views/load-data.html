@@ -6,7 +6,19 @@
     <div class="modal-body">
         <ol>
           <li>
-            <p>Paste your data below:</p>
+            <p ng-show="supportsFileReader">
+              <span fmq-file-reader
+                class="btn btn-primary"
+                text="form.raw"
+                reset="true"
+              >
+                Choose File
+              </span>
+              <span>or paste your data below directly:</span>
+            </p>
+            <p ng-if="!supportsFileReader">
+              Paste your data below:
+            </p>
             <div class="form-group">
               <textarea
                 class="form-control"

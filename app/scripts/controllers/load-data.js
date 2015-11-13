@@ -8,7 +8,7 @@
  * Controller of the foundersMapQuestApp
  */
 angular.module('foundersMapQuestApp')
-  .controller('LoadDataCtrl', function ($scope, $uibModalInstance, Founders, state) {
+  .controller('LoadDataCtrl', function ($scope, $uibModalInstance, Founders, state, $window) {
     if (state !== null) {
       $scope.columns = state.header;
       $scope.form = {
@@ -113,4 +113,7 @@ angular.module('foundersMapQuestApp')
     $scope.cancel = function () {
       $uibModalInstance.dismiss('cancel');
     };
+
+    // upload local file
+    $scope.supportsFileReader = typeof $window.FileReader !== 'undefined';
   });
