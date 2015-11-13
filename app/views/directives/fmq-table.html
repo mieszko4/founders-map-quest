@@ -35,7 +35,7 @@
       <th>
         <a class="filters-sorts-reset" ng-click="resetFilters(); resetSorts()">
           <span
-            class="glyphicon glyphicon-remove"
+            class="glyphicon glyphicon-trash"
             uib-tooltip="Clear all filters and sorting"
           ></span>
         </a>
@@ -91,7 +91,10 @@
             uib-tooltip="View on map"
             ng-click="viewItem(items.indexOf(item))"
           >
-            {{column}}
+            <span
+              class="glyphicon glyphicon-map-marker"
+            ></span>
+            <span>{{column | number:3}}</span>
           </a>
           <span ng-if="!SelectHandler.isSelected(selectedItems, items.indexOf(item))">{{column}}</span>
         </span>

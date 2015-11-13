@@ -20,6 +20,11 @@
     overflow-x: auto;
     table {
       width: auto;
+
+      th {
+        vertical-align: top;
+      }
+
       img {
         max-width: 100px;
       }
@@ -43,6 +48,10 @@
 
       .marker-column-chooser {
         float: left;
+      }
+
+      .item-viewer {
+        white-space: nowrap;
       }
 
       .item-viewer,
