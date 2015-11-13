@@ -13,7 +13,7 @@ angular.module('foundersMapQuestApp')
       $scope.columns = state.header;
       $scope.form = {
         raw: Founders.encode(state.header, state.items, state.delimiter),
-        delimiter: state.delimiter,
+        delimiter: state.delimiter || Founders.defaultDelimiter,
         latitudeColumn: null,
         longitudeColumn: null
       };
