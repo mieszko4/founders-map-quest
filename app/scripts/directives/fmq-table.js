@@ -63,6 +63,10 @@ angular.module('foundersMapQuestApp')
           SortHandler.setNextState(scope.sortStates, $index);
         };
 
+        scope.resetSorts = function () {
+          scope.sortStates = {};
+        };
+
         // Filtering
         scope.resetFilters = function () {
           scope.filterStates = {};
