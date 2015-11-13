@@ -1,5 +1,15 @@
 .fmq-about-page {
-  ul {
-    list-style: none;
+  .jumbotron {
+    text-align: center;
+    border-bottom: 1px solid #e5e5e5;
+
+    .btn {
+      font-size: 21px;
+      padding: 14px 24px;
+    }
+
+    ul {
+      list-style: none;
+    }
   }
 }

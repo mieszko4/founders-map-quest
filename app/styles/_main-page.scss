@@ -15,7 +15,9 @@
   }
 
   .table-container {
+    overflow-x: auto;
     table {
+      width: auto;
       img {
         max-width: 100px;
       }
