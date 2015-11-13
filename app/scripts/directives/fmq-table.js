@@ -7,7 +7,7 @@
  * # fmqTable
  */
 angular.module('foundersMapQuestApp')
-  .directive('fmqTable', function () {
+  .directive('fmqTable', function (SelectHandler) {
     return {
       scope: {
         header: '=',
@@ -19,29 +19,20 @@ angular.module('foundersMapQuestApp')
       restrict: 'A',
       replace: true,
       link: function (scope) {
+        scope.SelectHandler = SelectHandler;
         //check if all selected items
         scope.$watch(function () {
-          return Object.keys(scope.selectedItems).length === scope.items.length;
+          return SelectHandler.allSelected(scope.items, scope.selectedItems);
         }, function (newValue) {
           scope.allSelected = newValue;
         });
 
         scope.toggleAllSelection = function () {
-          if (Object.keys(scope.selectedItems).length === scope.items.length) {
-            scope.selectedItems = {};
-          } else {
-            angular.forEach(scope.items, function (item, key) {
-              scope.selectedItems[key] = true;
-            });
-          }
+          scope.selectedItems = SelectHandler.toggleAllSelection(scope.items, scope.selectedItems);
         };
 
         scope.toggleSelection = function ($index) {
-          if (typeof scope.selectedItems[$index] !== 'undefined') {
-            delete scope.selectedItems[$index];
-          } else {
-            scope.selectedItems[$index] = true;
-          }
+          scope.selectedItems = SelectHandler.toggleSelection(scope.items, $index, scope.selectedItems);
         };
 
         scope.chooseAsMarker = function ($index) {

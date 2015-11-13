@@ -8,18 +8,13 @@
  * Controller of the foundersMapQuestApp
  */
 angular.module('foundersMapQuestApp')
-  .controller('MainCtrl', function ($scope, Founders, $uibModal, State) {
+  .controller('MainCtrl', function ($scope, Founders, $uibModal, State, SelectHandler) {
     var getDefaultMarkerColumn = function () {
       return 0;
     };
 
-    var getDefaultItemsSelection = function (items) { //select all items on default
-      var selectedItems = {};
-      angular.forEach(items, function (item, i) {
-        selectedItems[i] = true;
-      });
-
-      return selectedItems;
+    var getDefaultItemsSelection = function (items) {
+      return SelectHandler.selectAll(items);
     };
 
     $scope.Founders = Founders;
@@ -39,7 +34,6 @@ angular.module('foundersMapQuestApp')
 
     // Save state live
     $scope.$watch('markerColumn', function (newValue) {
-      console.log(newValue);
       State.state.markerColumn = newValue;
     });
     $scope.$watch('selectedItems', function (newValue) {

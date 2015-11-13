@@ -37,12 +37,12 @@
       <td>
         <a class="item-selector" ng-click="toggleSelection($index)">
           <span
-            ng-show="!selectedItems[$index]"
+            ng-show="!SelectHandler.isSelected(selectedItems, $index)"
             class="glyphicon glyphicon-unchecked"
             title="Display on map"
           ></span>
           <span
-            ng-show="selectedItems[$index]"
+            ng-show="SelectHandler.isSelected(selectedItems, $index)"
             class="glyphicon glyphicon-check"
             title="Do not display on map"
           ></span>
