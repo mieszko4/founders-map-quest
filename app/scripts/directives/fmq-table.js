@@ -28,9 +28,7 @@ angular.module('foundersMapQuestApp')
 
         scope.toggleAllSelection = function () {
           if (Object.keys(scope.selectedItems).length === scope.items.length) {
-            angular.forEach(Object.keys(scope.selectedItems), function (key) {
-              delete scope.selectedItems[key];
-            });
+            scope.selectedItems = {};
           } else {
             angular.forEach(scope.items, function (item, key) {
               scope.selectedItems[key] = true;

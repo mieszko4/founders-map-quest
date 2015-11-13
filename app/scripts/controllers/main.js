@@ -13,7 +13,7 @@ angular.module('foundersMapQuestApp')
       return 0;
     };
 
-    var getDefaultItemsSelection = function (items) {
+    var getDefaultItemsSelection = function (items) { //select all items on default
       var selectedItems = {};
       angular.forEach(items, function (item, i) {
         selectedItems[i] = true;
@@ -29,7 +29,7 @@ angular.module('foundersMapQuestApp')
     if (!angular.equals(State.state, {})) {
       Founders.setFounders(
         State.state.header,
-        State.state.items,
+        State.state.items || [],
         State.state.latitudeColumn,
         State.state.longitudeColumn
       );
@@ -39,6 +39,7 @@ angular.module('foundersMapQuestApp')
 
     // Save state live
     $scope.$watch('markerColumn', function (newValue) {
+      console.log(newValue);
       State.state.markerColumn = newValue;
     });
     $scope.$watch('selectedItems', function (newValue) {
