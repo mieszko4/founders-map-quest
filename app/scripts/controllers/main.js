@@ -17,8 +17,8 @@ angular.module('foundersMapQuestApp')
       selectedItems: function () {
         return SelectHandler.selectAll(Founders.items);
       },
-      selectColumnForMarkerDismissed: function (previousValue) {
-        return (typeof previousValue !== undefined) ? previousValue : false;
+      selectColumnForMarkerDismissed: function () {
+        return false;
       },
       sortStates: function () {
         return {};
@@ -27,11 +27,14 @@ angular.module('foundersMapQuestApp')
         return {};
       }
     };
+    var applyDefaults = function () {
+      angular.forEach(defaults, function (callback, variable) {
+        $scope[variable] = (typeof State.state[variable] !== 'undefined') ? State.state[variable] : callback($scope[variable]);
+      });
+    };
 
     $scope.Founders = Founders;
-    angular.forEach(defaults, function (callback, variable) {
-      $scope[variable] = State.state[variable] || callback();
-    });
+    applyDefaults();
 
     if (!angular.equals(State.state, {})) {
       Founders.setFounders(
@@ -41,9 +44,7 @@ angular.module('foundersMapQuestApp')
         State.state.longitudeColumn
       );
 
-      angular.forEach(defaults, function (callback, variable) {
-        $scope[variable] = State.state[variable] || callback();
-      });
+      applyDefaults();
     }
 
     // Save state live
@@ -74,7 +75,8 @@ angular.module('foundersMapQuestApp')
           header: result.header,
           items: result.items,
           latitudeColumn: result.latitudeColumn,
-          longitudeColumn: result.longitudeColumn
+          longitudeColumn: result.longitudeColumn,
+          selectColumnForMarkerDismissed: $scope.selectColumnForMarkerDismissed
         };
 
         Founders.setFounders(
@@ -84,9 +86,7 @@ angular.module('foundersMapQuestApp')
           result.longitudeColumn
         );
 
-        angular.forEach(defaults, function (callback, variable) {
-          $scope[variable] = (typeof State.state[variable] !== 'undefined') ? State.state[variable] : callback($scope[variable]);
-        });
+        applyDefaults();
       });
     };
 
