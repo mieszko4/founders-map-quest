@@ -116,4 +116,11 @@ angular.module('foundersMapQuestApp')
 
     // upload local file
     $scope.supportsFileReader = typeof $window.FileReader !== 'undefined';
+    $scope.$watch('fileText', function (newValue) {
+      if (newValue) {
+        $scope.form.raw = $scope.fileText;
+        $scope.parseRawData();
+        $scope.fileText = '';
+      }
+    });
   });
