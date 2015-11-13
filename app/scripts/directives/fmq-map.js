@@ -15,7 +15,8 @@ angular.module('foundersMapQuestApp')
         latitudeColumn: '=',
         longitudeColumn: '=',
         selectedItems: '=',
-        filterStates: '='
+        filterStates: '=',
+        activeMarker: '='
       },
       templateUrl: 'views/directives/fmq-map.html',
       restrict: 'A',
@@ -47,6 +48,25 @@ angular.module('foundersMapQuestApp')
           scope.$watch(variable, function () {
             updateMarkers();
           }, true);
+        });
+
+        //refresh active markers
+        scope.$watch('activeMarker', function () {
+          //find right marker
+          var foundMarker = null;
+          angular.forEach(scope.markers, function (marker) {
+            if (marker.id === scope.activeMarker) {
+              foundMarker = marker;
+              return false; //break
+            }
+          });
+
+          if (foundMarker !== null) {
+            scope.map.window.model = foundMarker;
+            scope.map.window.show = true;
+          } else {
+            scope.map.window.show = false;
+          }
         });
 
         scope.map = {

@@ -70,6 +70,15 @@ angular.module('foundersMapQuestApp')
         scope.search = function (item) {
           return FilterHandler.passesFilter(scope.filterStates, item);
         };
+
+        // Show on Map
+        scope.viewOnMap = function ($index) {
+          if (!SelectHandler.isSelected(scope.selectedItems, $index)) {
+            return;
+          }
+
+          console.log('show', $index);
+        };
       }
     };
   });

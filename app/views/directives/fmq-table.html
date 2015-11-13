@@ -15,6 +15,8 @@
           ></span>
         </a>
       </th>
+      <th>
+      </th>
       <th ng-repeat="column in header">
         <a class="marker-column-chooser" ng-click="chooseAsMarker($index)">
           <span
@@ -39,6 +41,8 @@
             uib-tooltip="Clear all filters"
           ></span>
         </a>
+      </th>
+      <th>
       </th>
       <th ng-repeat="column in header">
         <div class="column-filter-and-sorter">
@@ -81,6 +85,18 @@
             uib-tooltip="Do not display on map"
           ></span>
         </a>
+      </td>
+      <td>
+        <button
+          class="item-map-view btn btn-sm btn-default"
+          ng-class="{disabled: !SelectHandler.isSelected(selectedItems, $index)}"
+          ng-click="viewOnMap($index)"
+        >
+          <span
+            class="glyphicon glyphicon-map-marker"
+            uib-tooltip="View on map"
+          ></span>
+        </button>
       </td>
       <td ng-repeat="column in item" ng-bind-html="column | fmqVisualize"></td>
     </tr>
