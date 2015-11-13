@@ -6,12 +6,12 @@
           <span
             ng-show="!allSelected"
             class="glyphicon glyphicon-unchecked"
-            title="Display all on map"
+            uib-tooltip="Display all on map"
           ></span>
           <span
             ng-show="allSelected"
             class="glyphicon glyphicon-check"
-            title="Display none on map"
+            uib-tooltip="Display none on map"
           ></span>
         </a>
       </th>
@@ -20,12 +20,12 @@
           <span
             ng-show="markerColumn != $index"
             class="glyphicon glyphicon-star-empty"
-            title="Choose this column as description for markers"
+            uib-tooltip="Choose this column as description for markers"
           ></span>
           <span
             ng-show="markerColumn == $index"
             class="glyphicon glyphicon-star"
-            title="This column is used as description for markers"
+            uib-tooltip="This column is used as description for markers"
           ></span>
         </a>
         <span class="column-label" ng-click="chooseAsMarker($index)">{{column}}</span>
@@ -36,7 +36,7 @@
         <a class="filters-reset" ng-click="resetFilters()">
           <span
             class="glyphicon glyphicon-remove"
-            title="Clear all filters"
+            uib-tooltip="Clear all filters"
           ></span>
         </a>
       </th>
@@ -49,17 +49,17 @@
             <span
               ng-show="SortHandler.notSorted(sortStates, $index)"
               class="glyphicon glyphicon-sort"
-              title="Not sorted"
+              uib-tooltip="Not sorted"
             ></span>
             <span
               ng-show="SortHandler.sortedAscending(sortStates, $index)"
               class="glyphicon glyphicon glyphicon-sort-by-attributes"
-              title="Sorted ascending"
+              uib-tooltip="Sorted ascending"
             ></span>
             <span
               ng-show="SortHandler.sortedDescending(sortStates, $index)"
               class="glyphicon glyphicon-sort-by-attributes-alt"
-              title="Sorted descending"
+              uib-tooltip="Sorted descending"
             ></span>
           </a>
         </div>
@@ -73,12 +73,12 @@
           <span
             ng-show="!SelectHandler.isSelected(selectedItems, $index)"
             class="glyphicon glyphicon-unchecked"
-            title="Display on map"
+            uib-tooltip="Display on map"
           ></span>
           <span
             ng-show="SelectHandler.isSelected(selectedItems, $index)"
             class="glyphicon glyphicon-check"
-            title="Do not display on map"
+            uib-tooltip="Do not display on map"
           ></span>
         </a>
       </td>
