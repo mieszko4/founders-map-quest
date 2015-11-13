@@ -12,7 +12,7 @@
                 class="form-control"
                 rows="5"
                 ng-model="form.raw"
-                ng-change="parseRawData()"
+                ng-change="parseRawData(); detectDelimiter()"
               ></textarea>
             </div>
           </li>
