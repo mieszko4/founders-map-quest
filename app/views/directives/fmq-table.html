@@ -31,6 +31,20 @@
         <span class="column-label">{{column}}</span>
       </th>
     </tr>
+    <tr>
+      <th></th>
+      <th ng-repeat="column in header">
+        <div class="column-filter-and-sorter">
+          <input type="text" value="" placeholder="Filter" />
+          <a class="column-sorter">
+            <span
+              class="glyphicon glyphicon-sort"
+              title="Sort ascending"
+            ></span>
+          </a>
+        </div>
+      </th>
+    </tr>
   </thead>
   <tbody>
     <tr ng-repeat="item in items">

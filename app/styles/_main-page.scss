@@ -25,12 +25,25 @@
       }
 
       .column-filter-and-sorter {
+        position: relative;
         width: 100%;
-        padding-right: 10px;
-        
+        padding-left: 18px;
+
         input {
           width: 100%;
+          font-weight: normal;
         }
+
+        .column-sorter {
+          cursor: pointer;
+          position: absolute;
+          top: 5px;
+          left: 0;
+        }
+      }
+
+      .marker-column-chooser {
+        float: left;
       }
 
       .item-selector,
