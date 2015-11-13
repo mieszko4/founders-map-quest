@@ -27,6 +27,10 @@ angular.module('foundersMapQuestApp')
           var markers = [];
           angular.forEach(scope.items, function (item, i) {
             if (typeof scope.selectedItems[i] !== 'undefined' && FilterHandler.passesFilter(scope.filterStates, item)) {
+              if (isNaN(item[scope.latitudeColumn]) || isNaN(item[scope.longitudeColumn])) {
+                return true; //continue
+              }
+
               markers.push({
                 id: i,
                 coords: {
