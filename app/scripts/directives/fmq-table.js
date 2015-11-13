@@ -14,7 +14,8 @@ angular.module('foundersMapQuestApp')
         items: '=',
         markerColumn: '=',
         selectedItems: '=',
-        sortStates: '='
+        sortStates: '=',
+        filterStates: '='
       },
       templateUrl: 'views/directives/fmq-table.html',
       restrict: 'A',
@@ -59,6 +60,11 @@ angular.module('foundersMapQuestApp')
 
         scope.applySortChange = function ($index) {
           SortHandler.setNextState(scope.sortStates, $index);
+        };
+
+        // Filtering
+        scope.resetFilters = function () {
+          scope.filterStates = {};
         };
       }
     };

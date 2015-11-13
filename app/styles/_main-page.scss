@@ -35,7 +35,6 @@
         }
 
         .column-sorter {
-          cursor: pointer;
           position: absolute;
           top: 5px;
           left: 0;
@@ -46,6 +45,8 @@
         float: left;
       }
 
+      .column-sorter,
+      .filters-reset,
       .item-selector,
       .all-items-selector,
       .marker-column-chooser {

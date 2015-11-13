@@ -21,6 +21,9 @@ angular.module('foundersMapQuestApp')
       },
       sortStates: function () {
         return {};
+      },
+      filterStates: function () {
+        return {};
       }
     };
 
@@ -72,7 +75,7 @@ angular.module('foundersMapQuestApp')
           latitudeColumn: result.latitudeColumn,
           longitudeColumn: result.longitudeColumn
         };
-        
+
         angular.forEach(Object.keys(defaults), function (variable) {
           $scope[variable] = State.state[variable] || defaults[variable]();
         });

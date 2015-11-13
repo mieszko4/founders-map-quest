@@ -32,10 +32,19 @@
       </th>
     </tr>
     <tr>
-      <th></th>
+      <th>
+        <a class="filters-reset" ng-click="resetFilters()">
+          <span
+            class="glyphicon glyphicon-remove"
+            title="Clear all filters"
+          ></span>
+        </a>
+      </th>
       <th ng-repeat="column in header">
         <div class="column-filter-and-sorter">
-          <input type="text" value="" placeholder="Filter" />
+          <form ng-submit="void">
+            <input type="text" ng-model="filterStates[$index]" placeholder="Filter" />
+          </form>
           <a class="column-sorter" ng-click="applySortChange($index)">
             <span
               ng-show="SortHandler.notSorted(sortStates, $index)"
