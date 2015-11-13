@@ -47,6 +47,7 @@ angular.module('foundersMapQuestApp')
         angular.forEach(['items', 'markerColumn', 'latitudeColumn', 'longitudeColumn', 'selectedItems', 'filterStates'], function (variable) {
           scope.$watch(variable, function () {
             updateMarkers();
+            scope.map.window.show = false;
           }, true);
         });
 
