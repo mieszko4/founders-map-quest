@@ -71,7 +71,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="item in items | orderBy:predicate:reverse | filter:search">
+    <tr ng-repeat="item in filtered = (items | orderBy:predicate:reverse | filter:search)">
       <td>
         <a class="item-selector" ng-click="toggleSelection(items.indexOf(item))">
           <span
@@ -100,8 +100,8 @@
       </td>
       <td ng-repeat="column in item" ng-bind-html="column | fmqVisualize"></td>
     </tr>
-    <tr ng-if="items.length == 0">
-      <td colspan="{{header.length}}" class="alert alert-info">
+    <tr ng-if="filtered.length == 0">
+      <td colspan="{{header.length + 2}}" class="alert alert-info">
         <p>No items</p>
       </td>
     </tr>
