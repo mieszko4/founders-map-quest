@@ -20,6 +20,7 @@ angular.module('foundersMapQuestApp')
     $scope.Founders = Founders;
     $scope.markerColumn = getDefaultMarkerColumn();
     $scope.selectedItems = getDefaultItemsSelection([]);
+    $scope.selectColumnForMarkerDismissed = false;
 
     if (!angular.equals(State.state, {})) {
       Founders.setFounders(
@@ -30,15 +31,17 @@ angular.module('foundersMapQuestApp')
       );
       $scope.markerColumn = State.state.markerColumn || getDefaultMarkerColumn();
       $scope.selectedItems = State.state.selectedItems || getDefaultItemsSelection(State.state.items);
+      $scope.selectColumnForMarkerDismissed = State.state.selectColumnForMarkerDismissed;
     }
 
     // Save state live
-    $scope.$watch('markerColumn', function (newValue) {
-      State.state.markerColumn = newValue;
+    angular.forEach(['markerColumn', 'selectedItems', 'selectColumnForMarkerDismissed'], function (variable) {
+      (function (variable) {
+        $scope.$watch(variable, function (newValue) {
+          State.state[variable] = newValue;
+        });
+      }(variable));
     });
-    $scope.$watch('selectedItems', function (newValue) {
-      State.state.selectedItems = newValue;
-    }, true);
 
     $scope.openLoadDataForm = function () {
       var modalInstance = $uibModal.open({

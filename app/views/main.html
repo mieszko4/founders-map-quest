@@ -11,6 +11,15 @@
 
   <div class="container table-container" ng-show="Founders.header.length > 0">
     <h2>Table</h2>
+    <div
+      uib-alert
+      type="info"
+      ng-hide="selectColumnForMarkerDismissed"
+      close="selectColumnForMarkerDismissed = true"
+    >
+      Choose a star in order to select column for marker labels.
+    </div>
+
     <table
       fmq-table header="Founders.header"
       items="Founders.items"
