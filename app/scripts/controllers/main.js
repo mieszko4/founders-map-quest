@@ -9,19 +9,25 @@
  */
 angular.module('foundersMapQuestApp')
   .controller('MainCtrl', function ($scope, Founders, $uibModal, State, SelectHandler) {
-    var getDefaultMarkerColumn = function () {
-      return 0;
-    };
-
-    var getDefaultItemsSelection = function (items) {
-      return SelectHandler.selectAll(items);
+    var defaults = {
+      markerColumn: function () {
+        return 0;
+      },
+      selectedItems: function () {
+        return SelectHandler.selectAll([]);
+      },
+      selectColumnForMarkerDismissed: function () {
+        return false;
+      },
+      sortStates: function () {
+        return {};
+      }
     };
 
     $scope.Founders = Founders;
-    $scope.markerColumn = getDefaultMarkerColumn();
-    $scope.selectedItems = getDefaultItemsSelection([]);
-    $scope.sortStates = {};
-    $scope.selectColumnForMarkerDismissed = false;
+    angular.forEach(Object.keys(defaults), function (variable) {
+      $scope[variable] = State.state[variable] || defaults[variable]();
+    });
 
     if (!angular.equals(State.state, {})) {
       Founders.setFounders(
@@ -30,14 +36,14 @@ angular.module('foundersMapQuestApp')
         State.state.latitudeColumn,
         State.state.longitudeColumn
       );
-      $scope.markerColumn = State.state.markerColumn || getDefaultMarkerColumn();
-      $scope.selectedItems = State.state.selectedItems || getDefaultItemsSelection(State.state.items);
-      $scope.sortStates = State.state.sortStates || {};
-      $scope.selectColumnForMarkerDismissed = State.state.selectColumnForMarkerDismissed;
+
+      angular.forEach(Object.keys(defaults), function (variable) {
+        $scope[variable] = State.state[variable] || defaults[variable]();
+      });
     }
 
     // Save state live
-    angular.forEach(['markerColumn', 'selectedItems', 'selectColumnForMarkerDismissed'], function (variable) {
+    angular.forEach(Object.keys(defaults), function (variable) {
       (function (variable) {
         $scope.$watch(variable, function (newValue) {
           State.state[variable] = newValue;
@@ -66,9 +72,10 @@ angular.module('foundersMapQuestApp')
           latitudeColumn: result.latitudeColumn,
           longitudeColumn: result.longitudeColumn
         };
-        $scope.markerColumn = getDefaultMarkerColumn();
-        $scope.selectedItems = getDefaultItemsSelection(State.state.items);
-        $scope.sortStates = {};
+        
+        angular.forEach(Object.keys(defaults), function (variable) {
+          $scope[variable] = State.state[variable] || defaults[variable]();
+        });
 
         Founders.setFounders(
           result.header,
