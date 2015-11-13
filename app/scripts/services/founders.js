@@ -23,6 +23,17 @@ angular.module('foundersMapQuestApp')
       return items;
     };
 
+    var getItemsWithId = function (items) {
+      var idItems = [];
+      angular.forEach(items, function (item, i) {
+        item.id = i;
+
+        idItems.push(item);
+      });
+
+      return idItems;
+    };
+
     var service = {
       header: null,
       items: [],
@@ -56,6 +67,8 @@ angular.module('foundersMapQuestApp')
 
        if (!valid) {
          items = false;
+       } else {
+         items = getItemsWithId(items);
        }
 
        return {
@@ -81,7 +94,7 @@ angular.module('foundersMapQuestApp')
 
       setFounders: function (header, items, latitudeColumn, longitudeColumn) {
         this.header = header;
-        this.items = items;
+        this.items = getItemsWithId(items);
         this.latitudeColumn = latitudeColumn;
         this.longitudeColumn = longitudeColumn;
 

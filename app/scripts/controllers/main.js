@@ -15,7 +15,6 @@ angular.module('foundersMapQuestApp')
         return 0;
       },
       selectedItems: function () {
-        console.log(Founders);
         return SelectHandler.selectAll(Founders.items);
       },
       selectColumnForMarkerDismissed: function () {
@@ -92,8 +91,9 @@ angular.module('foundersMapQuestApp')
     };
 
     // View item on Map
+    $scope.mapHooks = {};
     $scope.viewOnMap = function (index) {
-      $scope.activeMarker = index;
+      $scope.mapHooks.openMarker(index);
       $anchorScroll('fmq-map');
     };
   });
