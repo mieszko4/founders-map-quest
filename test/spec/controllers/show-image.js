@@ -1,11 +1,11 @@
 'use strict';
 
-describe('Controller: LoadDataCtrl', function () {
+describe('Controller: ShowImageCtrl', function () {
 
   // load the controller's module
   beforeEach(module('foundersMapQuestApp'));
 
-  var LoadDataCtrl,
+  var ShowImageCtrl,
     scope,
     modalInstance;
 
@@ -20,15 +20,15 @@ describe('Controller: LoadDataCtrl', function () {
       }
     };
 
-    LoadDataCtrl = $controller('LoadDataCtrl', {
+    ShowImageCtrl = $controller('ShowImageCtrl', {
       $scope: scope,
       $uibModalInstance: modalInstance,
-      state: null
+      image: 'http://milosz.ch/self.jpg'
       // place here mocked dependencies
     });
   }));
 
   it('should exist', function () {
-    expect(!!LoadDataCtrl).toBe(true);
+    expect(!!ShowImageCtrl).toBe(true);
   });
 });

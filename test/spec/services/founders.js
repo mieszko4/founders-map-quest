@@ -20,21 +20,21 @@ describe('Service: Founders', function () {
 
     expect(result.header).toEqual(['a', 'b', 'c']);
     expect(result.items).toEqual([]);
-  })
+  });
 
   it('should decode header and one row', function () {
     var result = Founders.decode('a,b,c\n1,2,3', ',');
 
     expect(result.header).toEqual(['a', 'b', 'c']);
     expect(result.items).toEqual([['1', '2', '3']]);
-  })
+  });
 
   it('should decode header and one row with extra empty line', function () {
     var result = Founders.decode('a,b,c\n1,2,3\n', ',');
 
     expect(result.header).toEqual(['a', 'b', 'c']);
     expect(result.items).toEqual([['1', '2', '3']]);
-  })
+  });
 
   it('should decode header and more rows', function () {
     var result = Founders.decode('a,b,c\n1,2,3\n4,5,6', ',');
@@ -44,7 +44,7 @@ describe('Service: Founders', function () {
       ['1', '2', '3'],
       ['4', '5', '6'],
     ]);
-  })
+  });
 
   it('should decode header and more rows using ;', function () {
     var result = Founders.decode('a;b;c\n1;2;3\n4;5;6', ';');
@@ -54,7 +54,7 @@ describe('Service: Founders', function () {
       ['1', '2', '3'],
       ['4', '5', '6'],
     ]);
-  })
+  });
 
   it('should decode header and more rows using <tab>', function () {
     var result = Founders.decode('a\tb\tc\n1\t2\t3\n4\t5\t6', '\t');
@@ -64,13 +64,13 @@ describe('Service: Founders', function () {
       ['1', '2', '3'],
       ['4', '5', '6'],
     ]);
-  })
+  });
 
   it('should encode just header', function () {
     var raw = Founders.encode(['a', 'b', 'c'], [], ',');
 
     expect(raw).toEqual('a,b,c\n');
-  })
+  });
 
   it('should encode header and more rows', function () {
     var raw = Founders.encode(
@@ -83,6 +83,6 @@ describe('Service: Founders', function () {
     );
 
     expect(raw).toEqual('a,b,c\n1,2,3\n4,5,6');
-  })
+  });
 
 });

@@ -17,7 +17,7 @@ describe('Controller: AboutCtrl', function () {
     });
   }));
 
-  it('should have empty scope', function () {
-    expect(Object.keys(AboutCtrl).length).toBe(0);
+  it('should exist', function () {
+    expect(!!AboutCtrl).toBe(true);
   });
 });

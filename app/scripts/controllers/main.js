@@ -9,6 +9,7 @@
  */
 angular.module('foundersMapQuestApp')
   .controller('MainCtrl', function ($scope, Founders, $uibModal, State, SelectHandler) {
+    $scope.animationsEnabled = true;
     var defaults = {
       markerColumn: function () {
         return 0;

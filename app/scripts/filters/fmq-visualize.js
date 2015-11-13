@@ -17,7 +17,7 @@ angular.module('foundersMapQuestApp')
       var output = input;
       if (linkRegExp.test(input)) {
         if (imageRegExp.test(input)) {
-          output = '<a target="_blank" href="' + input + '"><img src="' + input + '" alt=""/></a>';
+          output = '<a class="show-image" href="' + input + '"><img src="' + input + '" alt=""/></a>';
         } else {
           output = '<a target="_blank" href="' + input + '">' + input + '</a>';
         }

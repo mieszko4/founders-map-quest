@@ -28,7 +28,7 @@ describe('Filter: fmqVisualize', function () {
 
   it('should visualize image', function () {
     var input = 'https://milosz.ch/ja-dran.s.jpg';
-    var output = '<a target="_blank" href="' + input + '"><img src="' + input + '" alt=""/></a>';
+    var output = '<a class="show-image" href="' + input + '"><img src="' + input + '" alt=""/></a>';
 
     expect(sce.getTrustedHtml(fmqVisualize(input))).toEqual(output);
   });
