@@ -41,6 +41,22 @@ angular.module('foundersMapQuestApp')
           scope.markerColumn = $index;
         };
 
+        // Sorting
+        scope.$watch('sortStates', function () {
+          var result = SortHandler.getCurrentSortState(scope.sortStates);
+
+          if (result === null || result.state === SortHandler.NONE) {
+            scope.predicate = undefined;
+            scope.reverse = false;
+          } else if (result.state === SortHandler.ASC) {
+            scope.predicate = result.key;
+            scope.reverse = false;
+          } else {
+            scope.predicate = result.key;
+            scope.reverse = true;
+          }
+        }, true);
+
         scope.applySortChange = function ($index) {
           SortHandler.setNextState(scope.sortStates, $index);
         };

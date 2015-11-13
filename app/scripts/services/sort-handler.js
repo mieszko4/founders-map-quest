@@ -34,13 +34,25 @@ angular.module('foundersMapQuestApp')
         var currentState = sortStates[key];
         var nextState = (typeof currentState === 'undefined') ? service.ASC : transitions[currentState];
 
-        //remove all keys - supports only one column support
+        //remove all keys - supports only one column sort
         angular.forEach(sortStates, function (sortState, key) {
           delete sortStates[key];
         });
 
         sortStates[key] = nextState;
         return nextState;
+      },
+
+      getCurrentSortState: function (sortStates) {
+        var keys = Object.keys(sortStates);
+        if (keys.length === 0) {
+          return null;
+        }
+
+        return {
+          key: keys[0], //first key - support only one column sort
+          state: sortStates[keys[0]]
+        };
       }
     };
 
