@@ -8,7 +8,7 @@
  * Controller of the foundersMapQuestApp
  */
 angular.module('foundersMapQuestApp')
-  .controller('MainCtrl', function ($scope, Founders, $uibModal, State, SelectHandler) {
+  .controller('MainCtrl', function ($scope, Founders, $uibModal, State, SelectHandler, $anchorScroll) {
     $scope.animationsEnabled = true;
     var defaults = {
       markerColumn: function () {
@@ -94,5 +94,6 @@ angular.module('foundersMapQuestApp')
     // View item on Map
     $scope.viewOnMap = function (index) {
       $scope.activeMarker = index;
+      $anchorScroll('fmq-map');
     };
   });
