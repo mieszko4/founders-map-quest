@@ -20,8 +20,8 @@
   </thead>
   <tbody>
     <tr ng-repeat="item in items">
-      <td ng-repeat="column in item">
-        {{column}}
+      <td ng-repeat="column in item" ng-bind-html="column | fmqVisualize">
+
       <td>
     </tr>
     <tr ng-if="items.length == 0">

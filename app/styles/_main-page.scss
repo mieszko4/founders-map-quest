@@ -14,8 +14,30 @@
     margin-left: 0;
   }
 
-  .angular-google-map-container {
-    height: 400px;
-    width: 100%;
+  .table-container {
+    table {
+      img {
+        max-width: 100px;
+      }
+
+      .marker-column-chooser {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .map-container {
+    .angular-google-map-container {
+      height: 400px;
+      width: 100%;
+
+      .gm-pro-popup {
+        overflow: hidden;
+        img {
+          max-width: 70px;
+          max-height: 70px;
+        }
+      }
+    }
   }
 }
