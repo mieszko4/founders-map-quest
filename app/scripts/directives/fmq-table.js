@@ -16,7 +16,9 @@ angular.module('foundersMapQuestApp')
         selectedItems: '=',
         sortStates: '=',
         filterStates: '=',
-        viewItemCallback: '&'
+        viewItemCallback: '&',
+        latitudeColumn: '=',
+        longitudeColumn: '='
       },
       templateUrl: 'views/directives/fmq-table.html',
       restrict: 'A',
