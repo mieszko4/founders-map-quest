@@ -66,6 +66,24 @@ angular.module('foundersMapQuestApp')
         scope.resetFilters = function () {
           scope.filterStates = {};
         };
+
+        scope.search = function (item) {
+          var include = true;
+          angular.forEach(scope.filterStates, function (search, key) {
+            var searchLowered = search.toLowerCase();
+            if (typeof search !== 'undefined' && search !== '') {
+              var value = item[key];
+
+              //treat all values as strings
+              if ((''+value).toLowerCase().indexOf(searchLowered) === -1) {
+                include = false;
+                return false; //break
+              }
+            }
+          });
+
+          return include;
+        };
       }
     };
   });

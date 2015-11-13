@@ -28,8 +28,8 @@ angular.module('foundersMapQuestApp')
     };
 
     $scope.Founders = Founders;
-    angular.forEach(Object.keys(defaults), function (variable) {
-      $scope[variable] = State.state[variable] || defaults[variable]();
+    angular.forEach(defaults, function (callback, variable) {
+      $scope[variable] = State.state[variable] || callback();
     });
 
     if (!angular.equals(State.state, {})) {
@@ -40,13 +40,13 @@ angular.module('foundersMapQuestApp')
         State.state.longitudeColumn
       );
 
-      angular.forEach(Object.keys(defaults), function (variable) {
-        $scope[variable] = State.state[variable] || defaults[variable]();
+      angular.forEach(defaults, function (callback, variable) {
+        $scope[variable] = State.state[variable] || callback();
       });
     }
 
     // Save state live
-    angular.forEach(Object.keys(defaults), function (variable) {
+    angular.forEach(defaults, function (callback, variable) {
       (function (variable) {
         $scope.$watch(variable, function (newValue) {
           State.state[variable] = newValue;
@@ -76,8 +76,8 @@ angular.module('foundersMapQuestApp')
           longitudeColumn: result.longitudeColumn
         };
 
-        angular.forEach(Object.keys(defaults), function (variable) {
-          $scope[variable] = State.state[variable] || defaults[variable]();
+        angular.forEach(defaults, function (callback, variable) {
+          $scope[variable] = State.state[variable] || callback();
         });
 
         Founders.setFounders(

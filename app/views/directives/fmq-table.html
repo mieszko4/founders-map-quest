@@ -67,7 +67,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="item in items | orderBy:predicate:reverse">
+    <tr ng-repeat="item in items | orderBy:predicate:reverse | filter:search">
       <td>
         <a class="item-selector" ng-click="toggleSelection($index)">
           <span
