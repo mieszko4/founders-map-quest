@@ -16,16 +16,24 @@
         </a>
       </th>
       <th ng-repeat="column in header">
-        <a class="marker-column-chooser" ng-click="chooseAsMarker($index)">
+        <a
+          class="marker-column-chooser active"
+          ng-show="markerColumn == $index"
+          ng-click="chooseAsMarker($index)"
+        >
           <span
-            ng-show="markerColumn != $index"
-            class="glyphicon glyphicon-star-empty"
-            uib-tooltip="Choose this column as description for markers"
-          ></span>
-          <span
-            ng-show="markerColumn == $index"
-            class="glyphicon glyphicon-star"
+            class="glyphicon glyphicon-map-marker"
             uib-tooltip="This column is used as description for markers"
+          ></span>
+        </a>
+        <a
+          class="marker-column-chooser"
+          ng-show="markerColumn != $index"
+          ng-click="chooseAsMarker($index)"
+        >
+          <span
+            class="glyphicon glyphicon-map-marker"
+            uib-tooltip="Choose this column as description for markers"
           ></span>
         </a>
         <span class="column-label" ng-click="chooseAsMarker($index)">{{column}}</span>
