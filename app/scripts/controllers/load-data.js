@@ -47,14 +47,9 @@ angular.module('foundersMapQuestApp')
     };
 
     $scope.delimiters = Founders.delimiters;
-    $scope.parseRawData = function () {
-      $scope.data = Founders.decode($scope.form.raw, $scope.form.delimiter);
-    };
-    $scope.detectDelimiter = function () {
-      var delimiter = Founders.detectDelimiter($scope.form.raw);
-      if (delimiter !== null) {
-        $scope.form.delimiter = delimiter;
-      }
+    $scope.parseRawData = function (delimiter) {
+      $scope.data = Founders.decode($scope.form.raw, delimiter);
+      $scope.form.delimiter = $scope.data.meta.delimiter;
     };
 
     $scope.formValid = false;

@@ -24,8 +24,6 @@ angular.module('foundersMapQuestApp')
       }
     ];
 
-    var newlineRegExp = /\n\r?/;
-
     var service = {
       header: null,
       items: [],
@@ -35,54 +33,15 @@ angular.module('foundersMapQuestApp')
       defaultDelimiter: ',',
       delimiters: delimiters,
 
-      detectDelimiter: function (raw) {
-        //limit possible delimiters
-        var possibleDelimiters = [];
-        angular.forEach(delimiters, function (item) {
-          possibleDelimiters.push(item.delimiter);
-        });
-
-        //go line by line comparing line frequencies
-        var frequencies = {};
-        angular.forEach(raw.split(newlineRegExp), function (line, lineNumber) {
-          var lineFrequencies = {};
-          angular.forEach(line, function (character) {
-            if (possibleDelimiters.indexOf(character) === -1) {
-              return true; //continut
-            }
-
-            lineFrequencies[character] = (typeof lineFrequencies[character] !== 'undefined') ? lineFrequencies[character] + 1 : 1;
-          });
-
-          //check which delimiter passes to the next round
-          angular.forEach(possibleDelimiters, function (delimiter) {
-            if (typeof frequencies[delimiter] === 'undefined' && lineNumber === 0) {
-              frequencies[delimiter] = lineFrequencies[delimiter]; //inital state
-            } else if (frequencies[delimiter] !== lineFrequencies[delimiter]) {
-              frequencies[delimiter] = null;
-            }
-          });
-        });
-
-        //choose delimiter by highest frequency
-        var max = -1;
-        var bestDelimiter = null;
-        angular.forEach(frequencies, function (count, delimiter) {
-          if (count !== null && count > max) {
-            max = count;
-            bestDelimiter = delimiter;
-          }
-        });
-
-        return bestDelimiter;
-      },
-
       decode: function (raw, delimiter) {
+        delimiter = typeof delimiter !== 'undefined' ? delimiter : ''; //default is auto
+
         var csv = Papa.parse(raw, {
           header: true,
-          delimiter: delimiter, //'' means auto
+          delimiter: delimiter,
           skipEmptyLines: true
         });
+
         var header = csv.meta.fields;
         var items = false;
 
@@ -102,7 +61,8 @@ angular.module('foundersMapQuestApp')
 
         return {
           header: header,
-          items: items
+          items: items,
+          meta: csv.meta
         };
      },
      encode: function (header, items, delimiter) {

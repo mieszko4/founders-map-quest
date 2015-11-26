@@ -24,7 +24,7 @@
                 class="form-control"
                 rows="5"
                 ng-model="form.raw"
-                ng-change="parseRawData(); detectDelimiter()"
+                ng-change="parseRawData();"
               ></textarea>
             </div>
           </li>
@@ -36,7 +36,7 @@
                 ng-model="form.delimiter"
                 name="delimiter"
                 ng-value="item.delimiter"
-                ng-change="parseRawData()"
+                ng-change="parseRawData(item.delimiter)"
               />
               {{item.label}}
             </label>
