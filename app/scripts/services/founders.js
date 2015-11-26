@@ -8,7 +8,7 @@
  * Service in the foundersMapQuestApp.
  */
 angular.module('foundersMapQuestApp')
-  .factory('Founders', function () {
+  .factory('Founders', function (Papa) {
     var delimiters = [
       {
         delimiter: ',',
@@ -23,20 +23,6 @@ angular.module('foundersMapQuestApp')
         label: 'Tab'
       }
     ];
-
-    var trimItems = function (items, removeEmpty) {
-      var trimmedItems = [];
-
-      angular.forEach(items, function (item) {
-        var trimmedItem = item.trim();
-
-        if (trimmedItem.length > 0 || !removeEmpty) {
-          trimmedItems.push(trimmedItem);
-        }
-      });
-
-      return items;
-    };
 
     var newlineRegExp = /\n\r?/;
 
@@ -77,7 +63,7 @@ angular.module('foundersMapQuestApp')
             }
           });
         });
-        
+
         //choose delimiter by highest frequency
         var max = -1;
         var bestDelimiter = null;
@@ -92,49 +78,42 @@ angular.module('foundersMapQuestApp')
       },
 
       decode: function (raw, delimiter) {
-       var items = [];
+        var csv = Papa.parse(raw, {
+          header: true,
+          delimiter: delimiter, //'' means auto
+          skipEmptyLines: true
+        });
+        var header = csv.meta.fields;
+        var items = false;
 
-       var rows = raw.trim().split(newlineRegExp);
-       rows = trimItems(rows, true);
+        if (csv.errors.length === 0) {
+          //convert to array form
+          items = [];
+          angular.forEach(csv.data, function (rowData) {
+            var item = [];
 
-       //first row is column data
-       var header = rows.shift().split(delimiter);
-       header = trimItems(header, false);
+            angular.forEach(header, function (column) {
+              item.push(rowData[column]);
+            });
 
-       var valid = true;
-       angular.forEach(rows, function (row) {
-         var columns = row.split(delimiter);
-         columns = trimItems(columns, false);
+            items.push(item);
+          });
+        }
 
-         if (columns.length !== header.length) {
-           valid = false;
-           return false; //break loop
-         } else {
-           items.push(columns);
-         }
-       });
-
-       if (!valid) {
-         items = false;
-       }
-
-       return {
-         header: header,
-         items: items
-       };
+        return {
+          header: header,
+          items: items
+        };
      },
      encode: function (header, items, delimiter) {
        if (header === null || typeof header === 'undefined') {
          return '';
        }
 
-       var raw = header.join(delimiter);
-       var rows = [];
-
-       angular.forEach(items, function (item) {
-         rows.push(item.join(delimiter));
+       var raw = Papa.unparse([header].concat(items), {
+         newline: '\n',
+         delimiter: delimiter
        });
-       raw += '\n' + rows.join('\n');
 
        return raw;
      },

@@ -14,6 +14,7 @@
    'uiGmapgoogle-maps',
    'ui.bootstrap'
  ])
+ .value('Papa', window.Papa)
 
  .config(function (uiGmapGoogleMapApiProvider) {
     uiGmapGoogleMapApiProvider.configure({
