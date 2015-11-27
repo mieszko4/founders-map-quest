@@ -14,13 +14,13 @@
    'foundersMapQuestApp.showImage',
    'foundersMapQuestApp.table',
    'foundersMapQuestApp.map',
+   'foundersMapQuestApp.founders',
 
    'ui.bootstrap',
    'ui.router',
    'LocalStorageModule',
    'uiGmapgoogle-maps',
  ])
- .value('Papa', window.Papa) //inject non-angular services
 
  .config(function ($stateProvider, FMQ_COMPONENTS_PATH) {
    $stateProvider
