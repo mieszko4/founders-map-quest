@@ -10,7 +10,7 @@
  */
  angular.module('foundersMapQuestApp.about', [
    'foundersMapQuestApp.constants',
-   
+
    'ui.router'
  ])
 
@@ -20,7 +20,7 @@
       url: '/about',
       views: {
         'main@': {
-          templateUrl: FMQ_COMPONENTS_PATH + 'about/view.html'
+          templateUrl: FMQ_COMPONENTS_PATH + 'about/about.html'
         }
       }
     });

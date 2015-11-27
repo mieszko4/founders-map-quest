@@ -10,7 +10,7 @@
  */
  angular.module('foundersMapQuestApp.dashboard', [
    'foundersMapQuestApp.constants',
-   
+
    'ui.bootstrap',
    'ui.router',
    'LocalStorageModule',
@@ -23,7 +23,7 @@
       url: '/dashboard',
       views: {
         'main@': {
-          templateUrl: FMQ_COMPONENTS_PATH + 'dashboard/view.html',
+          templateUrl: FMQ_COMPONENTS_PATH + 'dashboard/dashboard.html',
           controller: 'DashboardCtrl'
         }
       }
