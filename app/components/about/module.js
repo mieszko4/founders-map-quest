@@ -19,7 +19,7 @@
       url: '/about',
       views: {
         'main@': {
-          templateUrl: FMQ_COMPONENTS_PATH + 'about/about.html'
+          templateUrl: FMQ_COMPONENTS_PATH + 'about/view.html'
         }
       }
     });
