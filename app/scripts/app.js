@@ -20,9 +20,7 @@
 
  .config(function (uiGmapGoogleMapApiProvider) {
     uiGmapGoogleMapApiProvider.configure({
-      //key: 'your api key',
-      // v: '3.20',
-      libraries: 'weather,geometry,visualization'
+      libraries: 'visualization'
     });
   })
 
