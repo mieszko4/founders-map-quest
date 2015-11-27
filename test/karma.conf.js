@@ -34,7 +34,7 @@ module.exports = function(config) {
       'bower_components/angular-ui-router/release/angular-ui-router.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
-      "app/scripts/**/*.js",
+      "app/*.js",
       "app/components/**/module.js",
       "app/components/**/*.ctrl.js",
       "app/components/**/*.directive.js",
