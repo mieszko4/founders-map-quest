@@ -12,6 +12,7 @@
    'foundersMapQuestApp.constants',
    'foundersMapQuestApp.loadData',
    'foundersMapQuestApp.showImage',
+   'foundersMapQuestApp.table',
 
    'ui.bootstrap',
    'ui.router',
