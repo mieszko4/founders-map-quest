@@ -3,7 +3,6 @@
 describe('Controller: ShowImageCtrl', function () {
 
   // load the controller's module
-  console.log('LOADING MODULE,si');
   beforeEach(module('foundersMapQuestApp.showImage'));
 
   var ShowImageCtrl,

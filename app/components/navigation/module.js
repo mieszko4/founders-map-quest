@@ -9,5 +9,7 @@
  * Navigation module of the application.
  */
  angular.module('foundersMapQuestApp.navigation', [
-   'foundersMapQuestApp.constants'
+   'foundersMapQuestApp.constants',
+
+   'ui.router'
  ]);

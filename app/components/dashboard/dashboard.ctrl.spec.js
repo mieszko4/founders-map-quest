@@ -3,7 +3,6 @@
 describe('Controller: DashboardCtrl', function () {
 
   // load the controller's module
-  console.log('LOADING MODULE,da');
   beforeEach(module('foundersMapQuestApp.dashboard'));
 
   var DashboardCtrl,

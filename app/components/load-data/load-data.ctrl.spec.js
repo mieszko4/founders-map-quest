@@ -3,7 +3,6 @@
 describe('Controller: LoadDataCtrl', function () {
 
   // load the controller's module
-  console.log('LOADING MODULE,ld');
   beforeEach(module('foundersMapQuestApp.loadData'));
 
   var LoadDataCtrl,
