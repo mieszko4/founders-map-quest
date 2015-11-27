@@ -29,7 +29,7 @@ body {
 
 // partials
 @import "main-page";
-@import "about-page";
+@import "../components/about/styles";
 @import "error-page";
 @import "load-data-page";
 @import "show-image-page";

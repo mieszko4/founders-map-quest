@@ -9,10 +9,10 @@
  * Main module of the application.
  */
  angular.module('foundersMapQuestApp', [
-   'ngRoute',
    'LocalStorageModule',
    'uiGmapgoogle-maps',
    'ui.bootstrap',
+   'ui.router',
 
    'foundersMapQuestApp.about'
  ])
@@ -26,13 +26,35 @@
     });
   })
 
- .config(function ($routeProvider) {
-   $routeProvider
-     .when('/', {
-       templateUrl: 'views/main.html',
-       controller: 'MainCtrl'
-     })
-     .otherwise({
-       templateUrl: '404.html'
-     });
+ .config(function ($stateProvider, $urlRouterProvider) {
+   var ROOT_URL = ''; //route prefix
+
+   $urlRouterProvider
+    .when(ROOT_URL + '/', ROOT_URL + '/dashboard')
+    .otherwise(function ($injector) {
+      $injector.invoke(['$state', function($state) {
+        $state.go('not-found');
+      }]);
+    });
+
+   $stateProvider
+    .state('root', {
+      url: ROOT_URL
+    })
+    .state('root.dashboard', {
+      url: '/dashboard',
+      views: {
+        'main@': {
+          templateUrl: 'views/main.html',
+          controller: 'MainCtrl'
+        },
+      },
+    })
+    .state('not-found', {
+      views: {
+        'main': {
+          templateUrl: '404.html'
+        },
+      }
+    });
  });

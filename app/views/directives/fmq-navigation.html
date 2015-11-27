@@ -3,6 +3,6 @@
     ng-repeat="item in items"
     ng-class="{active: route.current.originalPath == item.path}"
   >
-    <a ng-href="#{{item.path}}">{{item.label}}</a>
+    <a ui-sref="{{item.path}}">{{item.label}}</a>
   </li>
 </ul>

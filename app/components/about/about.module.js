@@ -8,14 +8,16 @@
  *
  * Main module of the application.
  */
- angular.module('foundersMapQuestApp.about', [
-   'ngRoute',
-   'ui.bootstrap'
- ])
+ angular.module('foundersMapQuestApp.about', [])
 
- .config(function ($routeProvider) {
-   $routeProvider
-     .when('/about', {
-       templateUrl: 'components/about/about.html'
-     })
+ .config(function ($stateProvider) {
+   $stateProvider
+    .state('root.about', {
+      url: '/about',
+      views: {
+        'main@': {
+          templateUrl: 'components/about/about.html'
+        }
+      }
+    });
  });

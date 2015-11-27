@@ -7,12 +7,13 @@
  * # fmqNavigation
  */
 angular.module('foundersMapQuestApp')
-  .directive('fmqNavigation', function ($route) {
+  .directive('fmqNavigation', function () {
     return {
       templateUrl: 'views/directives/fmq-navigation.html',
       restrict: 'A',
       replace: true,
       link: function (scope) {
+        /*
         scope.route = $route;
         scope.items = [
           {
@@ -23,7 +24,7 @@ angular.module('foundersMapQuestApp')
             path: '/about',
             label: 'About'
           }
-        ];
+        ];*/
       }
     };
   });
