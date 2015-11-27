@@ -1,0 +1,38 @@
+<span>
+
+  <a
+    ng-if="type == 'image'"
+    class="show-image"
+    ng-href="{{data}}"
+  >
+    <img ng-src="{{data}}" alt="" />
+  </a>
+
+  <a
+    ng-if="type == 'link'"
+    target="_blank"
+    ng-href="{{data}}"
+  >
+    {{data}}
+  </a>
+
+  <a
+    ng-if="type == 'latitude' || type == 'longitude'"
+
+    class="item-viewer"
+    ng-class="{disabled: !isSelected}"
+    uib-tooltip="View on map"
+    ng-click="viewItemCallback()"
+  >
+    <span
+      class="glyphicon glyphicon-map-marker"
+    ></span>
+    <span>{{data | decimal2dms:(type == 'latitude')}}</span>
+  </a>
+
+  <span
+    ng-if="!type"
+  >
+    {{data}}
+  </span>
+</span>

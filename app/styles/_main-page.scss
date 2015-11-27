@@ -60,7 +60,13 @@
       }
 
       .item-viewer {
+        @extend .btn;
+        padding: 0;
         white-space: nowrap;
+
+        &:active {
+          box-shadow: none;
+        }
       }
 
       .item-viewer,

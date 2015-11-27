@@ -1,2 +1,8 @@
-<div class="gm-pro-popup" ng-bind-html="parameter.model.window.title | fmqVisualize">
+<div class="gm-pro-popup">
+  <span
+    fmq-visualize
+    data="{{parameter.model.data.window.title}}"
+    type="{{parameter.model.type}}"
+    is-selected="true"
+  ></span>
 </div>

@@ -9,6 +9,9 @@
  */
 angular.module('foundersMapQuestApp')
   .factory('Founders', function (Papa) {
+    var linkRegExp = new RegExp(/https?:\/\/(.+)/);
+    var imageRegExp = new RegExp(/.+\.(jpg|jpeg|png|gif|svg|bmp)$/);
+
     var delimiters = [
       {
         delimiter: ',',
@@ -76,6 +79,24 @@ angular.module('foundersMapQuestApp')
        });
 
        return raw;
+     },
+
+     detectType: function (data, $index, latitudeColumn, longitudeColumn) {
+       var type = null;
+
+       if ($index === +latitudeColumn) {
+         type = 'latitude';
+       } else if ($index === +longitudeColumn) {
+         type = 'longitude';
+       } else if (linkRegExp.test(data)) {
+         if (imageRegExp.test(data)) {
+           type = 'image';
+         } else {
+           type = 'link';
+         }
+       }
+
+       return type;
      },
 
       setFounders: function (header, items, latitudeColumn, longitudeColumn) {

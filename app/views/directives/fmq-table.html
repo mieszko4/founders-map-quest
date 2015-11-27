@@ -91,21 +91,13 @@
         </a>
       </td>
       <td ng-repeat="column in item">
-        <span ng-if="!($index == latitudeColumn || $index == longitudeColumn)" ng-bind-html="column | fmqVisualize"></span>
-        <span ng-if="$index == latitudeColumn || $index == longitudeColumn">
-          <a
-            ng-if="SelectHandler.isSelected(selectedItems, items.indexOf(item))"
-            class="item-viewer"
-            uib-tooltip="View on map"
-            ng-click="viewItem(items.indexOf(item))"
-          >
-            <span
-              class="glyphicon glyphicon-map-marker"
-            ></span>
-            <span>{{column | decimal2dms:($index == latitudeColumn)}}</span>
-          </a>
-          <span ng-if="!SelectHandler.isSelected(selectedItems, items.indexOf(item))">{{column}}</span>
-        </span>
+        <span
+          fmq-visualize
+          data="{{column}}"
+          type="{{Founders.detectType(column, $index, latitudeColumn, longitudeColumn)}}"
+          view-item-callback="viewItemCallback({index: items.indexOf(item)})"
+          is-selected="SelectHandler.isSelected(selectedItems, items.indexOf(item))"
+        ></span>
       </td>
     </tr>
     <tr ng-if="filtered.length == 0">

@@ -7,7 +7,7 @@
  * # fmqMap
  */
 angular.module('foundersMapQuestApp')
-  .directive('fmqMap', function (FilterHandler) {
+  .directive('fmqMap', function (FilterHandler, Founders) {
     return {
       scope: {
         items: '=',
@@ -68,7 +68,10 @@ angular.module('foundersMapQuestApp')
           });
 
           if (foundMarker !== null) {
-            scope.map.window.model = foundMarker;
+            scope.map.window.model = {
+              data: foundMarker,
+              type: Founders.detectType(foundMarker.window.title, foundMarker.id, scope.longitudeColumn, scope.latitudeColumn)
+            };
             scope.map.window.show = true;
           } else {
             scope.map.window.show = false;
@@ -80,7 +83,10 @@ angular.module('foundersMapQuestApp')
           zoom: 4,
           markersEvents: {
             click: function(marker, eventName, model) {
-              scope.map.window.model = model;
+              scope.map.window.model = {
+                data: model,
+                type: Founders.detectType(model.window.title, model.id, scope.longitudeColumn, scope.latitudeColumn)
+              };
               scope.map.window.show = true;
             }
           },

@@ -7,7 +7,7 @@
  * # fmqTable
  */
 angular.module('foundersMapQuestApp')
-  .directive('fmqTable', function (SelectHandler, SortHandler, FilterHandler) {
+  .directive('fmqTable', function (SelectHandler, SortHandler, FilterHandler, Founders) {
     return {
       scope: {
         header: '=',
@@ -24,6 +24,7 @@ angular.module('foundersMapQuestApp')
       restrict: 'A',
       replace: true,
       link: function (scope) {
+        scope.Founders = Founders;
         scope.SelectHandler = SelectHandler;
         scope.SortHandler = SortHandler;
         //check if all selected items
@@ -78,12 +79,8 @@ angular.module('foundersMapQuestApp')
           return FilterHandler.passesFilter(scope.filterStates, item);
         };
 
-        scope.viewItem = function ($index) {
-          if (!SelectHandler.isSelected(scope.selectedItems, $index)) {
-            return;
-          }
-
-          scope.viewItemCallback({index: $index});
+        scope.viewItem = function () {
+          scope.viewItemCallback();
         };
       }
     };
