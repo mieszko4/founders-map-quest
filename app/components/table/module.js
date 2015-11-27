@@ -9,5 +9,6 @@
  * ShowImage module of the application.
  */
  angular.module('foundersMapQuestApp.table', [
-   'foundersMapQuestApp.constants'
+   'foundersMapQuestApp.constants',
+   'foundersMapQuestApp.visualize'
  ]);

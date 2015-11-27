@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc directive
- * @name foundersMapQuestApp.directive:fmqVisualize
+ * @name foundersMapQuestApp.visualize.directive:fmqVisualize
  * @description
  * # fmqVisualize
  */
-angular.module('foundersMapQuestApp')
-  .directive('fmqVisualize', function () {
+angular.module('foundersMapQuestApp.visualize')
+  .directive('fmqVisualize', function (FMQ_COMPONENTS_PATH) {
     return {
       scope: {
         data: '@',
@@ -15,7 +15,7 @@ angular.module('foundersMapQuestApp')
         isSelected: '=',
         viewItemCallback: '&',
       },
-      templateUrl: 'views/directives/fmq-visualize.html',
+      templateUrl: FMQ_COMPONENTS_PATH + 'visualize/fmq-visualize.html',
       restrict: 'A',
       replace: true
     };
