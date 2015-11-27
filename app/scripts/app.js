@@ -12,7 +12,9 @@
    'ngRoute',
    'LocalStorageModule',
    'uiGmapgoogle-maps',
-   'ui.bootstrap'
+   'ui.bootstrap',
+
+   'foundersMapQuestApp.about'
  ])
  .value('Papa', window.Papa)
 
@@ -29,10 +31,6 @@
      .when('/', {
        templateUrl: 'views/main.html',
        controller: 'MainCtrl'
-     })
-     .when('/about', {
-       templateUrl: 'views/about.html',
-       controller: 'AboutCtrl'
      })
      .otherwise({
        templateUrl: '404.html'
