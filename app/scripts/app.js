@@ -14,6 +14,7 @@
    'ui.bootstrap',
    'ui.router',
 
+   'foundersMapQuestApp.constants',
    'foundersMapQuestApp.about'
  ])
  .value('Papa', window.Papa)
@@ -24,11 +25,9 @@
     });
   })
 
- .config(function ($stateProvider, $urlRouterProvider) {
-   var ROOT_URL = ''; //route prefix
-
+ .config(function ($stateProvider, $urlRouterProvider, FMQ_ROOT_URL) {
    $urlRouterProvider
-    .when(ROOT_URL + '/', ROOT_URL + '/dashboard')
+    .when(FMQ_ROOT_URL + '/', FMQ_ROOT_URL + '/dashboard')
     .otherwise(function ($injector) {
       $injector.invoke(['$state', function($state) {
         $state.go('not-found');
@@ -37,7 +36,7 @@
 
    $stateProvider
     .state('root', {
-      url: ROOT_URL
+      url: FMQ_ROOT_URL
     })
     .state('root.dashboard', {
       url: '/dashboard',

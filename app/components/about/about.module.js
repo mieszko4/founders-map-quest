@@ -2,21 +2,24 @@
 
 /**
  * @ngdoc overview
- * @name foundersMapQuestApp
+ * @name foundersMapQuestApp.about
  * @description
- * # foundersMapQuestApp
+ * # foundersMapQuestApp.about
  *
- * Main module of the application.
+ * About module of the application.
  */
- angular.module('foundersMapQuestApp.about', [])
+ angular.module('foundersMapQuestApp.about', [
+   'foundersMapQuestApp.constants',
+   'ui.router'
+ ])
 
- .config(function ($stateProvider) {
+ .config(function ($stateProvider, FMQ_COMPONENTS_PATH) {
    $stateProvider
     .state('root.about', {
       url: '/about',
       views: {
         'main@': {
-          templateUrl: 'components/about/about.html'
+          templateUrl: FMQ_COMPONENTS_PATH + 'about/about.html'
         }
       }
     });
