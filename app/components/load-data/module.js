@@ -19,7 +19,7 @@
    var modalInstance;
 
    $stateProvider
-     .state('root.dashboard.load-data', {
+     .state('root.dashboard.load-data', { //TODO: fix dependency on dashboard route
        url: '/load-data',
        params: {
           state: {}

@@ -8,7 +8,7 @@
  * Controller of the foundersMapQuestApp
  */
 angular.module('foundersMapQuestApp')
-  .controller('DashboardCtrl', function ($scope, $stateParams, FoundersFactory, Founders, $uibModal, State, SelectHandler, $anchorScroll) {
+  .controller('DashboardCtrl', function ($scope, foundersData, FoundersFactory, Founders, $uibModal, State, SelectHandler, $anchorScroll) {
     $scope.State = State;
 
     var defaults = {
@@ -34,18 +34,18 @@ angular.module('foundersMapQuestApp')
       });
     };
 
-    if (Object.keys($stateParams.foundersData).length > 0) { // Preload data from stateParams
+    if (Object.keys(foundersData).length > 0) { // Preload data from stateParams
       //create founders
       $scope.founders = FoundersFactory.create(
-        $stateParams.foundersData.header,
-        $stateParams.foundersData.items,
-        $stateParams.foundersData.delimiter,
-        $stateParams.foundersData.latitudeColumn,
-        $stateParams.foundersData.longitudeColumn
+        foundersData.header,
+        foundersData.items,
+        foundersData.delimiter,
+        foundersData.latitudeColumn,
+        foundersData.longitudeColumn
       );
 
       //save state
-      State.state = angular.extend({}, $stateParams.foundersData);
+      State.state = angular.extend({}, foundersData);
       State.state.selectColumnForMarkerDismissed = defaults.selectColumnForMarkerDismissed();
     } else if (Object.keys(State.state).length > 0) { //Preload data from state
       $scope.founders = FoundersFactory.create(

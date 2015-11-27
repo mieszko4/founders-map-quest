@@ -16,7 +16,6 @@
 
    'ui.router'
  ])
- .value('Papa', window.Papa)
 
  .config(function (uiGmapGoogleMapApiProvider) {
     uiGmapGoogleMapApiProvider.configure({

@@ -17,6 +17,7 @@
    'LocalStorageModule',
    'uiGmapgoogle-maps',
  ])
+ .value('Papa', window.Papa) //inject non-angular services
 
  .config(function ($stateProvider, FMQ_COMPONENTS_PATH) {
    $stateProvider
@@ -29,6 +30,11 @@
       views: {
         'main@': {
           templateUrl: FMQ_COMPONENTS_PATH + 'dashboard/dashboard.html',
+          resolve: {
+            foundersData: function ($stateParams) {
+              return $stateParams.foundersData;
+            }
+          },
           controller: 'DashboardCtrl'
         }
       }
