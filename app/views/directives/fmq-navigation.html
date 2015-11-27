@@ -1,8 +1,8 @@
 <ul class="nav navbar-nav">
   <li
     ng-repeat="item in items"
-    ng-class="{active: route.current.originalPath == item.path}"
+    ng-class="{active: route.current.name == item.name}"
   >
-    <a ui-sref="{{item.path}}">{{item.label}}</a>
+    <a ui-sref="{{item.name}}">{{item.label}}</a>
   </li>
 </ul>
