@@ -3,7 +3,7 @@
 describe('Service: State', function () {
 
   // load the service's module
-  beforeEach(module('foundersMapQuestApp'));
+  beforeEach(module('foundersMapQuestApp.dashboard'));
 
   // instantiate service
   var State;

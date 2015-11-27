@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc service
- * @name foundersMapQuestApp.Founders
+ * @name foundersMapQuestApp.dashboard.Founders
  * @description
  * # Founders
- * Service in the foundersMapQuestApp.
+ * Service in the foundersMapQuestApp.dashboard.
  */
-angular.module('foundersMapQuestApp')
+angular.module('foundersMapQuestApp.dashboard')
   .factory('FoundersFactory', function (Founders, Papa) {
     var Factory = {
       create: function (header, items, delimiter, latitudeColumn, longitudeColumn) {
