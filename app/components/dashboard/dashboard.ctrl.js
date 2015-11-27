@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name foundersMapQuestApp.controller:MainCtrl
+ * @name foundersMapQuestApp.controller:DashboardCtrl
  * @description
- * # MainCtrl
+ * # DashboardCtrl
  * Controller of the foundersMapQuestApp
  */
 angular.module('foundersMapQuestApp')
-  .controller('MainCtrl', function ($scope, FoundersFactory, Founders, $uibModal, State, SelectHandler, $anchorScroll) {
+  .controller('DashboardCtrl', function ($scope, FoundersFactory, Founders, $uibModal, State, SelectHandler, $anchorScroll) {
     $scope.animationsEnabled = true;
     var defaults = {
       markerColumn: function () {

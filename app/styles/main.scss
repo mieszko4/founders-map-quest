@@ -28,7 +28,7 @@ body {
 }
 
 // partials
-@import "main-page";
+@import "../components/dashboard/styles";
 @import "../components/about/styles";
 @import "error-page";
 @import "load-data-page";

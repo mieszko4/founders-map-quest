@@ -9,12 +9,11 @@
  * Main module of the application.
  */
  angular.module('foundersMapQuestApp', [
-   'LocalStorageModule',
-   'uiGmapgoogle-maps',
    'ui.bootstrap',
    'ui.router',
 
    'foundersMapQuestApp.constants',
+   'foundersMapQuestApp.dashboard',
    'foundersMapQuestApp.about'
  ])
  .value('Papa', window.Papa)
@@ -37,15 +36,6 @@
    $stateProvider
     .state('root', {
       url: FMQ_ROOT_URL
-    })
-    .state('root.dashboard', {
-      url: '/dashboard',
-      views: {
-        'main@': {
-          templateUrl: 'views/main.html',
-          controller: 'MainCtrl'
-        },
-      },
     })
     .state('not-found', {
       views: {
