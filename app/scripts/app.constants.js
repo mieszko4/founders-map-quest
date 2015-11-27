@@ -10,4 +10,5 @@
  */
  angular.module('foundersMapQuestApp.constants', [])
   .constant('FMQ_COMPONENTS_PATH', 'components/')
-  .constant('FMQ_ROOT_URL', '');
+  .constant('FMQ_ROOT_URL', '')
+  .constant('FMQ_ANIMATE', true);

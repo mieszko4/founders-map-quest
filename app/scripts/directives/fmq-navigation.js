@@ -7,7 +7,7 @@
  * # fmqNavigation
  */
 angular.module('foundersMapQuestApp')
-  .directive('fmqNavigation', function ($state, FMQ_ROOT_URL) {
+  .directive('fmqNavigation', function ($state) {
     return {
       templateUrl: 'views/directives/fmq-navigation.html',
       restrict: 'A',
@@ -17,11 +17,11 @@ angular.module('foundersMapQuestApp')
 
         scope.items = scope.$state.get()
           .filter(function (state) { //filter urls of module paths
-            return !state.abstract && typeof state.url !== 'undefined' && state.url !== FMQ_ROOT_URL;
-          }).map(function (state) { //create label based on last part of state name
+            return !state.abstract && typeof state.params !== 'undefined' && typeof state.params.label !== 'undefined';
+          }).map(function (state) { //structure data with name and label
             return {
               name: state.name,
-              label: state.name.split('.').pop() //
+              label: state.params.label
             };
           });
       }

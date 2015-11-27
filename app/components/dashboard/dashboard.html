@@ -2,7 +2,7 @@
   <div class="container" ng-class="{'data-loaded': founders.header.length > 0}">
     <button
       class="btn btn-primary btn-load-data"
-      ng-click="openLoadDataForm()"
+      ui-sref="root.dashboard.load-data({state: State.state})"
     >
       <span ng-show="founders.header == null || founders.header.length == 0">Load data</span>
       <span ng-show="founders.header.length > 0">Load data again</span>

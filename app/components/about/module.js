@@ -18,6 +18,9 @@
    $stateProvider
     .state('root.about', {
       url: '/about',
+      params: {
+        label: 'About'
+      },
       views: {
         'main@': {
           templateUrl: FMQ_COMPONENTS_PATH + 'about/about.html'

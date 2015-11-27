@@ -10,6 +10,7 @@
  */
  angular.module('foundersMapQuestApp.dashboard', [
    'foundersMapQuestApp.constants',
+   'foundersMapQuestApp.loadData',
 
    'ui.bootstrap',
    'ui.router',
@@ -21,6 +22,10 @@
    $stateProvider
     .state('root.dashboard', {
       url: '/dashboard',
+      params: {
+        label: 'Dashboard',
+        foundersData: {}
+      },
       views: {
         'main@': {
           templateUrl: FMQ_COMPONENTS_PATH + 'dashboard/dashboard.html',

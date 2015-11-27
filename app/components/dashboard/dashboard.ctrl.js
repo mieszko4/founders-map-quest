@@ -8,8 +8,9 @@
  * Controller of the foundersMapQuestApp
  */
 angular.module('foundersMapQuestApp')
-  .controller('DashboardCtrl', function ($scope, FoundersFactory, Founders, $uibModal, State, SelectHandler, $anchorScroll) {
-    $scope.animationsEnabled = true;
+  .controller('DashboardCtrl', function ($scope, $stateParams, FoundersFactory, Founders, $uibModal, State, SelectHandler, $anchorScroll) {
+    $scope.State = State;
+
     var defaults = {
       markerColumn: function () {
         return 0;
@@ -33,7 +34,20 @@ angular.module('foundersMapQuestApp')
       });
     };
 
-    if (!angular.equals(State.state, {})) {
+    if (Object.keys($stateParams.foundersData).length > 0) { // Preload data from stateParams
+      //create founders
+      $scope.founders = FoundersFactory.create(
+        $stateParams.foundersData.header,
+        $stateParams.foundersData.items,
+        $stateParams.foundersData.delimiter,
+        $stateParams.foundersData.latitudeColumn,
+        $stateParams.foundersData.longitudeColumn
+      );
+
+      //save state
+      State.state = angular.extend({}, $stateParams.foundersData);
+      State.state.selectColumnForMarkerDismissed = defaults.selectColumnForMarkerDismissed();
+    } else if (Object.keys(State.state).length > 0) { //Preload data from state
       $scope.founders = FoundersFactory.create(
         State.state.header,
         State.state.items || [],
@@ -55,41 +69,6 @@ angular.module('foundersMapQuestApp')
         });
       }(variable));
     });
-
-    $scope.openLoadDataForm = function () {
-      var modalInstance = $uibModal.open({
-        animation: $scope.animationsEnabled,
-        templateUrl: 'views/load-data.html',
-        controller: 'LoadDataCtrl',
-        backdrop: 'static',
-        resolve: {
-          state: function () {
-            return State.state;
-          }
-        }
-      });
-
-      modalInstance.result.then(function (result) {
-        State.state = {
-          delimiter: result.delimiter,
-          header: result.header,
-          items: result.items,
-          latitudeColumn: result.latitudeColumn,
-          longitudeColumn: result.longitudeColumn,
-          selectColumnForMarkerDismissed: $scope.selectColumnForMarkerDismissed
-        };
-
-        $scope.founders = FoundersFactory.create(
-          result.header,
-          result.items,
-          result.delimiter,
-          result.latitudeColumn,
-          result.longitudeColumn
-        );
-
-        applyDefaults();
-      });
-    };
 
     // View item on Map
     $scope.mapHooks = {};
