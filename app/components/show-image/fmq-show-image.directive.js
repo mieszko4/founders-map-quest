@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc directive
- * @name foundersMapQuestApp.directive:fmqShowImage
+ * @name foundersMapQuestApp.showImage.directive:fmqShowImage
  * @description
  * # fmqShowImage
  */
-angular.module('foundersMapQuestApp')
+angular.module('foundersMapQuestApp.showImage')
   .directive('fmqShowImage', function ($state) {
     return {
       scope: {fmqShowImage: '@'},

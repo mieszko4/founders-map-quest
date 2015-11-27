@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name foundersMapQuestApp.controller:ShowImageCtrl
+ * @name foundersMapQuestApp.showImage.controller:ShowImageCtrl
  * @description
  * # ShowImageCtrl
- * Controller of the foundersMapQuestApp
+ * Controller of the foundersMapQuestApp.showImage
  */
-angular.module('foundersMapQuestApp')
+angular.module('foundersMapQuestApp.showImage')
   .controller('ShowImageCtrl', function ($scope, $uibModalInstance, image) {
     if (image === null) {
       $uibModalInstance.opened.then(function () {

@@ -3,7 +3,8 @@
 describe('Controller: LoadDataCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('foundersMapQuestApp'));
+  console.log('LOADING MODULE,ld');
+  beforeEach(module('foundersMapQuestApp.loadData'));
 
   var LoadDataCtrl,
     scope,

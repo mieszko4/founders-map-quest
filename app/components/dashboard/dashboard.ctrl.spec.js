@@ -3,7 +3,8 @@
 describe('Controller: DashboardCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('foundersMapQuestApp'));
+  console.log('LOADING MODULE,da');
+  beforeEach(module('foundersMapQuestApp.dashboard'));
 
   var DashboardCtrl,
     scope;
@@ -12,7 +13,8 @@ describe('Controller: DashboardCtrl', function () {
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
     DashboardCtrl = $controller('DashboardCtrl', {
-      $scope: scope
+      $scope: scope,
+      foundersData: {}
       // place here mocked dependencies
     });
   }));

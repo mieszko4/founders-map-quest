@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name foundersMapQuestApp.controller:LoadDataCtrl
+ * @name foundersMapQuestApp.loadData.controller:LoadDataCtrl
  * @description
  * # LoadDataCtrl
- * Controller of the foundersMapQuestApp
+ * Controller of the foundersMapQuestApp.loadData
  */
-angular.module('foundersMapQuestApp')
+angular.module('foundersMapQuestApp.loadData')
   .controller('LoadDataCtrl', function ($scope, $uibModalInstance, state, $window, FoundersFactory, Founders) {
     var stateDefaults = {
       header: [],

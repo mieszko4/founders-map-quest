@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name foundersMapQuestApp.controller:DashboardCtrl
+ * @name foundersMapQuestApp.dashboard.controller:DashboardCtrl
  * @description
  * # DashboardCtrl
- * Controller of the foundersMapQuestApp
+ * Controller of the foundersMapQuestApp.dashboard
  */
-angular.module('foundersMapQuestApp')
+angular.module('foundersMapQuestApp.dashboard')
   .controller('DashboardCtrl', function ($scope, foundersData, FoundersFactory, Founders, $uibModal, State, SelectHandler, $anchorScroll) {
     $scope.State = State;
 
