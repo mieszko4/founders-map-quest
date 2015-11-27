@@ -3,7 +3,7 @@
 describe('Directive: fmqFileReader', function () {
 
   // load the directive's module
-  beforeEach(module('foundersMapQuestApp'));
+  beforeEach(module('foundersMapQuestApp.loadData'));
 
   var element,
     scope;

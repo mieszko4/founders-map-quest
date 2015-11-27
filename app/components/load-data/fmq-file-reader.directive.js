@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc directive
- * @name foundersMapQuestApp.directive:fmqFileReader
+ * @name foundersMapQuestApp.loadData.directive:fmqFileReader
  * @description
  * # fmqFileReader
  * Code inspired by https://github.com/itslenny/angular-bootstrap-file-field/blob/master/src/angular-bootstrap-file-field.js
  */
-angular.module('foundersMapQuestApp')
+angular.module('foundersMapQuestApp.loadData')
   .directive('fmqFileReader', function () {
     return {
       restrict: 'A',
