@@ -20,6 +20,7 @@ angular.module('foundersMapQuestApp.map')
       restrict: 'A',
       link: function (scope) {
         scope.markers = [];
+        scope.markerTemplateUrl = FMQ_COMPONENTS_PATH + 'map/marker.html';
 
         var updateMarkers = function () {
           var markers = [];
