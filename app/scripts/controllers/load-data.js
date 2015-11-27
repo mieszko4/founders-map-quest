@@ -8,36 +8,37 @@
  * Controller of the foundersMapQuestApp
  */
 angular.module('foundersMapQuestApp')
-  .controller('LoadDataCtrl', function ($scope, $uibModalInstance, Founders, state, $window, FoundersFactory) {
-    if (state !== null) {
-      $scope.data = FoundersFactory.create(state.header, state.items, state.delimiter);
-      $scope.columns = state.header;
-      $scope.form = {
-        raw: $scope.data.encodeToRaw(),
-        delimiter: state.delimiter || Founders.defaultDelimiter,
-        latitudeColumn: null,
-        longitudeColumn: null
-      };
-    } else {
-      $scope.columns = [];
-      $scope.form = {
-        raw: null,
-        delimiter: Founders.defaultDelimiter,
-        latitudeColumn: null,
-        longitudeColumn: null
-      };
-      $scope.data = {
-        header: null,
-        items: false
-      };
-    }
+  .controller('LoadDataCtrl', function ($scope, $uibModalInstance, state, $window, FoundersFactory, Founders) {
+    var stateDefaults = {
+      header: [],
+      items: [],
+      delimiter: Founders.defaultDelimiter,
+      latitudeColumn: null,
+      longitudeColumn: null
+    };
+
+    state = angular.extend(stateDefaults, state);
+    $scope.data = FoundersFactory.create(
+      state.header,
+      state.items,
+      state.delimiter,
+      state.latitudeColumn,
+      state.longitudeColumn
+    );
+    $scope.columns = $scope.data.header;
+    $scope.form = {
+      raw: $scope.data.encodeToRaw(),
+      delimiter: state.delimiter,
+      latitudeColumn: state.latitudeColumn,
+      longitudeColumn: state.longitudeColumn
+    };
 
     var getAutoAppliedCoordinateColumn = function (columns, currentValue, regExp) {
       var newValue = currentValue;
       if (newValue === null) {
         angular.forEach(columns, function (column, i) {
           if (column.match(regExp)) {
-            newValue = '' + i; //convert to string because of strict equality in <select>
+            newValue = i;
             return false; //break
           }
         });
@@ -48,7 +49,7 @@ angular.module('foundersMapQuestApp')
 
     $scope.delimiters = Founders.delimiters;
     $scope.parseRawData = function (delimiter) {
-      $scope.data = FoundersFactory.create($scope.form.raw, delimiter);
+      $scope.data = FoundersFactory.createFromRaw($scope.form.raw, delimiter, $scope.form.latitudeColumn, $scope.form.longitudeColumn);
       $scope.form.delimiter = $scope.data.delimiter;
     };
 

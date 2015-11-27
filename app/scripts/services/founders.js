@@ -41,7 +41,7 @@ angular.module('foundersMapQuestApp')
           items = false;
         }
 
-        return Factory.create(header, items, delimiter, latitudeColumn, longitudeColumn);
+        return Factory.create(header, items, csv.meta.delimiter, latitudeColumn, longitudeColumn);
       }
     };
 

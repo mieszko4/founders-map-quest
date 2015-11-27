@@ -15,7 +15,7 @@ angular.module('foundersMapQuestApp')
         return 0;
       },
       selectedItems: function () {
-        return SelectHandler.selectAll($scope.founders.items);
+        return SelectHandler.selectAll(($scope.founders !== null) ? $scope.founders.items : []);
       },
       selectColumnForMarkerDismissed: function () {
         return false;
@@ -41,6 +41,8 @@ angular.module('foundersMapQuestApp')
         State.state.latitudeColumn,
         State.state.longitudeColumn
       );
+    } else {
+      $scope.founders = null;
     }
 
     applyDefaults();

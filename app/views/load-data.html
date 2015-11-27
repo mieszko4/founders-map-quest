@@ -50,7 +50,7 @@
                 name="latitudeColumn"
                 id="fmq-load-data-latitudeColumn"
                 ng-model="form.latitudeColumn"
-                ng-options="idx as column for (idx, column) in columns"
+                ng-options="idx*1 as column for (idx, column) in columns"
               >
                 <option></option>
               </select>
@@ -63,7 +63,7 @@
                 name="longitudeColumn"
                 id="fmq-load-data-longitudeColumn"
                 ng-model="form.longitudeColumn"
-                ng-options="idx as column for (idx, column) in columns"
+                ng-options="idx*1 as column for (idx, column) in columns"
               >
                 <option></option>
               </select>
