@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc overview
- * @name foundersMapQuestApp.loadData
+ * @name foundersMapQuestApp.showImage
  * @description
- * # foundersMapQuestApp.loadData
+ * # foundersMapQuestApp.showImage
  *
- * LoadData module of the application.
+ * ShowImage module of the application.
  */
- angular.module('foundersMapQuestApp.loadData', [
+ angular.module('foundersMapQuestApp.showImage', [
    'foundersMapQuestApp.constants',
 
    'ui.bootstrap',
@@ -19,27 +19,25 @@
    var modalInstance;
 
    $stateProvider
-     .state('root.dashboard.load-data', { //TODO: fix dependency on dashboard route
-       url: '/load-data',
+     .state('root.dashboard.show-image', { //TODO: fix dependency on dashboard route
+       url: '/show-image',
        params: {
-          state: {}
+          image: null
        },
        onEnter: function ($stateParams, $state, $uibModal, FMQ_ANIMATE) {
          modalInstance = $uibModal.open({
            animation: FMQ_ANIMATE,
-           templateUrl: FMQ_COMPONENTS_PATH + 'load-data/load-data.html',
-           controller: 'LoadDataCtrl',
+           templateUrl: FMQ_COMPONENTS_PATH + 'show-image/show-image.html',
+           controller: 'ShowImageCtrl',
            backdrop: 'static',
            resolve: {
-             state: function () {
-               return $stateParams.state;
+             image: function () {
+               return $stateParams.image;
              }
            }
          });
 
-         modalInstance.result.then(function(result) {
-           $state.go('^', {foundersData: result});
-         }, function () {
+         modalInstance.result.finally(function() {
            $state.go('^');
          });
        },

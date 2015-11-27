@@ -6,11 +6,12 @@
  * @description
  * # foundersMapQuestApp.dashboard
  *
- * About module of the application.
+ * Dashboard module of the application.
  */
  angular.module('foundersMapQuestApp.dashboard', [
    'foundersMapQuestApp.constants',
    'foundersMapQuestApp.loadData',
+   'foundersMapQuestApp.showImage',
 
    'ui.bootstrap',
    'ui.router',

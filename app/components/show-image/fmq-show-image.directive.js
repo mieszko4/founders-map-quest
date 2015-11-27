@@ -7,7 +7,7 @@
  * # fmqShowImage
  */
 angular.module('foundersMapQuestApp')
-  .directive('fmqShowImage', function ($uibModal) {
+  .directive('fmqShowImage', function ($state) {
     return {
       scope: {fmqShowImage: '@'},
       restrict: 'A',
@@ -16,16 +16,7 @@ angular.module('foundersMapQuestApp')
           e.preventDefault();
           var image = e.currentTarget.href;
 
-          $uibModal.open({
-            animation: true,
-            controller: 'ShowImageCtrl',
-            templateUrl: 'views/show-image.html',
-            resolve: {
-              image: function () {
-                return image;
-              }
-            }
-          });
+          $state.go('root.dashboard.show-image', {image: image});
         });
       }
     };

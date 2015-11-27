@@ -9,6 +9,12 @@
  */
 angular.module('foundersMapQuestApp')
   .controller('ShowImageCtrl', function ($scope, $uibModalInstance, image) {
+    if (image === null) {
+      $uibModalInstance.opened.then(function () {
+        $uibModalInstance.close();
+      });
+    }
+
     $scope.image = image;
 
     $scope.ok = function () {
