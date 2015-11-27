@@ -1,15 +1,15 @@
 <div class="fmq-main-page" fmq-show-image="a.show-image">
-  <div class="container" ng-class="{'data-loaded': Founders.header.length > 0}">
+  <div class="container" ng-class="{'data-loaded': founders.header.length > 0}">
     <button
       class="btn btn-primary btn-load-data"
       ng-click="openLoadDataForm()"
     >
-      <span ng-show="Founders.header == null || Founders.header.length == 0">Load data</span>
-      <span ng-show="Founders.header.length > 0">Load data again</span>
+      <span ng-show="founders.header == null || founders.header.length == 0">Load data</span>
+      <span ng-show="founders.header.length > 0">Load data again</span>
     </button>
   </div>
 
-  <div class="container table-container" ng-show="Founders.header.length > 0">
+  <div class="container table-container" ng-show="founders.header.length > 0">
     <h2>Table</h2>
     <div
       uib-alert
@@ -21,26 +21,22 @@
     </div>
 
     <table
-      fmq-table header="Founders.header"
-      items="Founders.items"
+      fmq-table
+      founders="founders"
       marker-column="markerColumn"
       selected-items="selectedItems"
       sort-states="sortStates"
       filter-states="filterStates"
       view-item-callback="viewOnMap(index)"
-      latitude-column="Founders.latitudeColumn"
-      longitude-column="Founders.longitudeColumn"
     ></table>
   </div>
 
-  <div class="container map-container" ng-if="Founders.header.length > 0" id="fmq-map">
+  <div class="container map-container" ng-if="founders.header.length > 0" id="fmq-map">
     <h2>Map</h2>
     <div
       fmq-map
-      items="Founders.items"
+      founders="founders"
       marker-column="markerColumn"
-      latitude-column="Founders.latitudeColumn"
-      longitude-column="Founders.longitudeColumn"
       selected-items="selectedItems"
       filter-states="filterStates"
       hooks="mapHooks"

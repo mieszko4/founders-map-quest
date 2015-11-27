@@ -15,7 +15,7 @@
           ></span>
         </a>
       </th>
-      <th ng-repeat="column in header">
+      <th ng-repeat="column in founders.header">
         <a
           class="marker-column-chooser active"
           ng-show="markerColumn == $index"
@@ -48,7 +48,7 @@
           ></span>
         </a>
       </th>
-      <th ng-repeat="column in header">
+      <th ng-repeat="column in founders.header">
         <div class="column-filter-and-sorter">
           <form ng-submit="void">
             <input type="text" ng-model="filterStates[$index]" placeholder="Filter" />
@@ -75,16 +75,16 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="item in filtered = (items | orderBy:predicate:reverse | filter:search)">
+    <tr ng-repeat="item in filtered = (founders.items | orderBy:predicate:reverse | filter:search)">
       <td>
-        <a class="item-selector" ng-click="toggleSelection(items.indexOf(item))">
+        <a class="item-selector" ng-click="toggleSelection(founders.items.indexOf(item))">
           <span
-            ng-show="!SelectHandler.isSelected(selectedItems, items.indexOf(item))"
+            ng-show="!SelectHandler.isSelected(selectedItems, founders.items.indexOf(item))"
             class="glyphicon glyphicon-unchecked"
             uib-tooltip="Display on map"
           ></span>
           <span
-            ng-show="SelectHandler.isSelected(selectedItems, items.indexOf(item))"
+            ng-show="SelectHandler.isSelected(selectedItems, founders.items.indexOf(item))"
             class="glyphicon glyphicon-check"
             uib-tooltip="Do not display on map"
           ></span>
@@ -94,14 +94,14 @@
         <span
           fmq-visualize
           data="{{column}}"
-          type="{{Founders.detectType(column, $index, latitudeColumn, longitudeColumn)}}"
-          view-item-callback="viewItemCallback({index: items.indexOf(item)})"
-          is-selected="SelectHandler.isSelected(selectedItems, items.indexOf(item))"
+          type="{{founders.detectType(column, $index)}}"
+          view-item-callback="viewItemCallback({index: founders.items.indexOf(item)})"
+          is-selected="SelectHandler.isSelected(selectedItems, founders.items.indexOf(item))"
         ></span>
       </td>
     </tr>
     <tr ng-if="filtered.length == 0">
-      <td colspan="{{header.length + 2}}" class="alert alert-info">
+      <td colspan="{{founders.header.length + 2}}" class="alert alert-info">
         <p>No items</p>
       </td>
     </tr>

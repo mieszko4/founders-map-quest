@@ -7,39 +7,35 @@
  * # fmqTable
  */
 angular.module('foundersMapQuestApp')
-  .directive('fmqTable', function (SelectHandler, SortHandler, FilterHandler, Founders) {
+  .directive('fmqTable', function (SelectHandler, SortHandler, FilterHandler) {
     return {
       scope: {
-        header: '=',
-        items: '=',
+        founders: '=',
         markerColumn: '=',
         selectedItems: '=',
         sortStates: '=',
         filterStates: '=',
-        viewItemCallback: '&',
-        latitudeColumn: '=',
-        longitudeColumn: '='
+        viewItemCallback: '&'
       },
       templateUrl: 'views/directives/fmq-table.html',
       restrict: 'A',
       replace: true,
       link: function (scope) {
-        scope.Founders = Founders;
         scope.SelectHandler = SelectHandler;
         scope.SortHandler = SortHandler;
         //check if all selected items
         scope.$watch(function () {
-          return SelectHandler.allSelected(scope.items, scope.selectedItems);
+          return SelectHandler.allSelected(scope.founders.items, scope.selectedItems);
         }, function (newValue) {
           scope.allSelected = newValue;
         });
 
         scope.toggleAllSelection = function () {
-          scope.selectedItems = SelectHandler.toggleAllSelection(scope.items, scope.selectedItems);
+          scope.selectedItems = SelectHandler.toggleAllSelection(scope.founders.items, scope.selectedItems);
         };
 
         scope.toggleSelection = function ($index) {
-          scope.selectedItems = SelectHandler.toggleSelection(scope.items, $index, scope.selectedItems);
+          scope.selectedItems = SelectHandler.toggleSelection(scope.founders.items, $index, scope.selectedItems);
         };
 
         scope.chooseAsMarker = function ($index) {

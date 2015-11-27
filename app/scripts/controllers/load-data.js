@@ -8,16 +8,16 @@
  * Controller of the foundersMapQuestApp
  */
 angular.module('foundersMapQuestApp')
-  .controller('LoadDataCtrl', function ($scope, $uibModalInstance, Founders, state, $window) {
+  .controller('LoadDataCtrl', function ($scope, $uibModalInstance, Founders, state, $window, FoundersFactory) {
     if (state !== null) {
+      $scope.data = FoundersFactory.create(state.header, state.items, state.delimiter);
       $scope.columns = state.header;
       $scope.form = {
-        raw: Founders.encode(state.header, state.items, state.delimiter),
+        raw: $scope.data.encodeToRaw(),
         delimiter: state.delimiter || Founders.defaultDelimiter,
         latitudeColumn: null,
         longitudeColumn: null
       };
-      $scope.data = Founders.decode($scope.form.raw, $scope.form.delimiter);
     } else {
       $scope.columns = [];
       $scope.form = {
@@ -48,8 +48,8 @@ angular.module('foundersMapQuestApp')
 
     $scope.delimiters = Founders.delimiters;
     $scope.parseRawData = function (delimiter) {
-      $scope.data = Founders.decode($scope.form.raw, delimiter);
-      $scope.form.delimiter = $scope.data.meta.delimiter;
+      $scope.data = FoundersFactory.create($scope.form.raw, delimiter);
+      $scope.form.delimiter = $scope.data.delimiter;
     };
 
     $scope.formValid = false;

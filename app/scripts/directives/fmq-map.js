@@ -7,13 +7,11 @@
  * # fmqMap
  */
 angular.module('foundersMapQuestApp')
-  .directive('fmqMap', function (FilterHandler, Founders) {
+  .directive('fmqMap', function (FilterHandler) {
     return {
       scope: {
-        items: '=',
+        founders: '=',
         markerColumn: '=',
-        latitudeColumn: '=',
-        longitudeColumn: '=',
         selectedItems: '=',
         filterStates: '=',
         hooks: '='
@@ -25,17 +23,17 @@ angular.module('foundersMapQuestApp')
 
         var updateMarkers = function () {
           var markers = [];
-          angular.forEach(scope.items, function (item, i) {
+          angular.forEach(scope.founders.items, function (item, i) {
             if (typeof scope.selectedItems[i] !== 'undefined' && FilterHandler.passesFilter(scope.filterStates, item)) {
-              if (isNaN(item[scope.latitudeColumn]) || isNaN(item[scope.longitudeColumn])) {
+              if (isNaN(item[scope.founders.latitudeColumn]) || isNaN(item[scope.founders.longitudeColumn])) {
                 return true; //continue
               }
 
               markers.push({
                 id: i,
                 coords: {
-                  latitude: item[scope.latitudeColumn],
-                  longitude: item[scope.longitudeColumn]
+                  latitude: item[scope.founders.latitudeColumn],
+                  longitude: item[scope.founders.longitudeColumn]
                 },
                 window: {
                   title: item[scope.markerColumn]
@@ -48,7 +46,7 @@ angular.module('foundersMapQuestApp')
         };
 
         //register deep watches for couple variables, since $watchGroup does not support deep
-        angular.forEach(['items', 'markerColumn', 'latitudeColumn', 'longitudeColumn', 'selectedItems', 'filterStates'], function (variable) {
+        angular.forEach(['founders', 'markerColumn', 'selectedItems', 'filterStates'], function (variable) {
           scope.$watch(variable, function () {
             updateMarkers();
             scope.map.window.show = false;
@@ -70,7 +68,7 @@ angular.module('foundersMapQuestApp')
           if (foundMarker !== null) {
             scope.map.window.model = {
               data: foundMarker,
-              type: Founders.detectType(foundMarker.window.title, foundMarker.id, scope.longitudeColumn, scope.latitudeColumn)
+              type: scope.founders.detectType(foundMarker.window.title, foundMarker.id)
             };
             scope.map.window.show = true;
           } else {
@@ -85,7 +83,7 @@ angular.module('foundersMapQuestApp')
             click: function(marker, eventName, model) {
               scope.map.window.model = {
                 data: model,
-                type: Founders.detectType(model.window.title, model.id, scope.longitudeColumn, scope.latitudeColumn)
+                type: scope.founders.detectType(model.window.title, model.id)
               };
               scope.map.window.show = true;
             }

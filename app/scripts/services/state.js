@@ -20,7 +20,7 @@ angular.module('foundersMapQuestApp')
     $rootScope.$watch(function () {
       return service.state;
     }, function (newValue) {
-      localStorageService.set(key, newValue);
+      //localStorageService.set(key, newValue);
     }, true);
 
     return service;

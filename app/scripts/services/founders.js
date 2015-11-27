@@ -8,11 +8,89 @@
  * Service in the foundersMapQuestApp.
  */
 angular.module('foundersMapQuestApp')
+  .factory('FoundersFactory', function (Founders, Papa) {
+    var Factory = {
+      create: function (header, items, delimiter, latitudeColumn, longitudeColumn) {
+        return new Founders(header, items, delimiter, latitudeColumn, longitudeColumn);
+      },
+      createFromRaw: function (raw, delimiter, latitudeColumn, longitudeColumn) {
+        delimiter = typeof delimiter !== 'undefined' ? delimiter : ''; //default is auto
+
+        var csv = Papa.parse(raw, {
+          header: true,
+          skipEmptyLines: true,
+          delimiter: delimiter
+        });
+
+        var header = csv.meta.fields;
+        var items;
+
+        if (csv.errors.length === 0) {
+          //convert to array of arrays
+          items = [];
+          angular.forEach(csv.data, function (rowData) {
+            var item = [];
+
+            angular.forEach(header, function (column) {
+              item.push(rowData[column]);
+            });
+
+            items.push(item);
+          });
+        } else {
+          items = false;
+        }
+
+        return Factory.create(header, items, delimiter, latitudeColumn, longitudeColumn);
+      }
+    };
+
+    return Factory;
+  })
+
   .factory('Founders', function (Papa) {
     var linkRegExp = new RegExp(/https?:\/\/(.+)/);
     var imageRegExp = new RegExp(/.+\.(jpg|jpeg|png|gif|svg|bmp)$/);
 
-    var delimiters = [
+    var Founders = function (header, items, delimiter, latitudeColumn, longitudeColumn) {
+      this.header = header;
+      this.items = items;
+      this.delimiter = delimiter;
+
+      this.latitudeColumn = latitudeColumn;
+      this.longitudeColumn = longitudeColumn;
+    };
+
+    Founders.prototype.encodeToRaw = function () {
+      var raw = Papa.unparse([this.header].concat(this.items), {
+        newline: '\n',
+        delimiter: this.delimiter
+      });
+
+      return raw;
+    };
+
+    Founders.prototype.detectType = function (item, $index) {
+      var type = null;
+
+      if ($index === this.latitudeColumn) {
+        type = 'latitude';
+      } else if ($index === this.longitudeColumn) {
+        type = 'longitude';
+      } else if (linkRegExp.test(item)) {
+        if (imageRegExp.test(item)) {
+          type = 'image';
+        } else {
+          type = 'link';
+        }
+      }
+
+      return type;
+    };
+
+    //static settings
+    Founders.defaultDelimiter = ',';
+    Founders.delimiters = [
       {
         delimiter: ',',
         label: 'Comma'
@@ -27,87 +105,5 @@ angular.module('foundersMapQuestApp')
       }
     ];
 
-    var service = {
-      header: null,
-      items: [],
-      latitudeColumn: null,
-      longitudeColumn: null,
-
-      defaultDelimiter: ',',
-      delimiters: delimiters,
-
-      decode: function (raw, delimiter) {
-        delimiter = typeof delimiter !== 'undefined' ? delimiter : ''; //default is auto
-
-        var csv = Papa.parse(raw, {
-          header: true,
-          delimiter: delimiter,
-          skipEmptyLines: true
-        });
-
-        var header = csv.meta.fields;
-        var items = false;
-
-        if (csv.errors.length === 0) {
-          //convert to array form
-          items = [];
-          angular.forEach(csv.data, function (rowData) {
-            var item = [];
-
-            angular.forEach(header, function (column) {
-              item.push(rowData[column]);
-            });
-
-            items.push(item);
-          });
-        }
-
-        return {
-          header: header,
-          items: items,
-          meta: csv.meta
-        };
-     },
-     encode: function (header, items, delimiter) {
-       if (header === null || typeof header === 'undefined') {
-         return '';
-       }
-
-       var raw = Papa.unparse([header].concat(items), {
-         newline: '\n',
-         delimiter: delimiter
-       });
-
-       return raw;
-     },
-
-     detectType: function (data, $index, latitudeColumn, longitudeColumn) {
-       var type = null;
-
-       if ($index === +latitudeColumn) {
-         type = 'latitude';
-       } else if ($index === +longitudeColumn) {
-         type = 'longitude';
-       } else if (linkRegExp.test(data)) {
-         if (imageRegExp.test(data)) {
-           type = 'image';
-         } else {
-           type = 'link';
-         }
-       }
-
-       return type;
-     },
-
-      setFounders: function (header, items, latitudeColumn, longitudeColumn) {
-        this.header = header;
-        this.items = items;
-        this.latitudeColumn = latitudeColumn;
-        this.longitudeColumn = longitudeColumn;
-
-        return this.items;
-      }
-    };
-
-    return service;
+    return Founders;
   });

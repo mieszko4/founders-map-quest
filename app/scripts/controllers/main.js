@@ -8,14 +8,14 @@
  * Controller of the foundersMapQuestApp
  */
 angular.module('foundersMapQuestApp')
-  .controller('MainCtrl', function ($scope, Founders, $uibModal, State, SelectHandler, $anchorScroll) {
+  .controller('MainCtrl', function ($scope, FoundersFactory, Founders, $uibModal, State, SelectHandler, $anchorScroll) {
     $scope.animationsEnabled = true;
     var defaults = {
       markerColumn: function () {
         return 0;
       },
       selectedItems: function () {
-        return SelectHandler.selectAll(Founders.items);
+        return SelectHandler.selectAll($scope.founders.items);
       },
       selectColumnForMarkerDismissed: function () {
         return false;
@@ -33,19 +33,17 @@ angular.module('foundersMapQuestApp')
       });
     };
 
-    $scope.Founders = Founders;
-    applyDefaults();
-
     if (!angular.equals(State.state, {})) {
-      Founders.setFounders(
+      $scope.founders = FoundersFactory.create(
         State.state.header,
         State.state.items || [],
+        State.state.delimiter || Founders.defaultDelimiter,
         State.state.latitudeColumn,
         State.state.longitudeColumn
       );
-
-      applyDefaults();
     }
+
+    applyDefaults();
 
     // Save state live
     angular.forEach(defaults, function (callback, variable) {
@@ -79,9 +77,10 @@ angular.module('foundersMapQuestApp')
           selectColumnForMarkerDismissed: $scope.selectColumnForMarkerDismissed
         };
 
-        Founders.setFounders(
+        $scope.founders = FoundersFactory.create(
           result.header,
           result.items,
+          result.delimiter,
           result.latitudeColumn,
           result.longitudeColumn
         );
