@@ -23,12 +23,12 @@
     <table
       ng-if="founders.header.length > 0"
       fmq-table
-      founders="founders"
-      marker-column="markerColumn"
-      selected-items="selectedItems"
-      sort-states="sortStates"
-      filter-states="filterStates"
-      view-item-callback="viewOnMap(index)"
+      founders="$parent.founders"
+      marker-column="$parent.markerColumn"
+      selected-items="$parent.selectedItems"
+      sort-states="$parent.sortStates"
+      filter-states="$parent.filterStates"
+      view-item-callback="$parent.viewOnMap(index)"
     ></table>
   </div>
 
