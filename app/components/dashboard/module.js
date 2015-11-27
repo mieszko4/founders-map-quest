@@ -13,6 +13,7 @@
    'foundersMapQuestApp.loadData',
    'foundersMapQuestApp.showImage',
    'foundersMapQuestApp.table',
+   'foundersMapQuestApp.map',
 
    'ui.bootstrap',
    'ui.router',

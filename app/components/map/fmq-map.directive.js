@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc directive
- * @name foundersMapQuestApp.directive:fmqMap
+ * @name foundersMapQuestApp.map.directive:fmqMap
  * @description
  * # fmqMap
  */
-angular.module('foundersMapQuestApp')
-  .directive('fmqMap', function (FilterHandler) {
+angular.module('foundersMapQuestApp.map')
+  .directive('fmqMap', function (FilterHandler, FMQ_COMPONENTS_PATH) {
     return {
       scope: {
         founders: '=',
@@ -16,7 +16,7 @@ angular.module('foundersMapQuestApp')
         filterStates: '=',
         hooks: '='
       },
-      templateUrl: 'views/directives/fmq-map.html',
+      templateUrl: FMQ_COMPONENTS_PATH + 'map/fmq-map.html',
       restrict: 'A',
       link: function (scope) {
         scope.markers = [];
