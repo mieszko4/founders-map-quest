@@ -3,7 +3,7 @@
 describe('Filter: decimal2dms', function () {
 
   // load the filter's module
-  beforeEach(module('foundersMapQuestApp'));
+  beforeEach(module('foundersMapQuestApp.visualize'));
 
   // initialize a new instance of the filter before each test
   var decimal2dms;

@@ -2,14 +2,14 @@
 
 /**
  * @ngdoc filter
- * @name foundersMapQuestApp.filter:decimal2dms
+ * @name foundersMapQuestApp.visualize.filter:decimal2dms
  * @function
  * @description
  * # decimal2dms
- * Filter in the foundersMapQuestApp.
+ * Filter in the foundersMapQuestApp.visualize.
  * Code adjusted from: https://www.dougv.com/2012/03/converting-latitude-and-longitude-coordinates-between-decimal-and-degrees-minutes-seconds/
  */
-angular.module('foundersMapQuestApp')
+angular.module('foundersMapQuestApp.visualize')
   .filter('decimal2dms', function () {
     return function (decimal, isLatitude) {
       var degrees = 0;
