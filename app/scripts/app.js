@@ -10,6 +10,8 @@
  */
  angular.module('foundersMapQuestApp', [
    'foundersMapQuestApp.constants',
+   'foundersMapQuestApp.navigation',
+
    'foundersMapQuestApp.dashboard',
    'foundersMapQuestApp.about',
    'foundersMapQuestApp.error',

@@ -2,14 +2,14 @@
 
 /**
  * @ngdoc directive
- * @name foundersMapQuestApp.directive:fmqNavigation
+ * @name foundersMapQuestApp.navigation.directive:fmqNavigation
  * @description
  * # fmqNavigation
  */
-angular.module('foundersMapQuestApp')
-  .directive('fmqNavigation', function ($state) {
+angular.module('foundersMapQuestApp.navigation')
+  .directive('fmqNavigation', function ($state, FMQ_COMPONENTS_PATH) {
     return {
-      templateUrl: 'views/directives/fmq-navigation.html',
+      templateUrl: FMQ_COMPONENTS_PATH + 'navigation/fmq-navigation.html',
       restrict: 'A',
       replace: true,
       link: function (scope) {

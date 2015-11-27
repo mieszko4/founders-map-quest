@@ -3,7 +3,7 @@
 describe('Directive: fmqNavigation', function () {
 
   // load the directive's module
-  beforeEach(module('foundersMapQuestApp'));
+  beforeEach(module('foundersMapQuestApp.navigation'));
 
   var element,
     scope;
