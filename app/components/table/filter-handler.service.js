@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc service
- * @name foundersMapQuestApp.FilterHandler
+ * @name foundersMapQuestApp.table.FilterHandler
  * @description
  * # FilterHandler
- * Service in the foundersMapQuestApp.
+ * Service in the foundersMapQuestApp.table.
  */
-angular.module('foundersMapQuestApp')
+angular.module('foundersMapQuestApp.table')
   .factory('FilterHandler', function () {
     var service = {
       passesFilter: function (filterStates, item) {

@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc service
- * @name foundersMapQuestApp.SelectHandler
+ * @name foundersMapQuestApp.table.SelectHandler
  * @description
  * # SelectHandler
- * Service in the foundersMapQuestApp.
+ * Service in the foundersMapQuestApp.table.
  */
-angular.module('foundersMapQuestApp')
+angular.module('foundersMapQuestApp.table')
   .factory('SelectHandler', function () {
     var service = {
       allSelected: function (items, selectedItems) {
