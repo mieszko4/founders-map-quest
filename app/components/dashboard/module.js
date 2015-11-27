@@ -10,6 +10,8 @@
  */
  angular.module('foundersMapQuestApp.dashboard', [
    'foundersMapQuestApp.constants',
+   
+   'ui.bootstrap',
    'ui.router',
    'LocalStorageModule',
    'uiGmapgoogle-maps',

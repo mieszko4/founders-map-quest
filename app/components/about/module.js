@@ -10,6 +10,7 @@
  */
  angular.module('foundersMapQuestApp.about', [
    'foundersMapQuestApp.constants',
+   
    'ui.router'
  ])
 

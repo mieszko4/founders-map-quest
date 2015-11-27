@@ -9,12 +9,11 @@
  * Main module of the application.
  */
  angular.module('foundersMapQuestApp', [
-   'ui.bootstrap',
-   'ui.router',
-
    'foundersMapQuestApp.constants',
    'foundersMapQuestApp.dashboard',
-   'foundersMapQuestApp.about'
+   'foundersMapQuestApp.about',
+
+   'ui.router'
  ])
  .value('Papa', window.Papa)
 
