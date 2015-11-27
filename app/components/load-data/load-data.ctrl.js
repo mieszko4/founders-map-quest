@@ -8,7 +8,7 @@
  * Controller of the foundersMapQuestApp.loadData
  */
 angular.module('foundersMapQuestApp.loadData')
-  .controller('LoadDataCtrl', function ($scope, $uibModalInstance, state, $window, FoundersFactory, Founders) {
+  .controller('LoadDataCtrl', function ($scope, $uibModalInstance, state, supportsFileReader, FoundersFactory, Founders) {
     var stateDefaults = {
       header: [],
       items: [],
@@ -111,7 +111,7 @@ angular.module('foundersMapQuestApp.loadData')
     };
 
     // upload local file
-    $scope.supportsFileReader = typeof $window.FileReader !== 'undefined';
+    $scope.supportsFileReader = supportsFileReader;
     $scope.$watch('fileText', function (newValue) {
       if (newValue) {
         $scope.form.raw = $scope.fileText;

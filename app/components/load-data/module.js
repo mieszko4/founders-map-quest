@@ -25,7 +25,7 @@
        params: {
           state: {}
        },
-       onEnter: function ($stateParams, $state, $uibModal, FMQ_ANIMATE) {
+       onEnter: function ($stateParams, $state, $uibModal, FMQ_ANIMATE, $window) {
          modalInstance = $uibModal.open({
            animation: FMQ_ANIMATE,
            templateUrl: FMQ_COMPONENTS_PATH + 'load-data/load-data.html',
@@ -34,6 +34,9 @@
            resolve: {
              state: function () {
                return $stateParams.state;
+             },
+             supportsFileReader: function () {
+               return typeof $window.FileReader !== 'undefined';
              }
            }
          });

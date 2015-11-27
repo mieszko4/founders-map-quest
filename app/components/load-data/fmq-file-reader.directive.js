@@ -8,27 +8,25 @@
  * Code inspired by https://github.com/itslenny/angular-bootstrap-file-field/blob/master/src/angular-bootstrap-file-field.js
  */
 angular.module('foundersMapQuestApp.loadData')
-  .directive('fmqFileReader', function () {
+  .directive('fmqFileReader', function (FMQ_COMPONENTS_PATH) {
     return {
       restrict: 'A',
-      scope: {text: '='},
-      link: function (scope, element, attrs) {
+      scope: {text: '=', reset: '='},
+      link: function (scope, element) {
         var fileField = element.find('input');
 
         fileField.bind('change', function (event) {
           scope.$evalAsync(function () {
-            if (attrs.text) {
-              var reader = new FileReader();
-              reader.onload = function (e) {
-                scope.$evalAsync(function () {
-                  scope.text = e.target.result;
-                  if (attrs.reset) {
-                    fileField.val('');
-                  }
-                });
-              };
-              reader.readAsText(event.target.files[0]);
-            }
+            var reader = new FileReader();
+            reader.onload = function (e) {
+              scope.$evalAsync(function () {
+                scope.text = e.target.result;
+                if (scope.reset) {
+                  fileField.val('');
+                }
+              });
+            };
+            reader.readAsText(event.target.files[0]);
           });
         });
 
@@ -40,8 +38,8 @@ angular.module('foundersMapQuestApp.loadData')
           fileField[0].click();
         });
       },
-      template:'<button type="button"><ng-transclude></ng-transclude><input type="file" style="display:none"></button>',
-      replace:true,
-      transclude:true
+      templateUrl: FMQ_COMPONENTS_PATH + 'load-data/fmq-file-reader.html',
+      replace: true,
+      transclude: true
     };
   });

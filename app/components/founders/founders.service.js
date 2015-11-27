@@ -27,15 +27,10 @@ angular.module('foundersMapQuestApp.founders')
 
         if (csv.errors.length === 0) {
           //convert to array of arrays
-          items = [];
-          angular.forEach(csv.data, function (rowData) {
-            var item = [];
-
-            angular.forEach(header, function (column) {
-              item.push(rowData[column]);
+          items = csv.data.map(function (rowData) {
+            return header.map(function (column) {
+              return rowData[column];
             });
-
-            items.push(item);
           });
         } else {
           items = false;

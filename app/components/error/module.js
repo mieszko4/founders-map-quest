@@ -17,7 +17,7 @@
  .config(function ($stateProvider, $urlRouterProvider, FMQ_COMPONENTS_PATH) {
    $urlRouterProvider
     .otherwise(function ($injector) {
-      $injector.invoke(['$state', function($state) {
+      $injector.invoke(['$state', function ($state) {
         $state.go('not-found');
       }]);
     });
