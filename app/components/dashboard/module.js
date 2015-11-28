@@ -15,10 +15,10 @@
    'foundersMapQuestApp.table',
    'foundersMapQuestApp.map',
    'foundersMapQuestApp.founders',
+   'foundersMapQuestApp.state',
 
    'ui.bootstrap',
    'ui.router',
-   'LocalStorageModule',
    'uiGmapgoogle-maps',
  ])
 

@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc service
- * @name foundersMapQuestApp.dashboard.State
+ * @name foundersMapQuestApp.state.State
  * @description
  * # State
- * Service in the foundersMapQuestApp.dashboard.
+ * Service in the foundersMapQuestApp.state.
  */
-angular.module('foundersMapQuestApp.dashboard')
+angular.module('foundersMapQuestApp.state')
   .factory('State', function ($rootScope, localStorageService) {
     var key = 'founders';
     var service = {
