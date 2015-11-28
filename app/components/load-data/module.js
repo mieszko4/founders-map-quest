@@ -15,6 +15,7 @@
    'ui.bootstrap',
    'ui.router'
  ])
+ .value('FileReader', typeof window.FileReader !== 'undefined' ? window.FileReader : false) //inject non-angular services
 
  .config(function ($stateProvider, FMQ_COMPONENTS_PATH) {
    var modalInstance;
@@ -25,7 +26,7 @@
        params: {
           state: {}
        },
-       onEnter: function ($stateParams, $state, $uibModal, FMQ_ANIMATE, $window) {
+       onEnter: function ($stateParams, $state, $uibModal, FMQ_ANIMATE, FileReader) {
          modalInstance = $uibModal.open({
            animation: FMQ_ANIMATE,
            templateUrl: FMQ_COMPONENTS_PATH + 'load-data/load-data.html',
@@ -36,7 +37,7 @@
                return $stateParams.state;
              },
              supportsFileReader: function () {
-               return typeof $window.FileReader !== 'undefined';
+               return FileReader !== false;
              }
            }
          });

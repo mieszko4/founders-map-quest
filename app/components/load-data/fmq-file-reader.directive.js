@@ -8,11 +8,15 @@
  * Code inspired by https://github.com/itslenny/angular-bootstrap-file-field/blob/master/src/angular-bootstrap-file-field.js
  */
 angular.module('foundersMapQuestApp.loadData')
-  .directive('fmqFileReader', function (FMQ_COMPONENTS_PATH) {
+  .directive('fmqFileReader', function (FMQ_COMPONENTS_PATH, FileReader) {
     return {
       restrict: 'A',
       scope: {text: '=', reset: '='},
       link: function (scope, element) {
+        if (FileReader === false) {
+          return;
+        }
+
         var fileField = element.find('input');
 
         fileField.bind('change', function (event) {
