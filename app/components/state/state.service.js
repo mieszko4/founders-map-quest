@@ -8,20 +8,37 @@
  * Service in the foundersMapQuestApp.state.
  */
 angular.module('foundersMapQuestApp.state')
-  .factory('State', function ($rootScope, localStorageService) {
-    var key = 'founders';
-    var service = {
-      state: {}
+  .factory('StateFactory', function (State) {
+    var Factory = {
+      create: function (key) {
+        return new State(key);
+      }
+    }
+
+    return Factory;
+  })
+
+  .factory('State', function (localStorageService) {
+    var State = function (key) {
+      this.key = key;
+      this.value = localStorageService.get(key) || {};
     };
 
-    var state = localStorageService.get(key);
-    service.state = state || {};
+    State.prototype.set = function (value) {
+      this.value = value;
 
-    $rootScope.$watch(function () {
-      return service.state;
-    }, function (newValue) {
-      localStorageService.set(key, newValue);
-    }, true);
+      return this;
+    };
 
-    return service;
+    State.prototype.save = function () {
+      localStorageService.set(this.key, this.value);
+
+      return this;
+    };
+
+    State.prototype.get = function () {
+      return this.value;
+    };
+
+    return State;
   });

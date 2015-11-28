@@ -2,7 +2,7 @@
   <div class="container" ng-class="{'data-loaded': founders.header.length > 0}">
     <button
       class="btn btn-primary btn-load-data"
-      ui-sref="root.dashboard.load-data({state: State.state})"
+      ui-sref="root.dashboard.load-data({founders: founders})"
     >
       <span ng-show="founders.header == null || founders.header.length == 0">Load data</span>
       <span ng-show="founders.header.length > 0">Load data again</span>
@@ -24,7 +24,6 @@
       ng-if="founders.header.length > 0"
       fmq-table
       founders="$parent.founders"
-      marker-column="$parent.markerColumn"
       selected-items="$parent.selectedItems"
       sort-states="$parent.sortStates"
       filter-states="$parent.filterStates"
@@ -32,6 +31,7 @@
     ></table>
   </div>
 
+<!--
   <div class="container map-container" ng-if="founders.header.length > 0" id="fmq-map">
     <h2>Map</h2>
     <div
@@ -43,4 +43,5 @@
       hooks="mapHooks"
     ></div>
   </div>
+-->
 <div>

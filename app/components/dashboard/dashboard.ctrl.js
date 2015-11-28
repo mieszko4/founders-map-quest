@@ -8,69 +8,17 @@
  * Controller of the foundersMapQuestApp.dashboard
  */
 angular.module('foundersMapQuestApp.dashboard')
-  .controller('DashboardCtrl', function ($scope, foundersData, FoundersFactory, Founders, $uibModal, State, SelectHandler, $anchorScroll) {
-    $scope.State = State;
+  .controller('DashboardCtrl', function ($scope, founders, $anchorScroll) {
+    //set up data
+    $scope.founders = founders;
+    $scope.selectColumnForMarkerDismissed = false;
+    $scope.selectedItems = [];
+    $scope.sortStates = {};
+    $scope.filterStates = {};
 
-    var defaults = {
-      markerColumn: function () {
-        return 0;
-      },
-      selectedItems: function () {
-        return SelectHandler.selectAll(($scope.founders !== null) ? $scope.founders.items : []);
-      },
-      selectColumnForMarkerDismissed: function () {
-        return false;
-      },
-      sortStates: function () {
-        return {};
-      },
-      filterStates: function () {
-        return {};
-      }
-    };
-    var applyDefaults = function () {
-      angular.forEach(defaults, function (callback, variable) {
-        $scope[variable] = (typeof State.state[variable] !== 'undefined') ? State.state[variable] : callback($scope[variable]);
-      });
-    };
+    //save table state (TODO)
 
-    if (Object.keys(foundersData).length > 0) { // Preload data from stateParams
-      //create founders
-      $scope.founders = FoundersFactory.create(
-        foundersData.header,
-        foundersData.items,
-        foundersData.delimiter,
-        foundersData.latitudeColumn,
-        foundersData.longitudeColumn
-      );
-
-      //save state
-      State.state = angular.extend({}, foundersData);
-      State.state.selectColumnForMarkerDismissed = defaults.selectColumnForMarkerDismissed();
-    } else if (Object.keys(State.state).length > 0) { //Preload data from state
-      $scope.founders = FoundersFactory.create(
-        State.state.header,
-        State.state.items || [],
-        State.state.delimiter || Founders.defaultDelimiter,
-        State.state.latitudeColumn,
-        State.state.longitudeColumn
-      );
-    } else {
-      $scope.founders = null;
-    }
-
-    applyDefaults();
-
-    // Save state live
-    angular.forEach(defaults, function (callback, variable) {
-      (function (variable) {
-        $scope.$watch(variable, function (newValue) {
-          State.state[variable] = newValue;
-        });
-      }(variable));
-    });
-
-    // View item on Map
+    //callback to view item on Map
     $scope.mapHooks = {};
     $scope.viewOnMap = function (index) {
       $scope.mapHooks.openMarker(index);

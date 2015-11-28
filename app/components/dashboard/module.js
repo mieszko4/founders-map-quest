@@ -28,14 +28,29 @@
       url: '/dashboard',
       params: {
         label: 'Dashboard',
-        foundersData: {}
+        founders: null
       },
       views: {
         'main@': {
           templateUrl: FMQ_COMPONENTS_PATH + 'dashboard/dashboard.html',
           resolve: {
-            foundersData: function ($stateParams) {
-              return $stateParams.foundersData;
+            //get founders: from param, from state or new
+            founders: function ($stateParams, StateFactory, FoundersFactory) {
+              var foundersState = StateFactory.create('founders');
+
+              var founders = $stateParams.founders; //from param
+              if (founders === null) {
+                var foundersData = foundersState.get();
+                if (foundersData !== null) { //from state
+                  founders = FoundersFactory.createFromJson(foundersData);
+                } else { //new
+                  founders = FoundersFactory.create(); //default
+                }
+              }
+
+              foundersState.set(founders.toJson()).save();
+
+              return founders;
             }
           },
           controller: 'DashboardCtrl'

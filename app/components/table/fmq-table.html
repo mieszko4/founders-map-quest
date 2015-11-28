@@ -18,7 +18,7 @@
       <th ng-repeat="column in founders.header">
         <a
           class="marker-column-chooser active"
-          ng-show="markerColumn == $index"
+          ng-show="founders.markerColumn == $index"
           ng-click="chooseAsMarker($index)"
         >
           <span
@@ -28,7 +28,7 @@
         </a>
         <a
           class="marker-column-chooser"
-          ng-show="markerColumn != $index"
+          ng-show="founders.markerColumn != $index"
           ng-click="chooseAsMarker($index)"
         >
           <span

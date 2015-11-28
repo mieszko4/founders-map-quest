@@ -10,10 +10,13 @@
 angular.module('foundersMapQuestApp.founders')
   .factory('FoundersFactory', function (Founders, Papa) {
     var Factory = {
-      create: function (header, items, delimiter, latitudeColumn, longitudeColumn) {
-        return new Founders(header, items, delimiter, latitudeColumn, longitudeColumn);
+      create: function (header, items, delimiter, latitudeColumn, longitudeColumn, markerColumn) {
+        return new Founders(header, items, delimiter, latitudeColumn, longitudeColumn, markerColumn);
       },
-      createFromRaw: function (raw, delimiter, latitudeColumn, longitudeColumn) {
+      createFromJson: function (json) {
+        return new Founders(json.header, json.items, json.delimiter, json.latitudeColumn, json.longitudeColumn, json.markerColumn);
+      },
+      createFromRaw: function (raw, delimiter, latitudeColumn, longitudeColumn, markerColumn) {
         delimiter = typeof delimiter !== 'undefined' ? delimiter : ''; //default is auto
 
         var csv = Papa.parse(raw, {
@@ -47,13 +50,15 @@ angular.module('foundersMapQuestApp.founders')
     var linkRegExp = new RegExp(/https?:\/\/(.+)/);
     var imageRegExp = new RegExp(/.+\.(jpg|jpeg|png|gif|svg|bmp)$/);
 
-    var Founders = function (header, items, delimiter, latitudeColumn, longitudeColumn) {
-      this.header = header;
-      this.items = items;
-      this.delimiter = delimiter;
+    var Founders = function (header, items, delimiter, latitudeColumn, longitudeColumn, markerColumn) {
+      this.header = header || [];
+      this.items = items || [];
+      this.delimiter = delimiter || ',';
 
-      this.latitudeColumn = latitudeColumn;
-      this.longitudeColumn = longitudeColumn;
+      this.latitudeColumn = latitudeColumn || null;
+      this.longitudeColumn = longitudeColumn || null;
+
+      this.markerColumn = markerColumn || 0;
     };
 
     Founders.prototype.encodeToRaw = function () {
@@ -83,8 +88,17 @@ angular.module('foundersMapQuestApp.founders')
       return type;
     };
 
+    Founders.prototype.toJson = function () {
+      return {
+        header: this.header,
+        items: this.items,
+        delimiter: this.delimiter,
+        latitudeColumn: this.latitudeColumn,
+        longitudeColumn: this.longitudeColumn
+      };
+    };
+
     //static settings
-    Founders.defaultDelimiter = ',';
     Founders.delimiters = [
       {
         delimiter: ',',

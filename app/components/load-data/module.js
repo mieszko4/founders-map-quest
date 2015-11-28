@@ -24,17 +24,17 @@
      .state('root.dashboard.load-data', { //TODO: fix dependency on dashboard route
        url: '/load-data',
        params: {
-          state: {}
+          founders: null
        },
-       onEnter: function ($stateParams, $state, $uibModal, FMQ_ANIMATE, FileReader) {
+       onEnter: function ($stateParams, $state, $uibModal, FMQ_ANIMATE, FileReader, FoundersFactory) {
          modalInstance = $uibModal.open({
            animation: FMQ_ANIMATE,
            templateUrl: FMQ_COMPONENTS_PATH + 'load-data/load-data.html',
            controller: 'LoadDataCtrl',
            backdrop: 'static',
            resolve: {
-             state: function () {
-               return $stateParams.state;
+             founders: function () {
+               return $stateParams.founders || FoundersFactory.create(); //default
              },
              supportsFileReader: function () {
                return FileReader !== false;
@@ -42,8 +42,8 @@
            }
          });
 
-         modalInstance.result.then(function(result) {
-           $state.go('^', {foundersData: result});
+         modalInstance.result.then(function(founders) {
+           $state.go('^', {founders: founders}, {reload: true});
          }, function () {
            $state.go('^');
          });

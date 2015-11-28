@@ -11,7 +11,6 @@ angular.module('foundersMapQuestApp.table')
     return {
       scope: {
         founders: '=',
-        markerColumn: '=',
         selectedItems: '=',
         sortStates: '=',
         filterStates: '=',
@@ -39,7 +38,7 @@ angular.module('foundersMapQuestApp.table')
         };
 
         scope.chooseAsMarker = function ($index) {
-          scope.markerColumn = $index;
+          scope.founders.markerColumn = $index;
         };
 
         // Sorting

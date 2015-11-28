@@ -8,31 +8,44 @@
  * Controller of the foundersMapQuestApp.loadData
  */
 angular.module('foundersMapQuestApp.loadData')
-  .controller('LoadDataCtrl', function ($scope, $uibModalInstance, state, supportsFileReader, FoundersFactory, Founders) {
-    var stateDefaults = {
-      header: [],
-      items: [],
-      delimiter: Founders.defaultDelimiter,
-      latitudeColumn: null,
-      longitudeColumn: null
-    };
-
-    state = angular.extend(stateDefaults, state);
-    $scope.data = FoundersFactory.create(
-      state.header,
-      state.items,
-      state.delimiter,
-      state.latitudeColumn,
-      state.longitudeColumn
-    );
-    $scope.columns = $scope.data.header;
+  .controller('LoadDataCtrl', function ($scope, $uibModalInstance, founders, supportsFileReader, FoundersFactory, Founders) {
+    //set up data
+    $scope.founders = founders;
+    $scope.supportsFileReader = supportsFileReader;
+    $scope.delimiters = Founders.delimiters;
     $scope.form = {
-      raw: $scope.data.encodeToRaw(),
-      delimiter: state.delimiter,
-      latitudeColumn: state.latitudeColumn,
-      longitudeColumn: state.longitudeColumn
+      raw: founders.encodeToRaw(),
+      delimiter: founders.delimiter,
+      latitudeColumn: founders.latitudeColumn,
+      longitudeColumn: founders.longitudeColumn
     };
 
+    //parse founders on text change or delimiter change
+    $scope.parseRawData = function (delimiter) {
+      $scope.founders = FoundersFactory.createFromRaw(
+        $scope.form.raw,
+        delimiter,
+        $scope.form.latitudeColumn,
+        $scope.form.longitudeColumn
+      );
+
+      $scope.form.delimiter = $scope.founders.delimiter; //update delimiter
+    };
+
+    //check if form is valid
+    $scope.formValid = false;
+    $scope.$watch(function() {
+      return $scope.founders.items !== false &&
+        $scope.form.latitudeColumn !== null &&
+        $scope.form.longitudeColumn !== null &&
+        $scope.form.latitudeColumn !== $scope.form.longitudeColumn
+      ;
+    }, function (newValue) {
+      $scope.formValid = newValue;
+    });
+
+    //TODO: detect coordinate column
+    /*
     var getAutoAppliedCoordinateColumn = function (columns, currentValue, regExp) {
       var newValue = currentValue;
       if (newValue === null) {
@@ -46,23 +59,6 @@ angular.module('foundersMapQuestApp.loadData')
 
       return newValue;
     };
-
-    $scope.delimiters = Founders.delimiters;
-    $scope.parseRawData = function (delimiter) {
-      $scope.data = FoundersFactory.createFromRaw($scope.form.raw, delimiter, $scope.form.latitudeColumn, $scope.form.longitudeColumn);
-      $scope.form.delimiter = $scope.data.delimiter;
-    };
-
-    $scope.formValid = false;
-    $scope.$watch(function() {
-      return $scope.data.items !== false &&
-        $scope.form.latitudeColumn !== null &&
-        $scope.form.longitudeColumn !== null &&
-        $scope.form.latitudeColumn !== $scope.form.longitudeColumn
-      ;
-    }, function (newValue) {
-      $scope.formValid = newValue;
-    });
 
     var firstDataWatch = true; //set up state if available
     $scope.$watch(function() {
@@ -95,28 +91,25 @@ angular.module('foundersMapQuestApp.loadData')
         $scope.form.longitudeColumn = getAutoAppliedCoordinateColumn(newValue.header, $scope.form.longitudeColumn, /longitude|\blng\b/i);
       }
     }, true);
+    */
 
+    //Modal finished
     $scope.ok = function () {
-      $uibModalInstance.close({
-        header: $scope.data.header,
-        items: $scope.data.items,
-        delimiter: $scope.form.delimiter,
-        latitudeColumn: $scope.form.latitudeColumn,
-        longitudeColumn: $scope.form.longitudeColumn
-      });
+      $uibModalInstance.close($scope.founders);
     };
-
     $scope.cancel = function () {
       $uibModalInstance.dismiss('cancel');
     };
 
-    // upload local file
+    // get data from uploaded local file
     $scope.supportsFileReader = supportsFileReader;
-    $scope.$watch('fileText', function (newValue) {
-      if (newValue) {
-        $scope.form.raw = $scope.fileText;
-        $scope.parseRawData();
-        $scope.fileText = '';
-      }
-    });
+    if (supportsFileReader) {
+      $scope.$watch('fileText', function (newValue) {
+        if (newValue) {
+          $scope.form.raw = $scope.fileText;
+          $scope.parseRawData();
+          $scope.fileText = '';
+        }
+      });
+    }
   });
