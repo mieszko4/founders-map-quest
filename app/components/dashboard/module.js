@@ -22,9 +22,11 @@
    'uiGmapgoogle-maps',
  ])
 
- .config(function ($stateProvider, FMQ_COMPONENTS_PATH) {
+ .config(function ($stateProvider, FMQ_MODULE_SETTINGS) {
+   var moduleSettings = FMQ_MODULE_SETTINGS['foundersMapQuestApp.dashboard'];
+
    $stateProvider
-    .state('root.dashboard', {
+    .state(moduleSettings.routes['dashboard'], {
       url: '/dashboard',
       params: {
         label: 'Dashboard',
@@ -32,11 +34,11 @@
       },
       views: {
         'main@': {
-          templateUrl: FMQ_COMPONENTS_PATH + 'dashboard/dashboard.html',
+          templateUrl: moduleSettings.moduleLocation + 'dashboard.html',
           resolve: {
             //get founders: from param, from state or new
             founders: function ($stateParams, StateFactory, FoundersFactory) {
-              var foundersState = StateFactory.create('founders');
+              var foundersState = StateFactory.create('fmq.dashboard.founders');
 
               var founders = $stateParams.founders; //from param
               if (founders === null) {

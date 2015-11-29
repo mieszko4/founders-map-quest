@@ -14,19 +14,22 @@
    'ui.router'
  ])
 
- .config(function ($stateProvider, $urlRouterProvider, FMQ_COMPONENTS_PATH) {
+ .config(function ($stateProvider, $urlRouterProvider, FMQ_MODULE_SETTINGS) {
+   var moduleSettings = FMQ_MODULE_SETTINGS['foundersMapQuestApp.error'];
+   var notFoundRoute = moduleSettings.routes['not-found'];
+
    $urlRouterProvider
     .otherwise(function ($injector) {
       $injector.invoke(['$state', function ($state) {
-        $state.go('not-found');
+        $state.go(notFoundRoute);
       }]);
     });
 
    $stateProvider
-    .state('not-found', {
+    .state(notFoundRoute, {
       views: {
         'main': {
-          templateUrl: FMQ_COMPONENTS_PATH + 'error/404.html'
+          templateUrl: moduleSettings.moduleLocation + '404.html'
         },
       }
     });

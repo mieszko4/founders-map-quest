@@ -14,14 +14,13 @@
    'ui.bootstrap',
    'ui.router'
  ])
- .value('Papa', window.Papa)
 
- .config(function ($stateProvider, FMQ_COMPONENTS_PATH, $locationProvider) {
+ .config(function ($stateProvider, FMQ_MODULE_SETTINGS, $locationProvider) {
    var modalInstance;
-   console.log($locationProvider.hashPrefix());
+   var moduleSettings = FMQ_MODULE_SETTINGS['foundersMapQuestApp.showImage'];
 
    $stateProvider
-     .state('root.dashboard.show-image', {
+     .state(moduleSettings.routes['show-image'], {
        url: '/show-image',
        params: {
           image: null
@@ -29,7 +28,7 @@
        onEnter: function ($stateParams, $state, $uibModal, FMQ_ANIMATE) {
          modalInstance = $uibModal.open({
            animation: FMQ_ANIMATE,
-           templateUrl: FMQ_COMPONENTS_PATH + 'dashboard/show-image/show-image.html',
+           templateUrl: moduleSettings.moduleLocation + 'show-image.html',
            controller: 'ShowImageCtrl',
            backdrop: 'static',
            resolve: {

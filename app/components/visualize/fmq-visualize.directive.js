@@ -7,7 +7,9 @@
  * # fmqVisualize
  */
 angular.module('foundersMapQuestApp.visualize')
-  .directive('fmqVisualize', function (FMQ_COMPONENTS_PATH) {
+  .directive('fmqVisualize', function (FMQ_MODULE_SETTINGS) {
+    var moduleSettings = FMQ_MODULE_SETTINGS['foundersMapQuestApp.visualize'];
+
     return {
       scope: {
         data: '@',
@@ -15,7 +17,7 @@ angular.module('foundersMapQuestApp.visualize')
         isSelected: '=',
         viewItemCallback: '&',
       },
-      templateUrl: FMQ_COMPONENTS_PATH + 'visualize/fmq-visualize.html',
+      templateUrl: moduleSettings.moduleLocation + 'fmq-visualize.html',
       restrict: 'A',
       replace: true
     };

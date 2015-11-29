@@ -14,16 +14,18 @@
    'ui.router'
  ])
 
- .config(function ($stateProvider, FMQ_COMPONENTS_PATH) {
+ .config(function ($stateProvider, FMQ_MODULE_SETTINGS) {
+   var moduleSettings = FMQ_MODULE_SETTINGS['foundersMapQuestApp.about'];
+
    $stateProvider
-    .state('root.about', {
+    .state(moduleSettings.routes['about'], {
       url: '/about',
       params: {
         label: 'About'
       },
       views: {
         'main@': {
-          templateUrl: FMQ_COMPONENTS_PATH + 'about/about.html'
+          templateUrl: moduleSettings.moduleLocation + 'about.html'
         }
       }
     });

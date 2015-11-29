@@ -17,11 +17,12 @@
  ])
  .value('FileReader', typeof window.FileReader !== 'undefined' ? window.FileReader : false) //inject non-angular services
 
- .config(function ($stateProvider, FMQ_COMPONENTS_PATH) {
+ .config(function ($stateProvider, FMQ_MODULE_SETTINGS) {
    var modalInstance;
+   var moduleSettings = FMQ_MODULE_SETTINGS['foundersMapQuestApp.loadData'];
 
    $stateProvider
-     .state('root.dashboard.load-data', {
+     .state(moduleSettings.routes['load-data'], {
        url: '/load-data',
        params: {
           founders: null
@@ -29,7 +30,7 @@
        onEnter: function ($stateParams, $state, $uibModal, FMQ_ANIMATE, FileReader, FoundersFactory) {
          modalInstance = $uibModal.open({
            animation: FMQ_ANIMATE,
-           templateUrl: FMQ_COMPONENTS_PATH + 'dashboard/load-data/load-data.html',
+           templateUrl: moduleSettings.moduleLocation + 'load-data.html',
            controller: 'LoadDataCtrl',
            backdrop: 'static',
            resolve: {

@@ -7,9 +7,11 @@
  * # fmqNavigation
  */
 angular.module('foundersMapQuestApp.navigation')
-  .directive('fmqNavigation', function ($state, FMQ_COMPONENTS_PATH) {
+  .directive('fmqNavigation', function ($state, FMQ_MODULE_SETTINGS) {
+    var moduleSettings = FMQ_MODULE_SETTINGS['foundersMapQuestApp.navigation'];
+
     return {
-      templateUrl: FMQ_COMPONENTS_PATH + 'navigation/fmq-navigation.html',
+      templateUrl: moduleSettings.moduleLocation + 'fmq-navigation.html',
       restrict: 'A',
       replace: true,
       link: function (scope) {

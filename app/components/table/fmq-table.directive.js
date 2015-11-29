@@ -7,7 +7,9 @@
  * # fmqTable
  */
 angular.module('foundersMapQuestApp.table')
-  .directive('fmqTable', function (SelectHandler, SortHandler, FilterHandler, FMQ_COMPONENTS_PATH) {
+  .directive('fmqTable', function (SelectHandler, SortHandler, FilterHandler, FMQ_MODULE_SETTINGS) {
+    var moduleSettings = FMQ_MODULE_SETTINGS['foundersMapQuestApp.table'];
+
     return {
       scope: {
         founders: '=',
@@ -16,7 +18,7 @@ angular.module('foundersMapQuestApp.table')
         filterStates: '=',
         viewItemCallback: '&'
       },
-      templateUrl: FMQ_COMPONENTS_PATH + 'table/fmq-table.html',
+      templateUrl: moduleSettings.moduleLocation + 'fmq-table.html',
       restrict: 'A',
       replace: true,
       link: function (scope) {

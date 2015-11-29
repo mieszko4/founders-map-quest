@@ -7,7 +7,9 @@
  * # fmqMap
  */
 angular.module('foundersMapQuestApp.map')
-  .directive('fmqMap', function (FilterHandler, FMQ_COMPONENTS_PATH) {
+  .directive('fmqMap', function (FilterHandler, FMQ_MODULE_SETTINGS) {
+    var moduleSettings = FMQ_MODULE_SETTINGS['foundersMapQuestApp.map'];
+
     return {
       scope: {
         founders: '=',
@@ -15,11 +17,11 @@ angular.module('foundersMapQuestApp.map')
         filterStates: '=',
         hooks: '='
       },
-      templateUrl: FMQ_COMPONENTS_PATH + 'map/fmq-map.html',
+      templateUrl: moduleSettings.moduleLocation + 'fmq-map.html',
       restrict: 'A',
       link: function (scope) {
         scope.markers = [];
-        scope.markerTemplateUrl = FMQ_COMPONENTS_PATH + 'map/marker.html';
+        scope.markerTemplateUrl = moduleSettings.moduleLocation + 'marker.html';
 
         var updateMarkers = function () {
           var markers = [];

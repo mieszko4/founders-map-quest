@@ -8,7 +8,9 @@
  * Code inspired by https://github.com/itslenny/angular-bootstrap-file-field/blob/master/src/angular-bootstrap-file-field.js
  */
 angular.module('foundersMapQuestApp.loadData')
-  .directive('fmqFileReader', function (FMQ_COMPONENTS_PATH, FileReader) {
+  .directive('fmqFileReader', function (FMQ_MODULE_SETTINGS, FileReader) {
+    var moduleSettings = FMQ_MODULE_SETTINGS['foundersMapQuestApp.loadData'];
+
     return {
       restrict: 'A',
       scope: {text: '=', reset: '='},
@@ -42,7 +44,7 @@ angular.module('foundersMapQuestApp.loadData')
           fileField[0].click();
         });
       },
-      templateUrl: FMQ_COMPONENTS_PATH + 'dashboard/load-data/fmq-file-reader.html',
+      templateUrl: moduleSettings.moduleLocation + 'fmq-file-reader.html',
       replace: true,
       transclude: true
     };

@@ -8,7 +8,7 @@
  * Controller of the foundersMapQuestApp.dashboard
  */
 angular.module('foundersMapQuestApp.dashboard')
-  .controller('DashboardCtrl', function ($scope, founders, $anchorScroll) {
+  .controller('DashboardCtrl', function ($scope, $state, founders, FMQ_MODULE_SETTINGS, $anchorScroll) {
     //set up data
     $scope.founders = founders;
     $scope.selectColumnForMarkerDismissed = false;
@@ -17,6 +17,10 @@ angular.module('foundersMapQuestApp.dashboard')
     $scope.filterStates = {};
 
     //save table state (TODO)
+
+    $scope.loadData = function () {
+      $state.go(FMQ_MODULE_SETTINGS['foundersMapQuestApp.loadData'].routes['load-data'], {founders: founders});
+    };
 
     //callback to view item on Map
     $scope.mapHooks = {};
