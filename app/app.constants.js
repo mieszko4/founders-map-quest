@@ -14,6 +14,7 @@
       routes: {'about': 'root.about'},
       moduleLocation: 'components/about/'
     },
+
     'foundersMapQuestApp.dashboard': {
       routes: {'dashboard': 'root.dashboard'},
       moduleLocation: 'components/dashboard/'
@@ -26,23 +27,24 @@
       routes: {'load-data': 'root.dashboard.load-data'},
       moduleLocation: 'components/dashboard/load-data/'
     },
+    'foundersMapQuestApp.map': {
+      moduleLocation: 'components/dashboard/map/'
+    },
+    'foundersMapQuestApp.table': {
+      moduleLocation: 'components/dashboard/table/'
+    },
+    'foundersMapQuestApp.visualize': {
+      moduleLocation: 'components/dashboard/visualize/'
+    },
+
     'foundersMapQuestApp.error': {
       routes: {'not-found': 'not-found'},
       moduleLocation: 'components/error/'
     },
 
 
-    'foundersMapQuestApp.map': {
-      moduleLocation: 'components/map/'
-    },
     'foundersMapQuestApp.navigation': {
       moduleLocation: 'components/navigation/'
-    },
-    'foundersMapQuestApp.table': {
-      moduleLocation: 'components/table/'
-    },
-    'foundersMapQuestApp.visualize': {
-      moduleLocation: 'components/visualize/'
     }
   })
   .constant('FMQ_ROOT_URL', '')
