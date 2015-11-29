@@ -20,22 +20,35 @@ angular.module('foundersMapQuestApp.loadData')
       longitudeColumn: founders.longitudeColumn
     };
 
+    //detect coordinate column
+    var applyCoordinates = function () {
+      $scope.founders.autoSetCoordinateColumns();
+      $scope.form.latitudeColumn = $scope.founders.latitudeColumn;
+      $scope.form.longitudeColumn = $scope.founders.longitudeColumn;
+    };
+    applyCoordinates();
+
     //parse founders on text change or delimiter change
-    $scope.parseRawData = function (delimiter) {
+    $scope.applyRawData = function (delimiter) {
+      var previousHeader = $scope.founders.header;
       $scope.founders = FoundersFactory.createFromRaw(
         $scope.form.raw,
-        delimiter,
-        $scope.form.latitudeColumn,
-        $scope.form.longitudeColumn
+        delimiter
       );
 
       $scope.form.delimiter = $scope.founders.delimiter; //update delimiter
+
+      //auto setup coordinate columns when header changes
+      var headersEqual = JSON.stringify(previousHeader) === JSON.stringify($scope.founders.header);
+      if (!headersEqual) {
+        applyCoordinates();
+      }
     };
 
     //check if form is valid
     $scope.formValid = false;
     $scope.$watch(function() {
-      return $scope.founders.items !== false &&
+      return $scope.founders.items !== null &&
         $scope.form.latitudeColumn !== null &&
         $scope.form.longitudeColumn !== null &&
         $scope.form.latitudeColumn !== $scope.form.longitudeColumn
@@ -43,55 +56,6 @@ angular.module('foundersMapQuestApp.loadData')
     }, function (newValue) {
       $scope.formValid = newValue;
     });
-
-    //TODO: detect coordinate column
-    /*
-    var getAutoAppliedCoordinateColumn = function (columns, currentValue, regExp) {
-      var newValue = currentValue;
-      if (newValue === null) {
-        angular.forEach(columns, function (column, i) {
-          if (column.match(regExp)) {
-            newValue = i;
-            return false; //break
-          }
-        });
-      }
-
-      return newValue;
-    };
-
-    var firstDataWatch = true; //set up state if available
-    $scope.$watch(function() {
-      return $scope.data;
-    }, function (newValue) {
-      var headersEqual = angular.equals($scope.columns, newValue.header);
-
-      if (newValue.items !== false) {
-        if (!headersEqual) {
-          $scope.form.latitudeColumn = null;
-          $scope.form.longitudeColumn = null;
-          $scope.columns = newValue.header;
-        } else {
-          if (firstDataWatch) {
-            if (state !== null) {
-              $scope.form.latitudeColumn = state.latitudeColumn;
-              $scope.form.longitudeColumn = state.longitudeColumn;
-            }
-          }
-        }
-      } else if (!headersEqual) {
-        $scope.form.latitudeColumn = null;
-        $scope.form.longitudeColumn = null;
-        $scope.columns = [];
-      }
-
-      //auto setup coordinate columns
-      if (newValue.header !== null) {
-        $scope.form.latitudeColumn = getAutoAppliedCoordinateColumn(newValue.header, $scope.form.latitudeColumn, /latitude|\blat\b/i);
-        $scope.form.longitudeColumn = getAutoAppliedCoordinateColumn(newValue.header, $scope.form.longitudeColumn, /longitude|\blng\b/i);
-      }
-    }, true);
-    */
 
     //Modal finished
     $scope.ok = function () {
@@ -107,7 +71,7 @@ angular.module('foundersMapQuestApp.loadData')
       $scope.$watch('fileText', function (newValue) {
         if (newValue) {
           $scope.form.raw = $scope.fileText;
-          $scope.parseRawData();
+          $scope.applyRawData();
           $scope.fileText = '';
         }
       });

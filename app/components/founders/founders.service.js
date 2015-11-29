@@ -36,7 +36,7 @@ angular.module('foundersMapQuestApp.founders')
             });
           });
         } else {
-          items = false;
+          items = null;
         }
 
         return Factory.create(header, items, csv.meta.delimiter, latitudeColumn, longitudeColumn);
@@ -47,22 +47,19 @@ angular.module('foundersMapQuestApp.founders')
   })
 
   .factory('Founders', function (Papa) {
-    var linkRegExp = new RegExp(/https?:\/\/(.+)/);
-    var imageRegExp = new RegExp(/.+\.(jpg|jpeg|png|gif|svg|bmp)$/);
-
     var Founders = function (header, items, delimiter, latitudeColumn, longitudeColumn, markerColumn) {
       this.header = header || [];
-      this.items = items || [];
+      this.items = items || null;
       this.delimiter = delimiter || ',';
 
-      this.latitudeColumn = latitudeColumn || null;
-      this.longitudeColumn = longitudeColumn || null;
+      this.latitudeColumn = typeof latitudeColumn !== 'undefined' ? latitudeColumn : null;
+      this.longitudeColumn = typeof longitudeColumn !== 'undefined' ? longitudeColumn : null;
 
-      this.markerColumn = markerColumn || 0;
+      this.markerColumn = typeof markerColumn !== 'undefined' ? markerColumn : 0;
     };
 
     Founders.prototype.encodeToRaw = function () {
-      var raw = Papa.unparse([this.header].concat(this.items), {
+      var raw = Papa.unparse([this.header].concat(this.items || []), {
         newline: '\n',
         delimiter: this.delimiter
       });
@@ -70,6 +67,8 @@ angular.module('foundersMapQuestApp.founders')
       return raw;
     };
 
+    var linkRegExp = new RegExp(/https?:\/\/(.+)/);
+    var imageRegExp = new RegExp(/.+\.(jpg|jpeg|png|gif|svg|bmp)$/);
     Founders.prototype.detectType = function (item, $index) {
       var type = null;
 
@@ -88,13 +87,35 @@ angular.module('foundersMapQuestApp.founders')
       return type;
     };
 
+    var coordinateRegExps = {
+      latitude: new RegExp(/latitude|\blat\b/i),
+      longitude: new RegExp(/longitude|\blng\b/i)
+    };
+    Founders.prototype.autoSetCoordinateColumns = function () {
+      ['latitude', 'longitude'].forEach(function (type) {
+        var newValue = this[type + 'Column'];
+        if (newValue === null) {
+          this.header.forEach(function (column, i) {
+            if (newValue === null && column.match(coordinateRegExps[type])) {
+              newValue = i;
+            }
+          });
+
+          this[type + 'Column'] = newValue;
+        }
+      }, this);
+    };
+
     Founders.prototype.toJson = function () {
       return {
         header: this.header,
         items: this.items,
         delimiter: this.delimiter,
+
         latitudeColumn: this.latitudeColumn,
-        longitudeColumn: this.longitudeColumn
+        longitudeColumn: this.longitudeColumn,
+
+        markerColumn: this.markerColumn
       };
     };
 

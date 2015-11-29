@@ -11,7 +11,6 @@ angular.module('foundersMapQuestApp.map')
     return {
       scope: {
         founders: '=',
-        markerColumn: '=',
         selectedItems: '=',
         filterStates: '=',
         hooks: '='
@@ -37,7 +36,7 @@ angular.module('foundersMapQuestApp.map')
                   longitude: item[scope.founders.longitudeColumn]
                 },
                 window: {
-                  title: item[scope.markerColumn]
+                  title: item[scope.founders.markerColumn]
                 }
               });
             }
@@ -47,7 +46,7 @@ angular.module('foundersMapQuestApp.map')
         };
 
         //register deep watches for couple variables, since $watchGroup does not support deep
-        angular.forEach(['founders', 'markerColumn', 'selectedItems', 'filterStates'], function (variable) {
+        angular.forEach(['founders', 'selectedItems', 'filterStates'], function (variable) {
           scope.$watch(variable, function () {
             updateMarkers();
             scope.map.window.show = false;
