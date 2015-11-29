@@ -42,7 +42,7 @@ angular.module('foundersMapQuestApp.loadData')
           fileField[0].click();
         });
       },
-      templateUrl: FMQ_COMPONENTS_PATH + 'load-data/fmq-file-reader.html',
+      templateUrl: FMQ_COMPONENTS_PATH + 'dashboard/load-data/fmq-file-reader.html',
       replace: true,
       transclude: true
     };

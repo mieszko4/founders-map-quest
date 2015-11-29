@@ -14,12 +14,14 @@
    'ui.bootstrap',
    'ui.router'
  ])
+ .value('Papa', window.Papa)
 
- .config(function ($stateProvider, FMQ_COMPONENTS_PATH) {
+ .config(function ($stateProvider, FMQ_COMPONENTS_PATH, $locationProvider) {
    var modalInstance;
+   console.log($locationProvider.hashPrefix());
 
    $stateProvider
-     .state('root.dashboard.show-image', { //TODO: fix dependency on dashboard route
+     .state('root.dashboard.show-image', {
        url: '/show-image',
        params: {
           image: null
@@ -27,7 +29,7 @@
        onEnter: function ($stateParams, $state, $uibModal, FMQ_ANIMATE) {
          modalInstance = $uibModal.open({
            animation: FMQ_ANIMATE,
-           templateUrl: FMQ_COMPONENTS_PATH + 'show-image/show-image.html',
+           templateUrl: FMQ_COMPONENTS_PATH + 'dashboard/show-image/show-image.html',
            controller: 'ShowImageCtrl',
            backdrop: 'static',
            resolve: {

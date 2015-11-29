@@ -21,7 +21,7 @@
    var modalInstance;
 
    $stateProvider
-     .state('root.dashboard.load-data', { //TODO: fix dependency on dashboard route
+     .state('root.dashboard.load-data', {
        url: '/load-data',
        params: {
           founders: null
@@ -29,7 +29,7 @@
        onEnter: function ($stateParams, $state, $uibModal, FMQ_ANIMATE, FileReader, FoundersFactory) {
          modalInstance = $uibModal.open({
            animation: FMQ_ANIMATE,
-           templateUrl: FMQ_COMPONENTS_PATH + 'load-data/load-data.html',
+           templateUrl: FMQ_COMPONENTS_PATH + 'dashboard/load-data/load-data.html',
            controller: 'LoadDataCtrl',
            backdrop: 'static',
            resolve: {
