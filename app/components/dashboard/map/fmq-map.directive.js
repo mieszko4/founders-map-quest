@@ -20,13 +20,34 @@ angular.module('foundersMapQuestApp.map')
       link: function (scope) {
         var founders = scope.foundersManager.founders;
 
+        //initial setup of map
         scope.markers = [];
         scope.markerTemplateUrl = moduleSettings.moduleLocation + 'marker.html';
+        scope.center = {latitude: 0, longitude: 0};
+        scope.zoom = 4;
+        scope.markersEvents = {
+          click: function (marker, eventName, model) {
+            scope.showMarkerWindow(model);
+          }
+        };
+
+        scope.showMarkerWindow = function (model) {
+          scope.markerWindow.model = model;
+          scope.markerWindow.show = true;
+        };
+        scope.closeMarkerWindow = function () {
+          scope.markerWindow.show = false;
+        };
+
+        scope.markerWindow = {
+          model: null,
+          show: false
+        };
 
         var updateMarkers = function () {
           var markers = [];
-          angular.forEach(founders.items, function (item, i) {
-            if (scope.foundersManager.isSelected(item) && scope.foundersManager.passesFilter(item)) {//FilterHandler.passesFilter(scope.filterStates, item)) {
+          founders.items.forEach(function (item, i) {
+            if (scope.foundersManager.isSelected(item) && scope.foundersManager.passesFilter(item)) {
               if (isNaN(item[founders.latitudeColumn]) || isNaN(item[founders.longitudeColumn])) {
                 return true; //continue
               }
@@ -37,9 +58,8 @@ angular.module('foundersMapQuestApp.map')
                   latitude: item[founders.latitudeColumn],
                   longitude: item[founders.longitudeColumn]
                 },
-                window: {
-                  title: item[founders.markerColumn]
-                }
+                content: item[founders.markerColumn],
+                type: founders.detectType(item[founders.markerColumn], i)
               });
             }
           });
@@ -54,52 +74,26 @@ angular.module('foundersMapQuestApp.map')
           'foundersManager.founders.markerColumn'
         ].forEach(function (variable) {
           scope.$watch(variable, function () {
+            scope.closeMarkerWindow();
             updateMarkers();
-            scope.map.window.show = false;
           }, true);
         });
 
-        //refresh active markers
+        //Hooks for other directives
         scope.hooks = scope.hooks || {};
         scope.hooks.openMarker = function (index) {
           //find right marker
           var foundMarker = null;
-          angular.forEach(scope.markers, function (marker) {
-            if (marker.id === index) {
+          scope.markers.forEach(function (marker) {
+            if (foundMarker === null && marker.id === index) {
               foundMarker = marker;
-              return false; //break
             }
           });
 
           if (foundMarker !== null) {
-            scope.map.window.model = {
-              data: foundMarker,
-              type: founders.detectType(foundMarker.window.title, foundMarker.id)
-            };
-            scope.map.window.show = true;
+            scope.showMarkerWindow(foundMarker);
           } else {
-            scope.map.window.show = false;
-          }
-        };
-
-        scope.map = {
-          center: {latitude: 0, longitude: 0},
-          zoom: 4,
-          markersEvents: {
-            click: function(marker, eventName, model) {
-              scope.map.window.model = {
-                data: model,
-                type: founders.detectType(model.window.title, model.id)
-              };
-              scope.map.window.show = true;
-            }
-          },
-          window: {
-              show: false,
-              closeClick: function() {
-                scope.map.window.show = false;
-              },
-              options: {}
+            scope.closeMarkerWindow();
           }
         };
       }
