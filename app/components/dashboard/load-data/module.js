@@ -39,6 +39,7 @@
 
                if (founders !== null) {
                  founders = FoundersFactory.clone(founders);
+                 founders.setDefaultMarkerColumn();
                } else {
                  founders = FoundersFactory.create(); //default
                }

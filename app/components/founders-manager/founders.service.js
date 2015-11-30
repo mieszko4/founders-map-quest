@@ -33,12 +33,14 @@ angular.module('foundersMapQuestApp.foundersManager')
   })
 
   .factory('Founders', function (Csv) {
+    var defaultMarkerColumn = 0;
+
     var Founders = function (header, items, delimiter, latitudeColumn, longitudeColumn, markerColumn) {
       Csv.call(this, header, items, delimiter); //super
 
       this.latitudeColumn = typeof latitudeColumn !== 'undefined' ? latitudeColumn : null;
       this.longitudeColumn = typeof longitudeColumn !== 'undefined' ? longitudeColumn : null;
-      this.markerColumn = typeof markerColumn !== 'undefined' ? markerColumn : 0;
+      this.markerColumn = typeof markerColumn !== 'undefined' ? markerColumn : defaultMarkerColumn;
     };
 
     //augment
@@ -67,6 +69,10 @@ angular.module('foundersMapQuestApp.foundersManager')
 
     Founders.prototype.getMarkerContentType = function (item) {
       return this.detectType(item[this.markerColumn], this.markerColumn);
+    };
+
+    Founders.prototype.setDefaultMarkerColumn = function () {
+      this.markerColumn = defaultMarkerColumn;
     };
 
     var coordinateRegExps = {

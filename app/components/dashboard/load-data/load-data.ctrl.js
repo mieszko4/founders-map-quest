@@ -8,7 +8,7 @@
  * Controller of the foundersMapQuestApp.loadData
  */
 angular.module('foundersMapQuestApp.loadData')
-  .controller('LoadDataCtrl', function ($scope, $uibModalInstance, founders, supportsFileReader, FoundersFactory, Founders) {
+  .controller('LoadDataCtrl', function ($scope, $uibModalInstance, founders, supportsFileReader, Csv, Founders) {
     //set up data
     $scope.founders = founders;
     $scope.supportsFileReader = supportsFileReader;
@@ -31,10 +31,13 @@ angular.module('foundersMapQuestApp.loadData')
     //parse founders on text change or delimiter change
     $scope.applyRawData = function (delimiter) {
       var previousHeader = $scope.founders.header;
-      $scope.founders = FoundersFactory.createFromRaw(
+      var parsedData = Csv.parse(
         $scope.form.raw,
         delimiter
       );
+      $scope.founders.header = parsedData.header;
+      $scope.founders.items = parsedData.items;
+      $scope.founders.delimiter = parsedData.delimiter;
 
       $scope.form.delimiter = $scope.founders.delimiter; //update delimiter
 
