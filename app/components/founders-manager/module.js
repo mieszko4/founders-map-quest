@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc overview
- * @name foundersMapQuestApp.founders
+ * @name foundersMapQuestApp.foundersManager
  * @description
- * # foundersMapQuestApp.founders
+ * # foundersMapQuestApp.foundersManager
  *
- * Founders module of the application.
+ * FoundersManager module of the application.
  */
  angular.module('foundersMapQuestApp.foundersManager', [
    'foundersMapQuestApp.constants'

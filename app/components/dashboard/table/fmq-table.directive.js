@@ -59,32 +59,29 @@ angular.module('foundersMapQuestApp.table')
         };
 
         //sorting
-        /*
-        scope.SortHandler = SortHandler;
-        scope.$watch('sortStates', function () {
-          var result = SortHandler.getCurrentSortState(scope.sortStates);
+        scope.sortStates = scope.foundersManager.sortStates;
+        scope.getSortStateForColumn = function (key) {
+          scope.foundersManager.getSortStateForColumn(key);
+        };
 
-          if (result === null || result.state === SortHandler.NONE) {
-            scope.predicate = undefined;
-            scope.reverse = false;
-          } else if (result.state === SortHandler.ASC) {
-            scope.predicate = result.key;
-            scope.reverse = false;
-          } else {
-            scope.predicate = result.key;
-            scope.reverse = true;
-          }
-        }, true);
-
-        scope.applySortChange = function ($index) {
-          SortHandler.setNextState(scope.sortStates, $index);
+        scope.applySort = function (state, key) {
+          scope.foundersManager.applySort(state, key);
+          scope.sortStates = scope.foundersManager.sortStates;
         };
 
         scope.resetSorts = function () {
-          scope.sortStates = {};
+          scope.foundersManager.resetSorts();
+          scope.sortStates = scope.foundersManager.sortStates;
         };
-        */
 
+        scope.$watch('sortStates', function () {
+          var config = scope.foundersManager.getSortConfig();
+
+          scope.predicate = config.predicate;
+          scope.reverse = config.reverse;
+        });
+
+        //TODO
         scope.viewItem = function () {
           scope.viewItemCallback();
         };

@@ -14,6 +14,9 @@
       routes: {'about': 'root.about'},
       moduleLocation: 'components/about/'
     },
+    'foundersMapQuestApp.columnSorter': {
+      moduleLocation: 'components/column-sorter/'
+    },
 
     'foundersMapQuestApp.dashboard': {
       routes: {'dashboard': 'root.dashboard'},

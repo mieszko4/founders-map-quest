@@ -52,23 +52,10 @@
           <form ng-submit="void">
             <input type="text" ng-model="value" ng-change="setFilter(column, value)" placeholder="Filter" />
           </form>
-          <a class="column-sorter" ng-click="applySortChange($index)">
-            <span
-              ng-show="SortHandler.notSorted(sortStates, $index)"
-              class="glyphicon glyphicon-sort"
-              uib-tooltip="Not sorted"
-            ></span>
-            <span
-              ng-show="SortHandler.sortedAscending(sortStates, $index)"
-              class="glyphicon glyphicon glyphicon-sort-by-attributes"
-              uib-tooltip="Sorted ascending"
-            ></span>
-            <span
-              ng-show="SortHandler.sortedDescending(sortStates, $index)"
-              class="glyphicon glyphicon-sort-by-attributes-alt"
-              uib-tooltip="Sorted descending"
-            ></span>
-          </a>
+          <fmq-column-sorter
+            state="sortStates[$index]"
+            change="applySort(state, $index)"
+          ></fmq-column-sorter>
         </div>
       </th>
     </tr>

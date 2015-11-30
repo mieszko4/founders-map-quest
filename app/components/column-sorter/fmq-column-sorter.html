@@ -1,0 +1,17 @@
+<a class="column-sorter" ng-click="changeSortState()">
+  <span
+    ng-show="state == SortStates.NONE"
+    class="glyphicon glyphicon-sort"
+    uib-tooltip="Not sorted"
+  ></span>
+  <span
+    ng-show="state == SortStates.ASC"
+    class="glyphicon glyphicon glyphicon-sort-by-attributes"
+    uib-tooltip="Sorted ascending"
+  ></span>
+  <span
+    ng-show="state == SortStates.DESC"
+    class="glyphicon glyphicon-sort-by-attributes-alt"
+    uib-tooltip="Sorted descending"
+  ></span>
+</a>

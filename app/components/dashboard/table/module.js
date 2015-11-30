@@ -12,5 +12,6 @@
    'foundersMapQuestApp.constants',
 
    'foundersMapQuestApp.foundersManager',
+   'foundersMapQuestApp.columnSorter',
    'foundersMapQuestApp.visualize'
  ]);
