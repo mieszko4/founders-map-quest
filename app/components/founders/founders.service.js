@@ -3,12 +3,14 @@
 /**
  * @ngdoc service
  * @name foundersMapQuestApp.founders.Founders
+ * @augments Csv
  * @description
  * # Founders
  * Service in the foundersMapQuestApp.founders.
+ * founders object *is a* csv object (csv data with additional annotations)
  */
 angular.module('foundersMapQuestApp.founders')
-  .factory('FoundersFactory', function (Founders, Papa) {
+  .factory('FoundersFactory', function (Founders, Csv) {
     var Factory = {
       create: function (header, items, delimiter, latitudeColumn, longitudeColumn, markerColumn) {
         return new Founders(header, items, delimiter, latitudeColumn, longitudeColumn, markerColumn);
@@ -17,29 +19,9 @@ angular.module('foundersMapQuestApp.founders')
         return new Founders(json.header, json.items, json.delimiter, json.latitudeColumn, json.longitudeColumn, json.markerColumn);
       },
       createFromRaw: function (raw, delimiter, latitudeColumn, longitudeColumn, markerColumn) {
-        delimiter = typeof delimiter !== 'undefined' ? delimiter : ''; //default is auto
+        var parsedData = Csv.parse(raw, delimiter);
 
-        var csv = Papa.parse(raw, {
-          header: true,
-          skipEmptyLines: true,
-          delimiter: delimiter
-        });
-
-        var header = csv.meta.fields;
-        var items;
-
-        if (csv.errors.length === 0) {
-          //convert to array of arrays
-          items = csv.data.map(function (rowData) {
-            return header.map(function (column) {
-              return rowData[column];
-            });
-          });
-        } else {
-          items = null;
-        }
-
-        return Factory.create(header, items, csv.meta.delimiter, latitudeColumn, longitudeColumn, markerColumn);
+        return Factory.create(parsedData.header, parsedData.items, parsedData.delimiter, latitudeColumn, longitudeColumn, markerColumn);
       },
 
       clone: function (founders) {
@@ -50,26 +32,18 @@ angular.module('foundersMapQuestApp.founders')
     return Factory;
   })
 
-  .factory('Founders', function (Papa) {
+  .factory('Founders', function (Csv) {
     var Founders = function (header, items, delimiter, latitudeColumn, longitudeColumn, markerColumn) {
-      this.header = header || [];
-      this.items = items || null;
-      this.delimiter = delimiter || ',';
+      Csv.call(this, header, items, delimiter); //super
 
       this.latitudeColumn = typeof latitudeColumn !== 'undefined' ? latitudeColumn : null;
       this.longitudeColumn = typeof longitudeColumn !== 'undefined' ? longitudeColumn : null;
-
       this.markerColumn = typeof markerColumn !== 'undefined' ? markerColumn : 0;
     };
 
-    Founders.prototype.encodeToRaw = function () {
-      var raw = Papa.unparse([this.header].concat(this.items || []), {
-        newline: '\n',
-        delimiter: this.delimiter
-      });
-
-      return raw;
-    };
+    //augment
+    Founders.prototype = Object.create(Csv.prototype);
+    Founders.prototype.constructor = Founders;
 
     var linkRegExp = new RegExp(/https?:\/\/(.+)/);
     var imageRegExp = new RegExp(/.+\.(jpg|jpeg|png|gif|svg|bmp)$/);
@@ -111,33 +85,14 @@ angular.module('foundersMapQuestApp.founders')
     };
 
     Founders.prototype.toJson = function () {
-      return {
-        header: this.header,
-        items: this.items,
-        delimiter: this.delimiter,
+      var csvJson = Csv.prototype.toJson.call(this); //super
 
+      return angular.extend(csvJson, {
         latitudeColumn: this.latitudeColumn,
         longitudeColumn: this.longitudeColumn,
-
         markerColumn: this.markerColumn
-      };
+      });
     };
-
-    //static settings
-    Founders.delimiters = [
-      {
-        delimiter: ',',
-        label: 'Comma'
-      },
-      {
-        delimiter: ';',
-        label: 'Colon'
-      },
-      {
-        delimiter: '\t',
-        label: 'Tab'
-      }
-    ];
 
     return Founders;
   });

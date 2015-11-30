@@ -39,7 +39,6 @@
             //get founders: from param, from state or new
             founders: function ($stateParams, StateFactory, FoundersFactory) {
               var foundersState = StateFactory.create('fmq.dashboard.founders');
-
               var founders = $stateParams.founders; //from param
               if (founders === null) {
                 var foundersData = foundersState.get();
