@@ -10,5 +10,7 @@
  */
  angular.module('foundersMapQuestApp.table', [
    'foundersMapQuestApp.constants',
+
+   'foundersMapQuestApp.foundersManager',
    'foundersMapQuestApp.visualize'
  ]);

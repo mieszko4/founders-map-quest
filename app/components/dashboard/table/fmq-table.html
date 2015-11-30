@@ -50,7 +50,7 @@
       <th ng-repeat="column in founders.header">
         <div class="column-filter-and-sorter">
           <form ng-submit="void">
-            <input type="text" ng-model="filterStates[$index]" placeholder="Filter" />
+            <input type="text" ng-model="value" ng-change="setFilter(column, value)" placeholder="Filter" />
           </form>
           <a class="column-sorter" ng-click="applySortChange($index)">
             <span
@@ -74,7 +74,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="item in filtered = (founders.items | orderBy:predicate:reverse | filter:search)">
+    <tr ng-repeat="item in filtered = (founders.items | orderBy:predicate:reverse | filter:passesFilter)">
       <td>
         <a class="item-selector" ng-click="toggleSelection(item)">
           <span

@@ -7,13 +7,12 @@
  * # fmqMap
  */
 angular.module('foundersMapQuestApp.map')
-  .directive('fmqMap', function (FilterHandler, FMQ_MODULE_SETTINGS) {
+  .directive('fmqMap', function (FMQ_MODULE_SETTINGS) {
     var moduleSettings = FMQ_MODULE_SETTINGS['foundersMapQuestApp.map'];
 
     return {
       scope: {
         foundersManager: '=',
-        filterStates: '=',
         hooks: '='
       },
       templateUrl: moduleSettings.moduleLocation + 'fmq-map.html',
@@ -27,7 +26,7 @@ angular.module('foundersMapQuestApp.map')
         var updateMarkers = function () {
           var markers = [];
           angular.forEach(founders.items, function (item, i) {
-            if (typeof scope.foundersManager.selectedItems[i] !== 'undefined' && FilterHandler.passesFilter(scope.filterStates, item)) {
+            if (scope.foundersManager.isSelected(item) && scope.foundersManager.passesFilter(item)) {//FilterHandler.passesFilter(scope.filterStates, item)) {
               if (isNaN(item[founders.latitudeColumn]) || isNaN(item[founders.longitudeColumn])) {
                 return true; //continue
               }
@@ -48,7 +47,12 @@ angular.module('foundersMapQuestApp.map')
           scope.markers = markers;
         };
 
-        ['foundersManager.selectedItems', 'foundersManager.founders.markerColumn'].forEach(function (variable) {
+        //watch for changes in foundersManager
+        [
+          'foundersManager.selectedItems',
+          'foundersManager.filterStates',
+          'foundersManager.founders.markerColumn'
+        ].forEach(function (variable) {
           scope.$watch(variable, function () {
             updateMarkers();
             scope.map.window.show = false;

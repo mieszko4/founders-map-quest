@@ -19,11 +19,13 @@ angular.module('foundersMapQuestApp.foundersManager')
     return Factory;
   })
 
-  .factory('FoundersManager', function (SelectHandler) {
+  .factory('FoundersManager', function (SelectHandler, FilterHandler) {
     var FoundersManager = function (founders) {
       this.founders = founders;
 
+      //TODO: pass state with params
       this.selectedItems = SelectHandler.selectAll(founders.items || []);
+      this.filterStates = FilterHandler.resetFilters();
     };
 
     //marker
@@ -48,10 +50,20 @@ angular.module('foundersMapQuestApp.foundersManager')
       return SelectHandler.toggleSelection(this.founders.items || [], (this.founders.items || []).indexOf(item), this.selectedItems);
     };
 
-    //filter
-    //TODO
+    //filtering
+    FoundersManager.prototype.setFilter = function (column, value) {
+      this.filterStates = FilterHandler.setFilter(this.filterStates, this.founders.header.indexOf(column), value);
+    };
+    
+    FoundersManager.prototype.resetFilters = function () {
+      this.filterStates = FilterHandler.resetFilters();
+    };
 
-    //sort
+    FoundersManager.prototype.passesFilter = function (item) {
+      return FilterHandler.passesFilter(this.filterStates, item);
+    };
+
+    //sorting
     //TODO
 
     //other

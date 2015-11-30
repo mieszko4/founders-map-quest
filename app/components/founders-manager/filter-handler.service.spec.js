@@ -3,7 +3,7 @@
 describe('Service: FilterHandler', function () {
 
   // load the service's module
-  beforeEach(module('foundersMapQuestApp.table'));
+  beforeEach(module('foundersMapQuestApp.foundersManager'));
 
   // instantiate service
   var FilterHandler;

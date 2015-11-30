@@ -7,14 +7,13 @@
  * # fmqTable
  */
 angular.module('foundersMapQuestApp.table')
-  .directive('fmqTable', function (SortHandler, FilterHandler, FMQ_MODULE_SETTINGS) {
+  .directive('fmqTable', function (SortHandler, FMQ_MODULE_SETTINGS) {
     var moduleSettings = FMQ_MODULE_SETTINGS['foundersMapQuestApp.table'];
 
     return {
       scope: {
         foundersManager: '=',
         sortStates: '=',
-        filterStates: '=',
         viewItemCallback: '&'
       },
       templateUrl: moduleSettings.moduleLocation + 'fmq-table.html',
@@ -22,9 +21,6 @@ angular.module('foundersMapQuestApp.table')
       replace: true,
       link: function (scope) {
         scope.founders = scope.foundersManager.founders;
-        scope.selectedItems = scope.foundersManager.selectedItems;
-
-        scope.SortHandler = SortHandler;
 
         //marker
         scope.chooseAsMarker = function (column) {
@@ -50,7 +46,21 @@ angular.module('foundersMapQuestApp.table')
           scope.allSelected = newValue;
         });
 
-        // Sorting
+        //filtering
+        scope.setFilter = function (column, value) {
+          scope.foundersManager.setFilter(column, value);
+        };
+
+        scope.resetFilters = function () {
+          scope.foundersManager.resetFilters();
+        };
+
+        scope.passesFilter = function (item) {
+          return scope.foundersManager.passesFilter(item);
+        };
+
+        //sorting
+        scope.SortHandler = SortHandler;
         scope.$watch('sortStates', function () {
           var result = SortHandler.getCurrentSortState(scope.sortStates);
 
@@ -72,15 +82,6 @@ angular.module('foundersMapQuestApp.table')
 
         scope.resetSorts = function () {
           scope.sortStates = {};
-        };
-
-        // Filtering
-        scope.resetFilters = function () {
-          scope.filterStates = {};
-        };
-
-        scope.search = function (item) {
-          return FilterHandler.passesFilter(scope.filterStates, item);
         };
 
         scope.viewItem = function () {
