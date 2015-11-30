@@ -7,13 +7,13 @@
         <ol>
           <li>
             <p ng-show="supportsFileReader">
-              <span fmq-file-reader
+              <fmq-file-reader
                 class="btn btn-primary"
                 text="fileText"
                 reset="true"
               >
                 Choose File
-              </span>
+              </fmq-file-reader>
               <span>or paste your data below directly:</span>
             </p>
             <p ng-if="!supportsFileReader">

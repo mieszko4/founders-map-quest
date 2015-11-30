@@ -12,7 +12,7 @@ angular.module('foundersMapQuestApp.navigation')
 
     return {
       templateUrl: moduleSettings.moduleLocation + 'fmq-navigation.html',
-      restrict: 'A',
+      restrict: 'EA',
       replace: true,
       link: function (scope) {
         scope.$state = $state;

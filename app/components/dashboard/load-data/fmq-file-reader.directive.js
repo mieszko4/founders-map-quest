@@ -12,7 +12,7 @@ angular.module('foundersMapQuestApp.loadData')
     var moduleSettings = FMQ_MODULE_SETTINGS['foundersMapQuestApp.loadData'];
 
     return {
-      restrict: 'A',
+      restrict: 'EA',
       scope: {text: '=', reset: '='},
       link: function (scope, element) {
         if (FileReader === false) {
@@ -36,10 +36,10 @@ angular.module('foundersMapQuestApp.loadData')
           });
         });
 
-        fileField.bind('click', function (e){
+        fileField.bind('click', function (e) {
           e.stopPropagation();
         });
-        element.bind('click', function (e){
+        element.bind('click', function (e) {
           e.preventDefault();
           fileField[0].click();
         });

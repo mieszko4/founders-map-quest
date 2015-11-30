@@ -13,7 +13,7 @@ describe('Directive: fmqShowImage', function () {
   }));
 
   it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<div fmq-show-image></div>');
+    element = angular.element('<fmq-show-image></fmq-show-image>');
     element = $compile(element)(scope);
     expect(element.text()).toBe('');
   }));

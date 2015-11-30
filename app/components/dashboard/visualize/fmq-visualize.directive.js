@@ -18,7 +18,7 @@ angular.module('foundersMapQuestApp.visualize')
         viewItemCallback: '&',
       },
       templateUrl: moduleSettings.moduleLocation + 'fmq-visualize.html',
-      restrict: 'A',
+      restrict: 'EA',
       replace: true
     };
   });

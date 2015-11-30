@@ -18,7 +18,7 @@ angular.module('foundersMapQuestApp.map')
         hooks: '='
       },
       templateUrl: moduleSettings.moduleLocation + 'fmq-map.html',
-      restrict: 'A',
+      restrict: 'EA',
       link: function (scope) {
         scope.markers = [];
         scope.markerTemplateUrl = moduleSettings.moduleLocation + 'marker.html';

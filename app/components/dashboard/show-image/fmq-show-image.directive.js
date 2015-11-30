@@ -10,7 +10,7 @@ angular.module('foundersMapQuestApp.showImage')
   .directive('fmqShowImage', function ($state, FMQ_MODULE_SETTINGS) {
     return {
       scope: {fmqShowImage: '@'},
-      restrict: 'A',
+      restrict: 'EA',
       link: function(scope, element) {
         element.on('click', scope.fmqShowImage, function (e) {
           e.preventDefault();

@@ -13,7 +13,7 @@ describe('Directive: fmqNavigation', function () {
   }));
 
   it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<ul fmq-navigation></ul>');
+    element = angular.element('<fmq-navigation></fmq-navigation>');
     element = $compile(element)(scope);
     expect(element.text()).toBe('');
   }));

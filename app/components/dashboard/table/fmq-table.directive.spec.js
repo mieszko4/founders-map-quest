@@ -13,7 +13,7 @@ describe('Directive: fmqTable', function () {
   }));
 
   it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<table fmq-table></table>');
+    element = angular.element('<fmq-table></fmq-table>');
     element = $compile(element)(scope);
     expect(element.text()).toBe('');
   }));

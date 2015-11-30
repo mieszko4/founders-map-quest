@@ -19,7 +19,7 @@ angular.module('foundersMapQuestApp.table')
         viewItemCallback: '&'
       },
       templateUrl: moduleSettings.moduleLocation + 'fmq-table.html',
-      restrict: 'A',
+      restrict: 'EA',
       replace: true,
       link: function (scope) {
         scope.SelectHandler = SelectHandler;

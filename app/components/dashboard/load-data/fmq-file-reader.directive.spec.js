@@ -13,7 +13,7 @@ describe('Directive: fmqFileReader', function () {
   }));
 
   it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<span fmq-file-reader></span>');
+    element = angular.element('<fmq-file-reader></fmq-file-reader>');
     element = $compile(element)(scope);
     expect(element.text()).toBe('');
   }));
