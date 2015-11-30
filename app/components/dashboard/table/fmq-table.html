@@ -18,7 +18,7 @@
       <th ng-repeat="column in founders.header">
         <a
           class="marker-column-chooser active"
-          ng-show="isMarker($index)"
+          ng-show="isMarker(column)"
         >
           <span
             class="glyphicon glyphicon-map-marker"
@@ -27,15 +27,15 @@
         </a>
         <a
           class="marker-column-chooser"
-          ng-show="!isMarker($index)"
-          ng-click="chooseAsMarker($index)"
+          ng-show="!isMarker(column)"
+          ng-click="chooseAsMarker(column)"
         >
           <span
             class="glyphicon glyphicon-map-marker"
             uib-tooltip="Choose this column as description for markers"
           ></span>
         </a>
-        <span class="column-label" ng-click="chooseAsMarker($index)">{{column.name}}</span>
+        <span class="column-label" ng-click="chooseAsMarker(column)">{{column.name}}</span>
       </th>
     </tr>
     <tr>
@@ -50,11 +50,11 @@
       <th ng-repeat="column in founders.header">
         <div class="column-filter-and-sorter">
           <form ng-submit="void">
-            <input type="text" ng-model="filterStates[$index]" ng-change="setFilter($index)" placeholder="Filter" />
+            <input type="text" ng-model="filterStates[$index]" ng-change="setFilter(column, filterStates[$index])" placeholder="Filter" />
           </form>
           <fmq-column-sorter
             state="sortStates[$index]"
-            change="applySort(state, $index)"
+            change="applySort(column, state)"
           ></fmq-column-sorter>
         </div>
       </th>
@@ -79,12 +79,12 @@
           ></span>
         </a>
       </td>
-      <td ng-repeat="column in item">
+      <td ng-repeat="value in item">
         <span
           fmq-visualize
-          data="{{column}}"
-          type="{{founders.detectType(column, $index)}}"
-          ng-class="{'item-viewer': founders.detectType(column, $index) == 'longitude' || founders.detectType(column, $index) == 'latitude'}"
+          data="{{value}}"
+          type="{{type = founders.detectType(value, founders.header[$index])}}"
+          ng-class="{'item-viewer': type == 'longitude' || type == 'latitude'}"
           ng-click="viewItem({item: item})"
         ></span>
       </td>

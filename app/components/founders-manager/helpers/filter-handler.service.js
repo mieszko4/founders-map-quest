@@ -14,6 +14,9 @@ angular.module('foundersMapQuestApp.foundersManager')
         filterStates[key] = value;
         return filterStates;
       },
+      getFilter: function (filterStates, key) {
+        return filterStates[key];
+      },
       resetFilters: function () {
         return {};
       },

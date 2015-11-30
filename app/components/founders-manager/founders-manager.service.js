@@ -32,15 +32,6 @@ angular.module('foundersMapQuestApp.foundersManager')
       this.sortStates = sortStates || SortHandler.resetSorts();
     };
 
-    //marker
-    FoundersManager.prototype.chooseAsMarker = function ($index) {
-      this.founders.markerColumn = $index;
-    };
-
-    FoundersManager.prototype.isMarker = function ($index) {
-      return this.founders.markerColumn === $index;
-    };
-
     //selection
     FoundersManager.prototype.allSelected = function () {
       return SelectHandler.allSelected(this.founders.items || [], this.selectedItems);
@@ -59,8 +50,12 @@ angular.module('foundersMapQuestApp.foundersManager')
     };
 
     //filtering
-    FoundersManager.prototype.setFilter = function ($index, value) {
-      this.filterStates = FilterHandler.setFilter(this.filterStates, $index, value);
+    FoundersManager.prototype.setFilter = function (column, value) {
+      this.filterStates = FilterHandler.setFilter(this.filterStates, this.founders.header.indexOf(column), value);
+    };
+
+    FoundersManager.prototype.getFilter = function (column) {
+      return FilterHandler.getFilter(this.filterStates, this.founders.header.indexOf(column));
     };
 
     FoundersManager.prototype.resetFilters = function () {
@@ -72,13 +67,13 @@ angular.module('foundersMapQuestApp.foundersManager')
     };
 
     //sorting
-    FoundersManager.prototype.getSortStateForColumn = function (key) {
-      return SortHandler.getSortState(this.sortStates, key);
+    FoundersManager.prototype.getSort = function (column) {
+      return SortHandler.getSortState(this.sortStates, this.founders.header.indexOf(column));
     };
 
-    FoundersManager.prototype.applySort = function (state, key) {
+    FoundersManager.prototype.applySort = function (column, state) {
       this.sortStates = SortHandler.resetSorts(); //support only one column sort
-      this.sortStates = SortHandler.applySort(this.sortStates, state, key);
+      this.sortStates = SortHandler.applySort(this.sortStates, state, this.founders.header.indexOf(column));
     };
 
     FoundersManager.prototype.getSortConfig = function () {

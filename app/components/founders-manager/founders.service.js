@@ -54,17 +54,27 @@ angular.module('foundersMapQuestApp.foundersManager')
     Founders.prototype = Object.create(Csv.prototype);
     Founders.prototype.constructor = Founders;
 
+    //marker
+    Founders.prototype.chooseAsMarker = function (column) {
+      this.markerColumn = this.header.indexOf(column);
+    };
+
+    Founders.prototype.isMarker = function (column) {
+      return this.markerColumn === this.header.indexOf(column);
+    };
+
     var linkRegExp = new RegExp(/https?:\/\/(.+)/);
     var imageRegExp = new RegExp(/.+\.(jpg|jpeg|png|gif|svg|bmp)$/);
-    Founders.prototype.detectType = function (item, $index) {
+    Founders.prototype.detectType = function (value, column) {
       var type = null;
+      var index = this.header.indexOf(column);
 
-      if ($index === this.latitudeColumn) {
+      if (index === this.latitudeColumn) {
         type = 'latitude';
-      } else if ($index === this.longitudeColumn) {
+      } else if (index === this.longitudeColumn) {
         type = 'longitude';
-      } else if (linkRegExp.test(item)) {
-        if (imageRegExp.test(item)) {
+      } else if (linkRegExp.test(value)) {
+        if (imageRegExp.test(value)) {
           type = 'image';
         } else {
           type = 'link';
@@ -75,7 +85,7 @@ angular.module('foundersMapQuestApp.foundersManager')
     };
 
     Founders.prototype.getMarkerContentType = function (item) {
-      return this.detectType(item[this.markerColumn], this.markerColumn);
+      return this.detectType(item[this.markerColumn], this.header[this.markerColumn]);
     };
 
     Founders.prototype.setDefaultMarkerColumn = function () {
