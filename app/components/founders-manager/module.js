@@ -9,6 +9,7 @@
  * FoundersManager module of the application.
  */
  angular.module('foundersMapQuestApp.foundersManager', [
-   'foundersMapQuestApp.constants'
+   'foundersMapQuestApp.constants',
+   'foundersMapQuestApp.columnSorter'
  ])
  .value('Papa', window.Papa); //inject non-angular services
