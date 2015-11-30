@@ -18,7 +18,7 @@
       <th ng-repeat="column in founders.header">
         <a
           class="marker-column-chooser active"
-          ng-show="founders.markerColumn == $index"
+          ng-show="isMarker($index)"
         >
           <span
             class="glyphicon glyphicon-map-marker"
@@ -27,8 +27,8 @@
         </a>
         <a
           class="marker-column-chooser"
-          ng-show="founders.markerColumn != $index"
-          ng-click="chooseAsMarker(column)"
+          ng-show="!isMarker($index)"
+          ng-click="chooseAsMarker($index)"
         >
           <span
             class="glyphicon glyphicon-map-marker"
@@ -50,7 +50,7 @@
       <th ng-repeat="column in founders.header">
         <div class="column-filter-and-sorter">
           <form ng-submit="void">
-            <input type="text" ng-model="value" ng-change="setFilter(column, value)" placeholder="Filter" />
+            <input type="text" ng-model="filterStates[$index]" ng-change="setFilter($index)" placeholder="Filter" />
           </form>
           <fmq-column-sorter
             state="sortStates[$index]"
@@ -62,7 +62,7 @@
   </thead>
   <tbody>
     <tr
-      ng-repeat="item in filtered = (founders.items | orderBy:predicate:reverse | filter:passesFilter)"
+      ng-repeat="item in filtered = (founders.items | orderBy:sortConfig.predicate:sortConfig.reverse | filter:passesFilter)"
       ng-class="{selected: isSelected(item)}"
     >
       <td>

@@ -22,8 +22,11 @@ angular.module('foundersMapQuestApp.table')
         scope.founders = scope.foundersManager.founders;
 
         //marker
-        scope.chooseAsMarker = function (column) {
-          scope.foundersManager.chooseAsMarker(column);
+        scope.chooseAsMarker = function ($index) {
+          scope.foundersManager.chooseAsMarker($index);
+        };
+        scope.isMarker = function ($index) {
+          return scope.foundersManager.isMarker($index);
         };
 
         //selection
@@ -33,21 +36,21 @@ angular.module('foundersMapQuestApp.table')
 
         scope.toggleAllSelection = function () {
           scope.foundersManager.toggleAllSelection();
+          scope.allSelected = scope.foundersManager.allSelected();
         };
 
         scope.toggleSelection = function (item) {
           scope.foundersManager.toggleSelection(item);
+          scope.allSelected = scope.foundersManager.allSelected();
         };
 
-        scope.$watch(function () {
-          return scope.foundersManager.allSelected();
-        }, function (newValue) {
-          scope.allSelected = newValue;
+        scope.$watch('foundersManager.selectedItems', function () {
+          scope.allSelected = scope.foundersManager.allSelected();
         });
 
         //filtering
-        scope.setFilter = function (column, value) {
-          scope.foundersManager.setFilter(column, value);
+        scope.setFilter = function ($index) {
+          scope.foundersManager.setFilter(scope.filterStates[$index]);
         };
 
         scope.resetFilters = function () {
@@ -58,27 +61,26 @@ angular.module('foundersMapQuestApp.table')
           return scope.foundersManager.passesFilter(item);
         };
 
+        scope.$watch('foundersManager.filterStates', function (newValue) {
+          scope.filterStates = newValue;
+        });
+
         //sorting
-        scope.sortStates = scope.foundersManager.sortStates;
         scope.getSortStateForColumn = function (key) {
           scope.foundersManager.getSortStateForColumn(key);
         };
 
         scope.applySort = function (state, key) {
           scope.foundersManager.applySort(state, key);
-          scope.sortStates = scope.foundersManager.sortStates;
         };
 
         scope.resetSorts = function () {
           scope.foundersManager.resetSorts();
-          scope.sortStates = scope.foundersManager.sortStates;
         };
 
-        scope.$watch('sortStates', function () {
-          var config = scope.foundersManager.getSortConfig();
-
-          scope.predicate = config.predicate;
-          scope.reverse = config.reverse;
+        scope.$watch('foundersManager.sortStates', function (newValue) {
+          scope.sortStates = newValue;
+          scope.sortConfig = scope.foundersManager.getSortConfig();
         });
       }
     };

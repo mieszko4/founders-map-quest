@@ -33,8 +33,12 @@ angular.module('foundersMapQuestApp.foundersManager')
     };
 
     //marker
-    FoundersManager.prototype.chooseAsMarker = function (column) {
-      this.founders.markerColumn = this.founders.header.indexOf(column);
+    FoundersManager.prototype.chooseAsMarker = function ($index) {
+      this.founders.markerColumn = $index;
+    };
+
+    FoundersManager.prototype.isMarker = function ($index) {
+      return this.founders.markerColumn === $index;
     };
 
     //selection
@@ -55,8 +59,8 @@ angular.module('foundersMapQuestApp.foundersManager')
     };
 
     //filtering
-    FoundersManager.prototype.setFilter = function (column, value) {
-      this.filterStates = FilterHandler.setFilter(this.filterStates, this.founders.header.indexOf(column), value);
+    FoundersManager.prototype.setFilter = function ($index, value) {
+      this.filterStates = FilterHandler.setFilter(this.filterStates, $index, value);
     };
 
     FoundersManager.prototype.resetFilters = function () {
