@@ -6,14 +6,25 @@ describe('Controller: DashboardCtrl', function () {
   beforeEach(module('foundersMapQuestApp.dashboard'));
 
   var DashboardCtrl,
-    scope;
+    scope,
+    foundersManagerState,
+    tableHelpInfoState;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope, FoundersFactory) {
+  beforeEach(inject(function ($controller, $rootScope, StateFactory, FoundersFactory, FoundersManagerFactory) {
     scope = $rootScope.$new();
+
+    foundersManagerState = StateFactory.create('foundersManager');
+    var founders = FoundersFactory.create();
+    var foundersManager = FoundersManagerFactory.create(founders);
+
+    foundersManagerState.set(foundersManager.toJson());
+    tableHelpInfoState = StateFactory.create('tableHelpInfo').set(true);
+
     DashboardCtrl = $controller('DashboardCtrl', {
       $scope: scope,
-      founders: FoundersFactory.create()
+      foundersManagerState: foundersManagerState,
+      tableHelpInfoState: tableHelpInfoState
       // place here mocked dependencies
     });
   }));
