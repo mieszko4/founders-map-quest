@@ -20,12 +20,14 @@
       Choose a star in order to select column for marker labels.
     </div>
 
-    <table
-      ng-if="founders.header.length > 0"
-      fmq-table
-      founders-manager="$parent.foundersManager"
-      view-item="$parent.viewOnMap(item)"
-    ></table>
+    <div class="table-wrapper">
+      <table
+        ng-if="founders.header.length > 0"
+        fmq-table
+        founders-manager="$parent.foundersManager"
+        view-item="$parent.viewOnMap(item)"
+      ></table>
+    </div>
   </div>
 
   <div class="container map-container" ng-if="founders.header.length > 0" id="fmq-map">

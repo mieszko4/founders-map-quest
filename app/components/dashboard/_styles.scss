@@ -17,70 +17,74 @@
   }
 
   .table-container {
+
+    .table-wrapper {
     overflow-x: auto;
-    table {
-      width: auto;
+    width: 100%;
+      table {
+        width: auto;
 
-      th {
-        vertical-align: top;
-      }
+        th {
+          vertical-align: top;
+        }
 
-      img {
-        max-width: 100px;
-      }
+        img {
+          max-width: 100px;
+        }
 
-      tbody {
-        tr.selected > td span.item-viewer > span {
-          color: $link-color;
-          white-space: nowrap;
-          cursor: pointer;
+        tbody {
+          tr.selected > td span.item-viewer > span {
+            color: $link-color;
+            white-space: nowrap;
+            cursor: pointer;
 
-          &:hover {
-            color: $link-hover-color;
+            &:hover {
+              color: $link-hover-color;
+            }
+          }
+
+          tr:not(.selected) > td span.item-viewer {
+            pointer-events: none;
           }
         }
 
-        tr:not(.selected) > td span.item-viewer {
-          pointer-events: none;
-        }
-      }
-
-      .column-filter-and-sorter {
-        position: relative;
-        width: 100%;
-        padding-left: 18px;
-
-        input {
+        .column-filter-and-sorter {
+          position: relative;
           width: 100%;
-          font-weight: normal;
-        }
+          padding-left: 18px;
 
-        .column-sorter {
-          position: absolute;
-          top: 5px;
-          left: 0;
-        }
-      }
+          input {
+            width: 100%;
+            font-weight: normal;
+          }
 
-      .marker-column-chooser {
-        float: left;
-        margin-right: 2px;
-
-        &:not(.active) {
-          color: $gray-lighter;
-
-          &:hover {
-            color: $gray-light;
+          .column-sorter {
+            position: absolute;
+            top: 5px;
+            left: 0;
           }
         }
-      }
 
-      .column-sorter,
-      .filters-sorts-reset,
-      .item-selector,
-      .all-items-selector,
-      .marker-column-chooser {
-        cursor: pointer;
+        .marker-column-chooser {
+          float: left;
+          margin-right: 2px;
+
+          &:not(.active) {
+            color: $gray-lighter;
+
+            &:hover {
+              color: $gray-light;
+            }
+          }
+        }
+
+        .column-sorter,
+        .filters-sorts-reset,
+        .item-selector,
+        .all-items-selector,
+        .marker-column-chooser {
+          cursor: pointer;
+        }
       }
     }
   }
