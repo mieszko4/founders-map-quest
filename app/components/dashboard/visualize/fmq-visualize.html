@@ -1,4 +1,6 @@
-<span>
+<span
+  ng-attr-class="type-{{type || 'unknown'}}"
+>
   <a
     ng-if="type == 'image'"
     class="show-image"
@@ -15,19 +17,15 @@
     {{data}}
   </a>
 
-  <a
+  <span
     ng-if="type == 'latitude' || type == 'longitude'"
-
-    class="item-viewer"
-    ng-class="{disabled: !isSelected}"
     uib-tooltip="View on map"
-    ng-click="viewItemCallback()"
   >
     <span
       class="glyphicon glyphicon-map-marker"
     ></span>
     <span>{{data | decimal2dms:(type == 'latitude')}}</span>
-  </a>
+  </span>
 
   <span
     ng-if="!type"

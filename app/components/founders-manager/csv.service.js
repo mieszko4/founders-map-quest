@@ -14,7 +14,7 @@ angular.module('foundersMapQuestApp.foundersManager')
         return new Csv(header, items, delimiter);
       },
       createFromJson: function (json) {
-        return new Csv(json.header, json.items, json.delimiter);
+        return Factory.create(json.header, json.items, json.delimiter);
       },
       createFromRaw: function (raw, delimiter) {
         var parsedData = Csv.parse(raw, delimiter);

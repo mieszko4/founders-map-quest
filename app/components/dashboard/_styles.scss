@@ -29,6 +29,22 @@
         max-width: 100px;
       }
 
+      tbody {
+        tr.selected > td span.item-viewer > span {
+          color: $link-color;
+          white-space: nowrap;
+          cursor: pointer;
+
+          &:hover {
+            color: $link-hover-color;
+          }
+        }
+
+        tr:not(.selected) > td span.item-viewer {
+          pointer-events: none;
+        }
+      }
+
       .column-filter-and-sorter {
         position: relative;
         width: 100%;
@@ -59,17 +75,6 @@
         }
       }
 
-      .item-viewer {
-        @extend .btn;
-        padding: 0;
-        white-space: nowrap;
-
-        &:active {
-          box-shadow: none;
-        }
-      }
-
-      .item-viewer,
       .column-sorter,
       .filters-sorts-reset,
       .item-selector,

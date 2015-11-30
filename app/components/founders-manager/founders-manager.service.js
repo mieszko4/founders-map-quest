@@ -9,10 +9,14 @@
  * foundersManager *has a* founders
  */
 angular.module('foundersMapQuestApp.foundersManager')
-  .factory('FoundersManagerFactory', function (FoundersManager) {
+  .factory('FoundersManagerFactory', function (FoundersManager, FoundersFactory) {
     var Factory = {
-      create: function (founders) {
-        return new FoundersManager(founders);
+      create: function (founders, selectedItems, filterStates, sortStates) {
+        return new FoundersManager(founders, selectedItems, filterStates, sortStates);
+      },
+      createFromRaw: function (json) {
+        var founders = FoundersFactory.createFromJson(json.founders);
+        Factory.create(founders, json.selectedItems, json.filterStates, json.sortStates);
       }
     };
 
@@ -20,13 +24,12 @@ angular.module('foundersMapQuestApp.foundersManager')
   })
 
   .factory('FoundersManager', function (SelectHandler, FilterHandler, SortHandler, SortStates) {
-    var FoundersManager = function (founders) {
+    var FoundersManager = function (founders, selectedItems, filterStates, sortStates) {
       this.founders = founders;
 
-      //TODO: pass state with params
-      this.selectedItems = SelectHandler.selectAll(founders.items || []);
-      this.filterStates = FilterHandler.resetFilters();
-      this.sortStates = SortHandler.resetSorts();
+      this.selectedItems = selectedItems || SelectHandler.selectAll(founders.items || []);
+      this.filterStates = filterStates || FilterHandler.resetFilters();
+      this.sortStates = sortStates || SortHandler.resetSorts();
     };
 
     //marker
@@ -96,10 +99,11 @@ angular.module('foundersMapQuestApp.foundersManager')
 
     //other
     FoundersManager.prototype.toJson = function () {
-      //TODO: manager properties
       return {
         founders: this.founders.toJson(),
-        selectedItems: this.selectedItems
+        filterStates: this.filterStates,
+        selectedItems: this.selectedItems,
+        sortStates: this.sortStates
       };
     };
 

@@ -61,7 +61,10 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="item in filtered = (founders.items | orderBy:predicate:reverse | filter:passesFilter)">
+    <tr
+      ng-repeat="item in filtered = (founders.items | orderBy:predicate:reverse | filter:passesFilter)"
+      ng-class="{selected: isSelected(item)}"
+    >
       <td>
         <a class="item-selector" ng-click="toggleSelection(item)">
           <span
@@ -81,8 +84,8 @@
           fmq-visualize
           data="{{column}}"
           type="{{founders.detectType(column, $index)}}"
-          view-item-callback="viewItemCallback({item: item})"
-          is-selected="isSelected(item)"
+          ng-class="{'item-viewer': founders.detectType(column, $index) == 'longitude' || founders.detectType(column, $index) == 'latitude'}"
+          ng-click="viewItem({item: item})"
         ></span>
       </td>
     </tr>

@@ -13,7 +13,7 @@ angular.module('foundersMapQuestApp.table')
     return {
       scope: {
         foundersManager: '=',
-        viewItemCallback: '&'
+        viewItem: '&' //callback when specific item wants to be viewed
       },
       templateUrl: moduleSettings.moduleLocation + 'fmq-table.html',
       restrict: 'EA',
@@ -80,11 +80,6 @@ angular.module('foundersMapQuestApp.table')
           scope.predicate = config.predicate;
           scope.reverse = config.reverse;
         });
-
-        //TODO
-        scope.viewItem = function () {
-          scope.viewItemCallback();
-        };
       }
     };
   });

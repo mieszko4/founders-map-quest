@@ -13,9 +13,7 @@ angular.module('foundersMapQuestApp.visualize')
     return {
       scope: {
         data: '@',
-        type: '@',
-        isSelected: '=',
-        viewItemCallback: '&',
+        type: '@'
       },
       templateUrl: moduleSettings.moduleLocation + 'fmq-visualize.html',
       restrict: 'EA',
