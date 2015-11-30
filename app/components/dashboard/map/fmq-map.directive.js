@@ -54,12 +54,13 @@ angular.module('foundersMapQuestApp.map')
 
               markers.push({
                 id: i,
+                item: item,
                 coords: {
                   latitude: item[founders.latitudeColumn],
                   longitude: item[founders.longitudeColumn]
                 },
                 content: item[founders.markerColumn],
-                type: founders.detectType(item[founders.markerColumn], i)
+                type: founders.getMarkerContentType(item)
               });
             }
           });
@@ -88,11 +89,11 @@ angular.module('foundersMapQuestApp.map')
 
         //Hooks for other directives
         scope.hooks = scope.hooks || {};
-        scope.hooks.openMarker = function (index) {
+        scope.hooks.openMarker = function (item) {
           //find right marker
           var foundMarker = null;
           scope.markers.forEach(function (marker) {
-            if (foundMarker === null && marker.id === index) {
+            if (foundMarker === null && marker.item === item) {
               foundMarker = marker;
             }
           });

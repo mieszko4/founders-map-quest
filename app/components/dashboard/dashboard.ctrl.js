@@ -23,8 +23,8 @@ angular.module('foundersMapQuestApp.dashboard')
 
     //callback to view item on Map
     $scope.mapHooks = {};
-    $scope.viewOnMap = function (index) {
-      $scope.mapHooks.openMarker(index);
+    $scope.viewOnMap = function (item) {
+      $scope.mapHooks.openMarker(item);
       $anchorScroll('fmq-map');
     };
   });

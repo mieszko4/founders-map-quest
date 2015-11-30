@@ -94,7 +94,7 @@
           fmq-visualize
           data="{{column}}"
           type="{{founders.detectType(column, $index)}}"
-          view-item-callback="viewItemCallback({index: founders.items.indexOf(item)})"
+          view-item-callback="viewItemCallback({item: item})"
           is-selected="isSelected(item)"
         ></span>
       </td>

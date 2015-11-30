@@ -65,6 +65,10 @@ angular.module('foundersMapQuestApp.foundersManager')
       return type;
     };
 
+    Founders.prototype.getMarkerContentType = function (item) {
+      return this.detectType(item[this.markerColumn], this.markerColumn);
+    };
+
     var coordinateRegExps = {
       latitude: new RegExp(/latitude|\blat\b/i),
       longitude: new RegExp(/longitude|\blng\b/i)
