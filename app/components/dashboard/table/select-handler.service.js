@@ -36,7 +36,7 @@ angular.module('foundersMapQuestApp.table')
 
       selectAll: function (items) {
         var selectedItems = {};
-        angular.forEach(items, function (item, key) {
+        items.forEach(function (item, key) {
           selectedItems[key] = true;
         });
 

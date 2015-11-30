@@ -12,15 +12,20 @@ angular.module('foundersMapQuestApp.table')
     var service = {
       passesFilter: function (filterStates, item) {
         var include = true;
-        angular.forEach(filterStates, function (search, key) {
-          var searchLowered = search.toLowerCase();
+
+        Object.keys(filterStates).forEach(function (key) {
+          if (!include) {
+            return;
+          }
+
+          var search = filterStates[key];
           if (typeof search !== 'undefined' && search !== '') {
+            var searchLowered = search.toLowerCase();
             var value = item[key];
 
             //treat all values as strings
             if ((''+value).toLowerCase().indexOf(searchLowered) === -1) {
               include = false;
-              return false; //break
             }
           }
         });

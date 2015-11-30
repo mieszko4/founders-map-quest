@@ -35,7 +35,7 @@ angular.module('foundersMapQuestApp.table')
         var nextState = (typeof currentState === 'undefined') ? service.ASC : transitions[currentState];
 
         //remove all keys - supports only one column sort
-        angular.forEach(sortStates, function (sortState, key) {
+        Object.keys(sortStates).forEach(function (key) {
           delete sortStates[key];
         });
 
