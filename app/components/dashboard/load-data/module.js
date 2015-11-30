@@ -35,7 +35,15 @@
            backdrop: 'static',
            resolve: {
              founders: function () {
-               return $stateParams.founders || FoundersFactory.create(); //default
+               var founders = $stateParams.founders;
+
+               if (founders !== null) {
+                 founders = FoundersFactory.clone(founders);
+               } else {
+                 founders = FoundersFactory.create(); //default
+               }
+
+               return founders;
              },
              supportsFileReader: function () {
                return FileReader !== false;

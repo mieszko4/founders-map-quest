@@ -40,6 +40,10 @@ angular.module('foundersMapQuestApp.founders')
         }
 
         return Factory.create(header, items, csv.meta.delimiter, latitudeColumn, longitudeColumn);
+      },
+
+      clone: function (founders) {
+        return Factory.createFromJson(JSON.parse(JSON.stringify(founders.toJson())));
       }
     };
 

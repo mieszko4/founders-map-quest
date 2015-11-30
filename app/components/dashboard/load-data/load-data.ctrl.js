@@ -21,19 +21,21 @@ angular.module('foundersMapQuestApp.loadData')
     };
 
     //detect coordinate column
-    var applyCoordinates = function () {
+    var autoApplyCoordinates = function () {
       $scope.founders.autoSetCoordinateColumns();
       $scope.form.latitudeColumn = $scope.founders.latitudeColumn;
       $scope.form.longitudeColumn = $scope.founders.longitudeColumn;
     };
-    applyCoordinates();
+    autoApplyCoordinates();
 
     //parse founders on text change or delimiter change
     $scope.applyRawData = function (delimiter) {
       var previousHeader = $scope.founders.header;
       $scope.founders = FoundersFactory.createFromRaw(
         $scope.form.raw,
-        delimiter
+        delimiter,
+        $scope.form.latitudeColumn,
+        $scope.form.longitudeColumn
       );
 
       $scope.form.delimiter = $scope.founders.delimiter; //update delimiter
@@ -41,8 +43,14 @@ angular.module('foundersMapQuestApp.loadData')
       //auto setup coordinate columns when header changes
       var headersEqual = JSON.stringify(previousHeader) === JSON.stringify($scope.founders.header);
       if (!headersEqual) {
-        applyCoordinates();
+        autoApplyCoordinates();
       }
+    };
+
+    //update coordinates
+    $scope.coordinateSelected = function () {
+      $scope.founders.latitudeColumn = $scope.form.latitudeColumn;
+      $scope.founders.longitudeColumn = $scope.form.longitudeColumn;
     };
 
     //check if form is valid

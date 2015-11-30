@@ -51,6 +51,7 @@
                 id="fmq-load-data-latitudeColumn"
                 ng-model="form.latitudeColumn"
                 ng-options="idx*1 as column for (idx, column) in founders.header"
+                ng-change="coordinateSelected()"
               >
                 <option></option>
               </select>
@@ -64,6 +65,7 @@
                 id="fmq-load-data-longitudeColumn"
                 ng-model="form.longitudeColumn"
                 ng-options="idx*1 as column for (idx, column) in founders.header"
+                ng-change="coordinateSelected()"
               >
                 <option></option>
               </select>
