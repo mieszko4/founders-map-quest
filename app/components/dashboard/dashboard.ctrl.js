@@ -8,11 +8,11 @@
  * Controller of the foundersMapQuestApp.dashboard
  */
 angular.module('foundersMapQuestApp.dashboard')
-  .controller('DashboardCtrl', function ($scope, $state, founders, FMQ_MODULE_SETTINGS, $anchorScroll) {
+  .controller('DashboardCtrl', function ($scope, $state, founders, FoundersManagerFactory, FMQ_MODULE_SETTINGS, $anchorScroll) {
     //set up data
     $scope.founders = founders;
+    $scope.foundersManager = FoundersManagerFactory.create(founders);
     $scope.selectColumnForMarkerDismissed = false;
-    $scope.selectedItems = [];
     $scope.sortStates = {};
     $scope.filterStates = {};
 

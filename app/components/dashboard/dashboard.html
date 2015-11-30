@@ -23,8 +23,7 @@
     <table
       ng-if="founders.header.length > 0"
       fmq-table
-      founders="$parent.founders"
-      selected-items="$parent.selectedItems"
+      founders-manager="$parent.foundersManager"
       sort-states="$parent.sortStates"
       filter-states="$parent.filterStates"
       view-item-callback="$parent.viewOnMap(index)"
@@ -35,7 +34,7 @@
     <h2>Map</h2>
     <div
       fmq-map
-      founders="founders"
+      founders-manager="foundersManager"
       selected-items="selectedItems"
       filter-states="filterStates"
       hooks="mapHooks"

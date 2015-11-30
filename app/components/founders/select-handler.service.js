@@ -2,14 +2,15 @@
 
 /**
  * @ngdoc service
- * @name foundersMapQuestApp.table.SelectHandler
+ * @name foundersMapQuestApp.founders.SelectHandler
  * @description
  * # SelectHandler
- * Service in the foundersMapQuestApp.table.
+ * Service in the foundersMapQuestApp.founders.
  */
-angular.module('foundersMapQuestApp.table')
+angular.module('foundersMapQuestApp.founders')
   .factory('SelectHandler', function () {
     var service = {
+      //get selection
       allSelected: function (items, selectedItems) {
         return Object.keys(selectedItems).length === items.length;
       },
@@ -17,6 +18,20 @@ angular.module('foundersMapQuestApp.table')
         return typeof selectedItems[key] !== 'undefined';
       },
 
+      //select
+      selectAll: function (items) {
+        var selectedItems = {};
+        items.forEach(function (item, key) {
+          selectedItems[key] = true;
+        });
+
+        return selectedItems;
+      },
+      unselectAll: function () {
+        return {};
+      },
+
+      //reverse select
       toggleSelection: function (items, key, selectedItems) {
         if (service.isSelected(selectedItems, key)) {
           delete selectedItems[key];
@@ -32,18 +47,6 @@ angular.module('foundersMapQuestApp.table')
         } else {
           return service.selectAll(items);
         }
-      },
-
-      selectAll: function (items) {
-        var selectedItems = {};
-        items.forEach(function (item, key) {
-          selectedItems[key] = true;
-        });
-
-        return selectedItems;
-      },
-      unselectAll: function () {
-        return {};
       }
     };
 

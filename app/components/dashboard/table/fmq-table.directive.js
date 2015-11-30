@@ -7,13 +7,12 @@
  * # fmqTable
  */
 angular.module('foundersMapQuestApp.table')
-  .directive('fmqTable', function (SelectHandler, SortHandler, FilterHandler, FMQ_MODULE_SETTINGS) {
+  .directive('fmqTable', function (SortHandler, FilterHandler, FMQ_MODULE_SETTINGS) {
     var moduleSettings = FMQ_MODULE_SETTINGS['foundersMapQuestApp.table'];
 
     return {
       scope: {
-        founders: '=',
-        selectedItems: '=',
+        foundersManager: '=',
         sortStates: '=',
         filterStates: '=',
         viewItemCallback: '&'
@@ -22,26 +21,34 @@ angular.module('foundersMapQuestApp.table')
       restrict: 'EA',
       replace: true,
       link: function (scope) {
-        scope.SelectHandler = SelectHandler;
+        scope.founders = scope.foundersManager.founders;
+        scope.selectedItems = scope.foundersManager.selectedItems;
+
         scope.SortHandler = SortHandler;
-        //check if all selected items
+
+        //marker
+        scope.chooseAsMarker = function (column) {
+          scope.foundersManager.chooseAsMarker(column);
+        };
+
+        //selection
+        scope.isSelected = function (item) {
+          return scope.foundersManager.isSelected(item);
+        };
+
+        scope.toggleAllSelection = function () {
+          scope.foundersManager.toggleAllSelection();
+        };
+
+        scope.toggleSelection = function (item) {
+          scope.foundersManager.toggleSelection(item);
+        };
+
         scope.$watch(function () {
-          return SelectHandler.allSelected(scope.founders.items, scope.selectedItems);
+          return scope.foundersManager.allSelected();
         }, function (newValue) {
           scope.allSelected = newValue;
         });
-
-        scope.toggleAllSelection = function () {
-          scope.selectedItems = SelectHandler.toggleAllSelection(scope.founders.items, scope.selectedItems);
-        };
-
-        scope.toggleSelection = function ($index) {
-          scope.selectedItems = SelectHandler.toggleSelection(scope.founders.items, $index, scope.selectedItems);
-        };
-
-        scope.chooseAsMarker = function ($index) {
-          scope.founders.markerColumn = $index;
-        };
 
         // Sorting
         scope.$watch('sortStates', function () {

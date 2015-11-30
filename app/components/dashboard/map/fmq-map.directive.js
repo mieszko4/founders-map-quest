@@ -12,33 +12,34 @@ angular.module('foundersMapQuestApp.map')
 
     return {
       scope: {
-        founders: '=',
-        selectedItems: '=',
+        foundersManager: '=',
         filterStates: '=',
         hooks: '='
       },
       templateUrl: moduleSettings.moduleLocation + 'fmq-map.html',
       restrict: 'EA',
       link: function (scope) {
+        var founders = scope.foundersManager.founders;
+
         scope.markers = [];
         scope.markerTemplateUrl = moduleSettings.moduleLocation + 'marker.html';
 
         var updateMarkers = function () {
           var markers = [];
-          angular.forEach(scope.founders.items, function (item, i) {
-            if (typeof scope.selectedItems[i] !== 'undefined' && FilterHandler.passesFilter(scope.filterStates, item)) {
-              if (isNaN(item[scope.founders.latitudeColumn]) || isNaN(item[scope.founders.longitudeColumn])) {
+          angular.forEach(founders.items, function (item, i) {
+            if (typeof scope.foundersManager.selectedItems[i] !== 'undefined' && FilterHandler.passesFilter(scope.filterStates, item)) {
+              if (isNaN(item[founders.latitudeColumn]) || isNaN(item[founders.longitudeColumn])) {
                 return true; //continue
               }
 
               markers.push({
                 id: i,
                 coords: {
-                  latitude: item[scope.founders.latitudeColumn],
-                  longitude: item[scope.founders.longitudeColumn]
+                  latitude: item[founders.latitudeColumn],
+                  longitude: item[founders.longitudeColumn]
                 },
                 window: {
-                  title: item[scope.founders.markerColumn]
+                  title: item[founders.markerColumn]
                 }
               });
             }
@@ -47,8 +48,7 @@ angular.module('foundersMapQuestApp.map')
           scope.markers = markers;
         };
 
-        //register deep watches for couple variables, since $watchGroup does not support deep
-        angular.forEach(['founders', 'selectedItems', 'filterStates'], function (variable) {
+        ['foundersManager.selectedItems', 'foundersManager.founders.markerColumn'].forEach(function (variable) {
           scope.$watch(variable, function () {
             updateMarkers();
             scope.map.window.show = false;
@@ -70,7 +70,7 @@ angular.module('foundersMapQuestApp.map')
           if (foundMarker !== null) {
             scope.map.window.model = {
               data: foundMarker,
-              type: scope.founders.detectType(foundMarker.window.title, foundMarker.id)
+              type: founders.detectType(foundMarker.window.title, foundMarker.id)
             };
             scope.map.window.show = true;
           } else {
@@ -85,7 +85,7 @@ angular.module('foundersMapQuestApp.map')
             click: function(marker, eventName, model) {
               scope.map.window.model = {
                 data: model,
-                type: scope.founders.detectType(model.window.title, model.id)
+                type: founders.detectType(model.window.title, model.id)
               };
               scope.map.window.show = true;
             }

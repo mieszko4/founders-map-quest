@@ -19,7 +19,6 @@
         <a
           class="marker-column-chooser active"
           ng-show="founders.markerColumn == $index"
-          ng-click="chooseAsMarker($index)"
         >
           <span
             class="glyphicon glyphicon-map-marker"
@@ -29,14 +28,14 @@
         <a
           class="marker-column-chooser"
           ng-show="founders.markerColumn != $index"
-          ng-click="chooseAsMarker($index)"
+          ng-click="chooseAsMarker(column)"
         >
           <span
             class="glyphicon glyphicon-map-marker"
             uib-tooltip="Choose this column as description for markers"
           ></span>
         </a>
-        <span class="column-label" ng-click="chooseAsMarker($index)">{{column}}</span>
+        <span class="column-label" ng-click="chooseAsMarker(column)">{{column}}</span>
       </th>
     </tr>
     <tr>
@@ -77,14 +76,14 @@
   <tbody>
     <tr ng-repeat="item in filtered = (founders.items | orderBy:predicate:reverse | filter:search)">
       <td>
-        <a class="item-selector" ng-click="toggleSelection(founders.items.indexOf(item))">
+        <a class="item-selector" ng-click="toggleSelection(item)">
           <span
-            ng-show="!SelectHandler.isSelected(selectedItems, founders.items.indexOf(item))"
+            ng-show="!isSelected(item)"
             class="glyphicon glyphicon-unchecked"
             uib-tooltip="Display on map"
           ></span>
           <span
-            ng-show="SelectHandler.isSelected(selectedItems, founders.items.indexOf(item))"
+            ng-show="isSelected(item)"
             class="glyphicon glyphicon-check"
             uib-tooltip="Do not display on map"
           ></span>
@@ -96,7 +95,7 @@
           data="{{column}}"
           type="{{founders.detectType(column, $index)}}"
           view-item-callback="viewItemCallback({index: founders.items.indexOf(item)})"
-          is-selected="SelectHandler.isSelected(selectedItems, founders.items.indexOf(item))"
+          is-selected="isSelected(item)"
         ></span>
       </td>
     </tr>
