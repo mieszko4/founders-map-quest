@@ -21,7 +21,7 @@ angular.module('foundersMapQuestApp.state')
   .factory('State', function (localStorageService) {
     var State = function (key) {
       this.key = key;
-      this.value = localStorageService.get(key) || {};
+      this.value = localStorageService.get(key) || null;
     };
 
     State.prototype.set = function (value) {

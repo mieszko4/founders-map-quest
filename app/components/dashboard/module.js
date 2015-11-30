@@ -37,22 +37,28 @@
           templateUrl: moduleSettings.moduleLocation + 'dashboard.html',
           resolve: {
             //get founders: from param, from state or new
-            founders: function ($stateParams, StateFactory, FoundersFactory) {
-              var foundersState = StateFactory.create('fmq.dashboard.founders');
+            foundersManagerState: function ($stateParams, StateFactory, FoundersFactory, FoundersManagerFactory) {
+              var foundersManagerState = StateFactory.create('fmq.foundersManager');
               var founders = $stateParams.founders; //from param
-              if (founders === null) {
-                var foundersData = foundersState.get();
-                if (foundersData !== null) { //from state
-                  founders = FoundersFactory.createFromJson(foundersData);
-                } else { //new
+              var foundersManager = null;
 
+              if (founders !== null) {
+                //ignore saved data for foundersManager
+                foundersManager = FoundersManagerFactory.create(founders); //default with existing founders
+              } else {
+                var foundersManagerData = foundersManagerState.get();
+
+                if (foundersManagerData !== null) { //from state
+                  foundersManager = FoundersManagerFactory.createFromJson(foundersManagerData);
+                } else { //new
                   founders = FoundersFactory.create(); //default
+                  foundersManager = FoundersManagerFactory.create(founders); //default with default founders
                 }
               }
 
-              foundersState.set(founders.toJson()).save();
+              foundersManagerState.set(foundersManager.toJson()).save();
 
-              return founders;
+              return foundersManagerState;
             }
           },
           controller: 'DashboardCtrl'

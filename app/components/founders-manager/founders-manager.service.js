@@ -14,9 +14,9 @@ angular.module('foundersMapQuestApp.foundersManager')
       create: function (founders, selectedItems, filterStates, sortStates) {
         return new FoundersManager(founders, selectedItems, filterStates, sortStates);
       },
-      createFromRaw: function (json) {
+      createFromJson: function (json) {
         var founders = FoundersFactory.createFromJson(json.founders);
-        Factory.create(founders, json.selectedItems, json.filterStates, json.sortStates);
+        return Factory.create(founders, json.selectedItems, json.filterStates, json.sortStates);
       }
     };
 
