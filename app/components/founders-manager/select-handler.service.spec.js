@@ -3,7 +3,7 @@
 describe('Service: SelectHandler', function () {
 
   // load the service's module
-  beforeEach(module('foundersMapQuestApp.founders'));
+  beforeEach(module('foundersMapQuestApp.foundersManager'));
 
   // instantiate service
   var SelectHandler;

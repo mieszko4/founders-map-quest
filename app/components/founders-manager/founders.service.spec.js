@@ -3,7 +3,7 @@
 describe('Service: FoundersFactory', function () {
 
   // load the service's module
-  beforeEach(module('foundersMapQuestApp.founders'));
+  beforeEach(module('foundersMapQuestApp.foundersManager'));
 
   // instantiate service
   var FoundersFactory;
@@ -20,7 +20,7 @@ describe('Service: FoundersFactory', function () {
 describe('Service: Founders', function () {
 
   // load the service's module
-  beforeEach(module('foundersMapQuestApp.founders'));
+  beforeEach(module('foundersMapQuestApp.foundersManager'));
 
   // instantiate service
   var Founders;

@@ -10,7 +10,7 @@
  */
  angular.module('foundersMapQuestApp.loadData', [
    'foundersMapQuestApp.constants',
-   'foundersMapQuestApp.founders',
+   'foundersMapQuestApp.foundersManager',
 
    'ui.bootstrap',
    'ui.router'

@@ -7,7 +7,7 @@
  * # SelectHandler
  * Service in the foundersMapQuestApp.founders.
  */
-angular.module('foundersMapQuestApp.founders')
+angular.module('foundersMapQuestApp.foundersManager')
   .factory('SelectHandler', function () {
     var service = {
       //get selection

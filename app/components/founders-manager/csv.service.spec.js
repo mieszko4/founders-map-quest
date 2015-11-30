@@ -3,7 +3,7 @@
 describe('Service: CsvFactory', function () {
 
   // load the service's module
-  beforeEach(module('foundersMapQuestApp.founders'));
+  beforeEach(module('foundersMapQuestApp.foundersManager'));
 
   // instantiate service
   var CsvFactory;
@@ -20,7 +20,7 @@ describe('Service: CsvFactory', function () {
 describe('Service: Csv', function () {
 
   // load the service's module
-  beforeEach(module('foundersMapQuestApp.founders'));
+  beforeEach(module('foundersMapQuestApp.foundersManager'));
 
   // instantiate service
   var Csv;

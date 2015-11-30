@@ -8,7 +8,7 @@
  *
  * Founders module of the application.
  */
- angular.module('foundersMapQuestApp.founders', [
+ angular.module('foundersMapQuestApp.foundersManager', [
    'foundersMapQuestApp.constants'
  ])
  .value('Papa', window.Papa); //inject non-angular services

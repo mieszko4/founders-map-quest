@@ -14,7 +14,7 @@
    'foundersMapQuestApp.showImage',
    'foundersMapQuestApp.table',
    'foundersMapQuestApp.map',
-   'foundersMapQuestApp.founders',
+   'foundersMapQuestApp.foundersManager',
    'foundersMapQuestApp.state',
 
    'ui.bootstrap',

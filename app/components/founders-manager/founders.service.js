@@ -9,7 +9,7 @@
  * Service in the foundersMapQuestApp.founders.
  * founders object *is a* csv object (csv data with additional annotations)
  */
-angular.module('foundersMapQuestApp.founders')
+angular.module('foundersMapQuestApp.foundersManager')
   .factory('FoundersFactory', function (Founders, Csv) {
     var Factory = {
       create: function (header, items, delimiter, latitudeColumn, longitudeColumn, markerColumn) {

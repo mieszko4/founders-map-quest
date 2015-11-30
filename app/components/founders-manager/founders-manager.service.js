@@ -8,7 +8,7 @@
  * Service in the foundersMapQuestApp.founders.
  * foundersManager *has a* founders
  */
-angular.module('foundersMapQuestApp.founders')
+angular.module('foundersMapQuestApp.foundersManager')
   .factory('FoundersManagerFactory', function (FoundersManager) {
     var Factory = {
       create: function (founders) {

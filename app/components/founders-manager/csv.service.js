@@ -7,7 +7,7 @@
  * # Csv
  * Service in the foundersMapQuestApp.founders.
  */
-angular.module('foundersMapQuestApp.founders')
+angular.module('foundersMapQuestApp.foundersManager')
   .factory('CsvFactory', function (Csv) {
     var Factory = {
       create: function (header, items, delimiter) {
