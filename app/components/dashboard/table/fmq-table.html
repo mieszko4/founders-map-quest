@@ -35,7 +35,7 @@
             uib-tooltip="Choose this column as description for markers"
           ></span>
         </a>
-        <span class="column-label" ng-click="chooseAsMarker(column)">{{column}}</span>
+        <span class="column-label" ng-click="chooseAsMarker($index)">{{column.name}}</span>
       </th>
     </tr>
     <tr>

@@ -8,13 +8,20 @@
  * Service in the foundersMapQuestApp.founders.
  */
 angular.module('foundersMapQuestApp.foundersManager')
-  .factory('CsvFactory', function (Csv) {
+  .factory('CsvFactory', function (Csv, ColumnFactory) {
     var Factory = {
       create: function (header, items, delimiter) {
         return new Csv(header, items, delimiter);
       },
       createFromJson: function (json) {
-        return Factory.create(json.header, json.items, json.delimiter);
+        var header = json.header;
+        if (typeof header !== 'undefined') {
+          header = json.header.map(function (columnJson) {
+            return ColumnFactory.createFromJson(columnJson);
+          });
+        }
+
+        return Factory.create(header, json.items, json.delimiter);
       },
       createFromRaw: function (raw, delimiter) {
         var parsedData = Csv.parse(raw, delimiter);
@@ -29,7 +36,7 @@ angular.module('foundersMapQuestApp.foundersManager')
     return Factory;
   })
 
-  .factory('Csv', function (Papa) {
+  .factory('Csv', function (Papa, ColumnFactory) {
     var Csv = function (header, items, delimiter) {
       this.header = header || [];
       this.items = items || null;
@@ -37,7 +44,11 @@ angular.module('foundersMapQuestApp.foundersManager')
     };
 
     Csv.prototype.encodeToRaw = function () {
-      var raw = Papa.unparse([this.header].concat(this.items || []), {
+      var header = this.header.map(function (column) {
+        return column.name;
+      });
+
+      var raw = Papa.unparse([header].concat(this.items || []), {
         newline: '\n',
         delimiter: this.delimiter
       });
@@ -46,8 +57,12 @@ angular.module('foundersMapQuestApp.foundersManager')
     };
 
     Csv.prototype.toJson = function () {
+      var header = this.header.map(function (column) {
+        return column.toJson();
+      });
+
       return {
-        header: this.header,
+        header: header,
         items: this.items,
         delimiter: this.delimiter
       };
@@ -56,6 +71,7 @@ angular.module('foundersMapQuestApp.foundersManager')
     Csv.parse = function (raw, delimiter) {
       delimiter = typeof delimiter !== 'undefined' ? delimiter : ''; //default is auto
 
+      //Note: this parser has an assumption of unique column names
       var csv = Papa.parse(raw, {
         header: true,
         skipEmptyLines: true,
@@ -75,6 +91,10 @@ angular.module('foundersMapQuestApp.foundersManager')
       } else {
         items = null;
       }
+
+      header = header.map(function (name) {
+        return ColumnFactory.create(name);
+      });
 
       return {
         header: header,

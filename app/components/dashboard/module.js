@@ -45,6 +45,7 @@
                 if (foundersData !== null) { //from state
                   founders = FoundersFactory.createFromJson(foundersData);
                 } else { //new
+
                   founders = FoundersFactory.create(); //default
                 }
               }

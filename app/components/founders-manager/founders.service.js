@@ -10,13 +10,20 @@
  * founders object *is a* csv object (csv data with additional annotations)
  */
 angular.module('foundersMapQuestApp.foundersManager')
-  .factory('FoundersFactory', function (Founders, Csv) {
+  .factory('FoundersFactory', function (Founders, Csv, ColumnFactory) {
     var Factory = {
       create: function (header, items, delimiter, latitudeColumn, longitudeColumn, markerColumn) {
         return new Founders(header, items, delimiter, latitudeColumn, longitudeColumn, markerColumn);
       },
       createFromJson: function (json) {
-        return new Founders(json.header, json.items, json.delimiter, json.latitudeColumn, json.longitudeColumn, json.markerColumn);
+        var header = json.header;
+        if (typeof header !== 'undefined') {
+          header = json.header.map(function (columnJson) {
+            return ColumnFactory.createFromJson(columnJson);
+          });
+        }
+
+        return new Founders(header, json.items, json.delimiter, json.latitudeColumn, json.longitudeColumn, json.markerColumn);
       },
       createFromRaw: function (raw, delimiter, latitudeColumn, longitudeColumn, markerColumn) {
         var parsedData = Csv.parse(raw, delimiter);
@@ -84,7 +91,7 @@ angular.module('foundersMapQuestApp.foundersManager')
         var newValue = this[type + 'Column'];
         if (newValue === null) {
           this.header.forEach(function (column, i) {
-            if (newValue === null && column.match(coordinateRegExps[type])) {
+            if (newValue === null && column.name.match(coordinateRegExps[type])) {
               newValue = i;
             }
           });
