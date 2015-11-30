@@ -9,11 +9,13 @@
  */
 angular.module('foundersMapQuestApp.loadData')
   .controller('LoadDataCtrl', function ($scope, $uibModalInstance, founders, supportsFileReader, Csv, Founders) {
+    var vm = this;
+
     //set up data
-    $scope.founders = founders;
-    $scope.supportsFileReader = supportsFileReader;
-    $scope.delimiters = Founders.delimiters;
-    $scope.form = {
+    vm.founders = founders;
+    vm.supportsFileReader = supportsFileReader;
+    vm.delimiters = Founders.delimiters;
+    vm.form = {
       raw: founders.encodeToRaw(),
       delimiter: founders.delimiter,
       latitudeColumn: founders.latitudeColumn,
@@ -22,66 +24,67 @@ angular.module('foundersMapQuestApp.loadData')
 
     //detect coordinate column
     var autoApplyCoordinates = function () {
-      $scope.founders.autoSetCoordinateColumns();
-      $scope.form.latitudeColumn = $scope.founders.latitudeColumn;
-      $scope.form.longitudeColumn = $scope.founders.longitudeColumn;
+      vm.founders.autoSetCoordinateColumns();
+      vm.form.latitudeColumn = vm.founders.latitudeColumn;
+      vm.form.longitudeColumn = vm.founders.longitudeColumn;
     };
     autoApplyCoordinates();
 
     //parse founders on text change or delimiter change
-    $scope.applyRawData = function (delimiter) {
-      var previousHeader = $scope.founders.header;
+    vm.applyRawData = function (delimiter) {
+      var previousHeader = vm.founders.header;
       var parsedData = Csv.parse(
-        $scope.form.raw,
+        vm.form.raw,
         delimiter
       );
-      $scope.founders.header = parsedData.header;
-      $scope.founders.items = parsedData.items;
-      $scope.founders.delimiter = parsedData.delimiter;
+      vm.founders.header = parsedData.header;
+      vm.founders.items = parsedData.items;
+      vm.founders.delimiter = parsedData.delimiter;
 
-      $scope.form.delimiter = $scope.founders.delimiter; //update delimiter
+      vm.form.delimiter = vm.founders.delimiter; //update delimiter
 
       //auto setup coordinate columns when header changes
-      var headersEqual = JSON.stringify(previousHeader) === JSON.stringify($scope.founders.header);
+      var headersEqual = JSON.stringify(previousHeader) === JSON.stringify(vm.founders.header);
       if (!headersEqual) {
         autoApplyCoordinates();
       }
     };
 
     //update coordinates
-    $scope.coordinateSelected = function () {
-      $scope.founders.latitudeColumn = $scope.form.latitudeColumn;
-      $scope.founders.longitudeColumn = $scope.form.longitudeColumn;
+    vm.coordinateSelected = function () {
+      vm.founders.latitudeColumn = vm.form.latitudeColumn;
+      vm.founders.longitudeColumn = vm.form.longitudeColumn;
     };
 
     //check if form is valid
-    $scope.formValid = false;
     $scope.$watch(function() {
-      return $scope.founders.items !== null &&
-        $scope.form.latitudeColumn !== null &&
-        $scope.form.longitudeColumn !== null &&
-        $scope.form.latitudeColumn !== $scope.form.longitudeColumn
+      return vm.founders.items !== null &&
+        vm.form.latitudeColumn !== null &&
+        vm.form.longitudeColumn !== null &&
+        vm.form.latitudeColumn !== vm.form.longitudeColumn
       ;
     }, function (newValue) {
-      $scope.formValid = newValue;
+      vm.formValid = newValue;
     });
 
     //Modal finished
-    $scope.ok = function () {
-      $uibModalInstance.close($scope.founders);
+    vm.ok = function () {
+      $uibModalInstance.close(vm.founders);
     };
-    $scope.cancel = function () {
+    vm.cancel = function () {
       $uibModalInstance.dismiss('cancel');
     };
 
     // get data from uploaded local file
-    $scope.supportsFileReader = supportsFileReader;
+    vm.supportsFileReader = supportsFileReader;
     if (supportsFileReader) {
-      $scope.$watch('fileText', function (newValue) {
+      $scope.$watch(function () {
+        return vm.fileText;
+      }, function (newValue) {
         if (newValue) {
-          $scope.form.raw = $scope.fileText;
-          $scope.applyRawData();
-          $scope.fileText = '';
+          vm.form.raw = vm.fileText;
+          vm.applyRawData();
+          vm.fileText = '';
         }
       });
     }

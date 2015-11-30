@@ -1,42 +1,42 @@
 <div class="fmq-load-data-page">
-  <form ng-submit="ok()">
+  <form ng-submit="vm.ok()">
     <div class="modal-header">
         <h3 class="modal-title">Load Founders</h3>
     </div>
     <div class="modal-body">
         <ol>
           <li>
-            <p ng-show="supportsFileReader">
+            <p ng-show="vm.supportsFileReader">
               <fmq-file-reader
                 class="btn btn-primary"
-                text="fileText"
+                text="vm.fileText"
                 reset="true"
               >
                 Choose File
               </fmq-file-reader>
               <span>or paste your data below directly:</span>
             </p>
-            <p ng-if="!supportsFileReader">
+            <p ng-if="!vm.supportsFileReader">
               Paste your data below:
             </p>
             <div class="form-group">
               <textarea
                 class="form-control"
                 rows="5"
-                ng-model="form.raw"
-                ng-change="applyRawData();"
+                ng-model="vm.form.raw"
+                ng-change="vm.applyRawData();"
               ></textarea>
             </div>
           </li>
           <li>
             <p>Choose delimiter:</p>
-            <label class="checkbox-inline" ng-repeat="item in delimiters">
+            <label class="checkbox-inline" ng-repeat="item in vm.delimiters">
               <input
                 type="radio"
-                ng-model="form.delimiter"
+                ng-model="vm.form.delimiter"
                 name="delimiter"
                 ng-value="item.delimiter"
-                ng-change="applyRawData(item.delimiter)"
+                ng-change="vm.applyRawData(item.delimiter)"
               />
               {{item.label}}
             </label>
@@ -49,9 +49,9 @@
                 class="form-control"
                 name="latitudeColumn"
                 id="fmq-load-data-latitudeColumn"
-                ng-model="form.latitudeColumn"
-                ng-options="idx*1 as column.name for (idx, column) in founders.header"
-                ng-change="coordinateSelected()"
+                ng-model="vm.form.latitudeColumn"
+                ng-options="idx*1 as column.name for (idx, column) in vm.founders.header"
+                ng-change="vm.coordinateSelected()"
               >
                 <option></option>
               </select>
@@ -63,9 +63,9 @@
                 class="form-control"
                 name="longitudeColumn"
                 id="fmq-load-data-longitudeColumn"
-                ng-model="form.longitudeColumn"
-                ng-options="idx*1 as column.name for (idx, column) in founders.header"
-                ng-change="coordinateSelected()"
+                ng-model="vm.form.longitudeColumn"
+                ng-options="idx*1 as column.name for (idx, column) in vm.founders.header"
+                ng-change="vm.coordinateSelected()"
               >
                 <option></option>
               </select>
@@ -74,8 +74,8 @@
         </ol>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" ng-disabled="!formValid" type="submit">Load</button>
-        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        <button class="btn btn-primary" ng-disabled="!vm.formValid" type="submit">Load</button>
+        <button class="btn btn-warning" type="button" ng-click="vm.cancel()">Cancel</button>
     </div>
   </form>
 </div>

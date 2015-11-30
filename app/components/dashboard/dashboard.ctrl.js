@@ -9,42 +9,43 @@
  */
 angular.module('foundersMapQuestApp.dashboard')
   .controller('DashboardCtrl', function ($scope, $state, foundersManagerState, tableHelpInfoState, FoundersManagerFactory, FMQ_MODULE_SETTINGS, $anchorScroll) {
+    var vm = this;
     //set up data
-    $scope.foundersManager = FoundersManagerFactory.createFromJson(foundersManagerState.get());
-    $scope.founders = $scope.foundersManager.founders;
-    $scope.tableHelpInfo = tableHelpInfoState.get();
+    vm.foundersManager = FoundersManagerFactory.createFromJson(foundersManagerState.get());
+    vm.founders = vm.foundersManager.founders;
+    vm.tableHelpInfo = tableHelpInfoState.get();
 
     //save table state
-    [
-      'founders.markerColumn',
-      'foundersManager.selectedItems',
-      'foundersManager.filterStates',
-      'foundersManager.sortStates'
-    ].forEach(function (variable) {
-      var firstWatch = true;
-      $scope.$watch(variable, function () {
-        if (firstWatch) {
-          firstWatch = false;
-          return; //break;
-        }
+    var firstWatch = true;
+    $scope.$watch(function () {
+      return JSON.stringify(vm.founders.markerColumn) +
+        JSON.stringify(vm.foundersManager.selectedItems) +
+        JSON.stringify(vm.foundersManager.filterStates) +
+        JSON.stringify(vm.foundersManager.sortStates);
+    }, function () {
+      if (firstWatch) {
+        firstWatch = false;
+        return; //return;
+      }
 
-        foundersManagerState.set($scope.foundersManager.toJson()).save();
-      }, true);
+      foundersManagerState.set(vm.foundersManager.toJson()).save();
     });
 
     //save tableHelpInfo state
-    $scope.$watch('tableHelpInfo', function () {
-      tableHelpInfoState.set($scope.tableHelpInfo).save();
+    $scope.$watch(function () {
+      return vm.tableHelpInfo;
+    }, function () {
+      tableHelpInfoState.set(vm.tableHelpInfo).save();
     });
 
-    $scope.loadData = function () {
-      $state.go(FMQ_MODULE_SETTINGS['foundersMapQuestApp.loadData'].routes['load-data'], {founders: $scope.founders});
+    vm.loadData = function () {
+      $state.go(FMQ_MODULE_SETTINGS['foundersMapQuestApp.loadData'].routes['load-data'], {founders: vm.founders});
     };
 
     //callback to view item on Map
-    $scope.mapHooks = {};
-    $scope.viewOnMap = function (item) {
-      $scope.mapHooks.openMarker(item);
+    vm.mapHooks = {};
+    vm.viewOnMap = function (item) {
+      vm.mapHooks.openMarker(item);
       $anchorScroll('fmq-map');
     };
   });

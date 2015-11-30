@@ -30,6 +30,7 @@
            animation: FMQ_ANIMATE,
            templateUrl: moduleSettings.moduleLocation + 'show-image.html',
            controller: 'ShowImageCtrl',
+           controllerAs: 'vm',
            backdrop: 'static',
            resolve: {
              image: function () {

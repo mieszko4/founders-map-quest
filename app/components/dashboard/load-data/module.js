@@ -32,6 +32,7 @@
            animation: FMQ_ANIMATE,
            templateUrl: moduleSettings.moduleLocation + 'load-data.html',
            controller: 'LoadDataCtrl',
+           controllerAs: 'vm',
            backdrop: 'static',
            resolve: {
              founders: function () {

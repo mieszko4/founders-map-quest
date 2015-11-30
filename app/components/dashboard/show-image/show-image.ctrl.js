@@ -8,16 +8,17 @@
  * Controller of the foundersMapQuestApp.showImage
  */
 angular.module('foundersMapQuestApp.showImage')
-  .controller('ShowImageCtrl', function ($scope, $uibModalInstance, image) {
+  .controller('ShowImageCtrl', function ($uibModalInstance, image) {
+    var vm = this;
     if (image === null) {
       $uibModalInstance.opened.then(function () {
         $uibModalInstance.close();
       });
     }
 
-    $scope.image = image;
+    vm.image = image;
 
-    $scope.ok = function () {
+    vm.ok = function () {
       $uibModalInstance.close();
     };
   });

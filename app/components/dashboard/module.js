@@ -72,7 +72,8 @@
               return tableHelpInfoState;
             }
           },
-          controller: 'DashboardCtrl'
+          controller: 'DashboardCtrl',
+          controllerAs: 'vm'
         }
       }
     });

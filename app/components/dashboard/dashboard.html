@@ -1,42 +1,42 @@
 <div class="fmq-dashboard-page" fmq-show-image="a.show-image">
-  <div class="container" ng-class="{'data-loaded': founders.header.length > 0}">
+  <div class="container" ng-class="{'data-loaded': vm.founders.header.length > 0}">
     <button
       class="btn btn-primary btn-load-data"
-      ng-click="loadData()"
+      ng-click="vm.loadData()"
     >
-      <span ng-show="founders.header.length == 0">Load data</span>
-      <span ng-show="founders.header.length > 0">Load data again</span>
+      <span ng-show="vm.founders.header.length == 0">Load data</span>
+      <span ng-show="vm.founders.header.length > 0">Load data again</span>
     </button>
   </div>
 
-  <div class="container table-container" ng-show="founders.header.length > 0">
+  <div class="container table-container" ng-show="vm.founders.header.length > 0">
     <h2>Table</h2>
     <div
       uib-alert
       type="info"
-      ng-show="tableHelpInfo"
-      close="tableHelpInfo = false"
+      ng-show="vm.tableHelpInfo"
+      close="vm.tableHelpInfo = false"
     >
       Choose a star in order to select column for marker labels.
     </div>
 
     <div class="table-wrapper">
       <table
-        ng-if="founders.header.length > 0"
+        ng-if="vm.founders.header.length > 0"
         fmq-table
-        founders-manager="$parent.foundersManager"
-        view-item="$parent.viewOnMap(item)"
+        founders-manager="vm.foundersManager"
+        view-item="vm.viewOnMap(item)"
       ></table>
     </div>
   </div>
 
-  <div class="container map-container" ng-if="founders.header.length > 0" id="fmq-map">
+  <div class="container map-container" ng-if="vm.founders.header.length > 0" id="fmq-map">
     <h2>Map</h2>
     <div
       fmq-map
-      founders-manager="foundersManager"
-      selected-items="selectedItems"
-      hooks="mapHooks"
+      founders-manager="vm.foundersManager"
+      selected-items="vm.selectedItems"
+      hooks="vm.mapHooks"
     ></div>
   </div>
 <div>
