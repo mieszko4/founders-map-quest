@@ -7,13 +7,12 @@
  * # fmqTable
  */
 angular.module('foundersMapQuestApp.table')
-  .directive('fmqTable', function (SortHandler, FMQ_MODULE_SETTINGS) {
+  .directive('fmqTable', function (FMQ_MODULE_SETTINGS) {
     var moduleSettings = FMQ_MODULE_SETTINGS['foundersMapQuestApp.table'];
 
     return {
       scope: {
         foundersManager: '=',
-        sortStates: '=',
         viewItemCallback: '&'
       },
       templateUrl: moduleSettings.moduleLocation + 'fmq-table.html',
@@ -60,6 +59,7 @@ angular.module('foundersMapQuestApp.table')
         };
 
         //sorting
+        /*
         scope.SortHandler = SortHandler;
         scope.$watch('sortStates', function () {
           var result = SortHandler.getCurrentSortState(scope.sortStates);
@@ -83,6 +83,7 @@ angular.module('foundersMapQuestApp.table')
         scope.resetSorts = function () {
           scope.sortStates = {};
         };
+        */
 
         scope.viewItem = function () {
           scope.viewItemCallback();

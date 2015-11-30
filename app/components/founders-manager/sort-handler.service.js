@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc service
- * @name foundersMapQuestApp.table.SortHandler
+ * @name foundersMapQuestApp.foundersManager.SortHandler
  * @description
  * # SortHandler
- * Service in the foundersMapQuestApp.table.
+ * Service in the foundersMapQuestApp.foundersManager.
  */
-angular.module('foundersMapQuestApp.table')
+angular.module('foundersMapQuestApp.foundersManager')
   .factory('SortHandler', function () {
     var transitions = {
       0: 1,

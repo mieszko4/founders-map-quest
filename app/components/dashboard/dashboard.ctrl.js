@@ -13,7 +13,6 @@ angular.module('foundersMapQuestApp.dashboard')
     $scope.founders = founders;
     $scope.foundersManager = FoundersManagerFactory.create(founders);
     $scope.selectColumnForMarkerDismissed = false;
-    $scope.sortStates = {};
 
     //save table state (TODO)
 
