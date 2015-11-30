@@ -64,6 +64,50 @@ module.exports = function (grunt) {
       }
     },
 
+    jasmine: {
+      coverage: {
+        src: [
+          // bower:js
+          'bower_components/jquery/dist/jquery.js',
+          'bower_components/angular/angular.js',
+          'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js',
+          'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+          'bower_components/angular-local-storage/dist/angular-local-storage.js',
+          'bower_components/angular-simple-logger/dist/angular-simple-logger.js',
+          'bower_components/lodash/lodash.js',
+          'bower_components/angular-google-maps/dist/angular-google-maps.js',
+          'bower_components/papaparse/papaparse.js',
+          'bower_components/angular-ui-router/release/angular-ui-router.js',
+          'bower_components/angular-mocks/angular-mocks.js',
+          // endbower
+
+          'app/*.js',
+          'app/components/**/module.js',
+          'app/components/**/*.ctrl.js',
+          'app/components/**/*.directive.js',
+          'app/components/**/*.filter.js',
+          'app/components/**/*.service.js',
+          'app/components/**/*.spec.js',
+          '<%= yeoman.app %>/**/*.js',
+          '!' + unitTestRegExp
+        ],
+        options: {
+          specs: [unitTestRegExp],
+          template: require('grunt-template-jasmine-istanbul'),
+          templateOptions: {
+            coverage: 'bin/coverage/coverage.json',
+            report: 'bin/coverage',
+            thresholds: {
+              lines: 75,
+              statements: 75,
+              branches: 75,
+              functions: 90
+            }
+          }
+        }
+      }
+    },
+
     // The actual grunt server settings
     connect: {
       options: {
