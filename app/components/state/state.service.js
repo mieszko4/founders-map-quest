@@ -13,7 +13,7 @@ angular.module('foundersMapQuestApp.state')
       create: function (key) {
         return new State(key);
       }
-    }
+    };
 
     return Factory;
   })

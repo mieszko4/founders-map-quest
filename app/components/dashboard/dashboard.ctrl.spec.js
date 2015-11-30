@@ -9,11 +9,11 @@ describe('Controller: DashboardCtrl', function () {
     scope;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope) {
+  beforeEach(inject(function ($controller, $rootScope, FoundersFactory) {
     scope = $rootScope.$new();
     DashboardCtrl = $controller('DashboardCtrl', {
       $scope: scope,
-      foundersData: {}
+      founders: FoundersFactory.create()
       // place here mocked dependencies
     });
   }));

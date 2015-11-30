@@ -15,7 +15,7 @@
    'ui.router'
  ])
 
- .config(function ($stateProvider, FMQ_MODULE_SETTINGS, $locationProvider) {
+ .config(function ($stateProvider, FMQ_MODULE_SETTINGS) {
    var modalInstance;
    var moduleSettings = FMQ_MODULE_SETTINGS['foundersMapQuestApp.showImage'];
 

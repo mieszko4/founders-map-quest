@@ -18,7 +18,7 @@
    var moduleSettings = FMQ_MODULE_SETTINGS['foundersMapQuestApp.about'];
 
    $stateProvider
-    .state(moduleSettings.routes['about'], {
+    .state(moduleSettings.routes.about, {
       url: '/about',
       params: {
         label: 'About'

@@ -26,7 +26,7 @@
    var moduleSettings = FMQ_MODULE_SETTINGS['foundersMapQuestApp.dashboard'];
 
    $stateProvider
-    .state(moduleSettings.routes['dashboard'], {
+    .state(moduleSettings.routes.dashboard, {
       url: '/dashboard',
       params: {
         label: 'Dashboard',

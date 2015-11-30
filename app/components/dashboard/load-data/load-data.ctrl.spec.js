@@ -10,7 +10,7 @@ describe('Controller: LoadDataCtrl', function () {
     modalInstance;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope) {
+  beforeEach(inject(function ($controller, $rootScope, FoundersFactory) {
     scope = $rootScope.$new();
     modalInstance = {                    // Create a mock object using spies
       close: jasmine.createSpy('modalInstance.close'),
@@ -23,7 +23,8 @@ describe('Controller: LoadDataCtrl', function () {
     LoadDataCtrl = $controller('LoadDataCtrl', {
       $scope: scope,
       $uibModalInstance: modalInstance,
-      state: null
+      founders: FoundersFactory.create(),
+      supportsFileReader: false
       // place here mocked dependencies
     });
   }));

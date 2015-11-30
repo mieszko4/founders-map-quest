@@ -39,7 +39,7 @@ angular.module('foundersMapQuestApp.founders')
           items = null;
         }
 
-        return Factory.create(header, items, csv.meta.delimiter, latitudeColumn, longitudeColumn);
+        return Factory.create(header, items, csv.meta.delimiter, latitudeColumn, longitudeColumn, markerColumn);
       },
 
       clone: function (founders) {
