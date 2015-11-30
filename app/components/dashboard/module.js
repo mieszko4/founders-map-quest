@@ -36,7 +36,7 @@
         'main@': {
           templateUrl: moduleSettings.moduleLocation + 'dashboard.html',
           resolve: {
-            //get founders: from param, from state or new
+            //get foundersManager: from param, from state or new
             foundersManagerState: function ($stateParams, StateFactory, FoundersFactory, FoundersManagerFactory) {
               var foundersManagerState = StateFactory.create('fmq.foundersManager');
               var founders = $stateParams.founders; //from param
@@ -59,6 +59,17 @@
               foundersManagerState.set(foundersManager.toJson()).save();
 
               return foundersManagerState;
+            },
+
+            tableHelpInfoState: function (StateFactory) {
+              var tableHelpInfoState = StateFactory.create('fmq.tableHelpInfo');
+              var tableHelpInfo = tableHelpInfoState.get();
+
+              tableHelpInfo = (tableHelpInfo !== null) ? tableHelpInfo : true; //default
+
+              tableHelpInfoState.set(tableHelpInfo).save();
+
+              return tableHelpInfoState;
             }
           },
           controller: 'DashboardCtrl'
