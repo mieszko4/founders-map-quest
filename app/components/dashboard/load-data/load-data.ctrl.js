@@ -33,9 +33,7 @@ angular.module('foundersMapQuestApp.loadData')
       var previousHeader = $scope.founders.header;
       $scope.founders = FoundersFactory.createFromRaw(
         $scope.form.raw,
-        delimiter,
-        $scope.form.latitudeColumn,
-        $scope.form.longitudeColumn
+        delimiter
       );
 
       $scope.form.delimiter = $scope.founders.delimiter; //update delimiter
