@@ -66,6 +66,7 @@ angular.module('foundersMapQuestApp.map')
 
           scope.markers = markers;
         };
+        updateMarkers();
 
         //watch for changes in foundersManager
         [
@@ -73,7 +74,13 @@ angular.module('foundersMapQuestApp.map')
           'foundersManager.filterStates',
           'foundersManager.founders.markerColumn'
         ].forEach(function (variable) {
+          var firstWatch = true;
           scope.$watch(variable, function () {
+            if (firstWatch) {
+              firstWatch = false;
+              return;
+            }
+
             scope.closeMarkerWindow();
             updateMarkers();
           }, true);
