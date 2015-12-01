@@ -81,13 +81,13 @@ module.exports = function (grunt) {
           'bower_components/angular-mocks/angular-mocks.js',
           // endbower
 
-          'app/*.js',
-          'app/components/**/module.js',
-          'app/components/**/*.ctrl.js',
-          'app/components/**/*.directive.js',
-          'app/components/**/*.filter.js',
-          'app/components/**/*.service.js',
-          'app/components/**/*.spec.js',
+          '<%= yeoman.app %>/*.js',
+          '<%= yeoman.app %>/components/**/module.js',
+          '<%= yeoman.app %>/components/**/*.ctrl.js',
+          '<%= yeoman.app %>/components/**/*.directive.js',
+          '<%= yeoman.app %>/components/**/*.filter.js',
+          '<%= yeoman.app %>/components/**/*.service.js',
+          '<%= yeoman.app %>/components/**/*.spec.js',
           '<%= yeoman.app %>/**/*.js',
           '!' + unitTestRegExp
         ],
