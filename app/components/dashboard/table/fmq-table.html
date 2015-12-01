@@ -2,23 +2,23 @@
   <thead>
     <tr>
       <th>
-        <a class="all-items-selector" ng-click="toggleAllSelection()">
+        <a class="all-items-selector" ng-click="vm.toggleAllSelection()">
           <span
-            ng-show="!allSelected"
+            ng-show="!vm.allSelected"
             class="glyphicon glyphicon-unchecked"
             uib-tooltip="Display all on map"
           ></span>
           <span
-            ng-show="allSelected"
+            ng-show="vm.allSelected"
             class="glyphicon glyphicon-check"
             uib-tooltip="Display none on map"
           ></span>
         </a>
       </th>
-      <th ng-repeat="column in founders.header">
+      <th ng-repeat="column in vm.founders.header">
         <a
           class="marker-column-chooser active"
-          ng-show="isMarker(column)"
+          ng-show="vm.isMarker(column)"
         >
           <span
             class="glyphicon glyphicon-map-marker"
@@ -27,34 +27,34 @@
         </a>
         <a
           class="marker-column-chooser"
-          ng-show="!isMarker(column)"
-          ng-click="chooseAsMarker(column)"
+          ng-show="!vm.isMarker(column)"
+          ng-click="vm.chooseAsMarker(column)"
         >
           <span
             class="glyphicon glyphicon-map-marker"
             uib-tooltip="Choose this column as description for markers"
           ></span>
         </a>
-        <span class="column-label" ng-click="chooseAsMarker(column)">{{column.name}}</span>
+        <span class="column-label" ng-click="vm.chooseAsMarker(column)">{{column.name}}</span>
       </th>
     </tr>
     <tr>
       <th>
-        <a class="filters-sorts-reset" ng-click="resetFilters(); resetSorts()">
+        <a class="filters-sorts-reset" ng-click="vm.resetFilters(); vm.resetSorts()">
           <span
             class="glyphicon glyphicon-trash"
             uib-tooltip="Clear all filters and sorting"
           ></span>
         </a>
       </th>
-      <th ng-repeat="column in founders.header">
+      <th ng-repeat="column in vm.founders.header">
         <div class="column-filter-and-sorter">
           <form ng-submit="void">
-            <input type="text" ng-model="filterStates[$index]" ng-change="setFilter(column, filterStates[$index])" placeholder="Filter" />
+            <input type="text" ng-model="vm.filterStates[$index]" ng-change="vm.setFilter(column, vm.filterStates[$index])" placeholder="Filter" />
           </form>
           <fmq-column-sorter
-            state="sortStates[$index]"
-            change="applySort(column, state)"
+            state="vm.sortStates[$index]"
+            change="vm.applySort(column, state)"
           ></fmq-column-sorter>
         </div>
       </th>
@@ -62,18 +62,18 @@
   </thead>
   <tbody>
     <tr
-      ng-repeat="item in filtered = (founders.items | orderBy:sortConfig.predicate:sortConfig.reverse | filter:passesFilter)"
-      ng-class="{selected: isSelected(item)}"
+      ng-repeat="item in filtered = (vm.founders.items | orderBy:vm.sortConfig.predicate:vm.sortConfig.reverse | filter:vm.passesFilter)"
+      ng-class="{selected: vm.isSelected(item)}"
     >
       <td>
-        <a class="item-selector" ng-click="toggleSelection(item)">
+        <a class="item-selector" ng-click="vm.toggleSelection(item)">
           <span
-            ng-show="!isSelected(item)"
+            ng-show="!vm.isSelected(item)"
             class="glyphicon glyphicon-unchecked"
             uib-tooltip="Display on map"
           ></span>
           <span
-            ng-show="isSelected(item)"
+            ng-show="vm.isSelected(item)"
             class="glyphicon glyphicon-check"
             uib-tooltip="Do not display on map"
           ></span>
@@ -83,14 +83,14 @@
         <span
           fmq-visualize
           data="{{value}}"
-          type="{{type = founders.detectType(value, founders.header[$index])}}"
+          type="{{type = vm.founders.detectType(value, vm.founders.header[$index])}}"
           ng-class="{'item-viewer': type == 'longitude' || type == 'latitude'}"
-          ng-click="viewItem({item: item})"
+          ng-click="(type == 'longitude' || type == 'latitude') && vm.viewItem( {item: item})"
         ></span>
       </td>
     </tr>
     <tr ng-if="filtered.length == 0">
-      <td colspan="{{founders.header.length + 2}}" class="alert alert-info">
+      <td colspan="{{vm.founders.header.length + 2}}" class="alert alert-info">
         <p>No items</p>
       </td>
     </tr>

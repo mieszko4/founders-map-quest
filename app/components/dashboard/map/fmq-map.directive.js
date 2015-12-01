@@ -17,29 +17,32 @@ angular.module('foundersMapQuestApp.map')
       },
       templateUrl: moduleSettings.moduleLocation + 'fmq-map.html',
       restrict: 'EA',
-      link: function (scope) {
-        var founders = scope.foundersManager.founders;
+      controllerAs: 'vm',
+      bindToController: true,
+      controller: function ($scope) {
+        var vm = this;
+        var founders = vm.foundersManager.founders;
 
         //initial setup of map
-        scope.markers = [];
-        scope.markerTemplateUrl = moduleSettings.moduleLocation + 'marker.html';
-        scope.center = {latitude: 0, longitude: 0};
-        scope.zoom = 4;
-        scope.markersEvents = {
+        vm.markers = [];
+        vm.markerTemplateUrl = moduleSettings.moduleLocation + 'marker.html';
+        vm.center = {latitude: 0, longitude: 0};
+        vm.zoom = 4;
+        vm.markersEvents = {
           click: function (marker, eventName, model) {
-            scope.showMarkerWindow(model);
+            vm.showMarkerWindow(model);
           }
         };
 
-        scope.showMarkerWindow = function (model) {
-          scope.markerWindow.model = model;
-          scope.markerWindow.show = true;
+        vm.showMarkerWindow = function (model) {
+          vm.markerWindow.model = model;
+          vm.markerWindow.show = true;
         };
-        scope.closeMarkerWindow = function () {
-          scope.markerWindow.show = false;
+        vm.closeMarkerWindow = function () {
+          vm.markerWindow.show = false;
         };
 
-        scope.markerWindow = {
+        vm.markerWindow = {
           model: null,
           show: false
         };
@@ -47,7 +50,7 @@ angular.module('foundersMapQuestApp.map')
         var updateMarkers = function () {
           var markers = [];
           founders.items.forEach(function (item, i) {
-            if (scope.foundersManager.isSelected(item) && scope.foundersManager.passesFilter(item)) {
+            if (vm.foundersManager.isSelected(item) && vm.foundersManager.passesFilter(item)) {
               if (isNaN(item[founders.latitudeColumn]) || isNaN(item[founders.longitudeColumn])) {
                 return true; //continue
               }
@@ -65,43 +68,41 @@ angular.module('foundersMapQuestApp.map')
             }
           });
 
-          scope.markers = markers;
+          vm.markers = markers;
         };
         updateMarkers();
 
         //watch for changes in foundersManager
-        [
-          'foundersManager.selectedItems',
-          'foundersManager.filterStates',
-          'foundersManager.founders.markerColumn'
-        ].forEach(function (variable) {
-          var firstWatch = true;
-          scope.$watch(variable, function () {
-            if (firstWatch) {
-              firstWatch = false;
-              return;
-            }
+        var firstWatch = true;
+        $scope.$watch(function () {
+          return JSON.stringify(vm.foundersManager.selectedItems) +
+            JSON.stringify(vm.foundersManager.filterStates) +
+            JSON.stringify(vm.foundersManager.founders.markerColumn);
+        }, function () {
+          if (firstWatch) {
+            firstWatch = false;
+            return;
+          }
 
-            scope.closeMarkerWindow();
-            updateMarkers();
-          }, true);
+          vm.closeMarkerWindow();
+          updateMarkers();
         });
 
         //Hooks for other directives
-        scope.hooks = scope.hooks || {};
-        scope.hooks.openMarker = function (item) {
+        vm.hooks = vm.hooks || {};
+        vm.hooks.openMarker = function (item) {
           //find right marker
           var foundMarker = null;
-          scope.markers.forEach(function (marker) {
+          vm.markers.forEach(function (marker) {
             if (foundMarker === null && marker.item === item) {
               foundMarker = marker;
             }
           });
 
           if (foundMarker !== null) {
-            scope.showMarkerWindow(foundMarker);
+            vm.showMarkerWindow(foundMarker);
           } else {
-            scope.closeMarkerWindow();
+            vm.closeMarkerWindow();
           }
         };
       }

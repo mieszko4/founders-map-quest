@@ -1,35 +1,35 @@
 <span
-  ng-attr-class="type-{{type || 'unknown'}}"
+  ng-attr-class="vm.type-{{vm.type || 'unknown'}}"
 >
   <a
-    ng-if="type == 'image'"
+    ng-if="vm.type == 'image'"
     class="show-image"
-    ng-href="{{data}}"
+    ng-href="{{vm.data}}"
   >
-    <img ng-src="{{data}}" alt="" />
+    <img ng-src="{{vm.data}}" alt="" />
   </a>
 
   <a
-    ng-if="type == 'link'"
+    ng-if="vm.type == 'link'"
     target="_blank"
-    ng-href="{{data}}"
+    ng-href="{{vm.data}}"
   >
-    {{data}}
+    {{vm.data}}
   </a>
 
   <span
-    ng-if="type == 'latitude' || type == 'longitude'"
+    ng-if="vm.type == 'latitude' || vm.type == 'longitude'"
     uib-tooltip="View on map"
   >
     <span
       class="glyphicon glyphicon-map-marker"
     ></span>
-    <span>{{data | decimal2dms:(type == 'latitude')}}</span>
+    <span>{{vm.data | decimal2dms:(vm.type == 'latitude')}}</span>
   </span>
 
   <span
-    ng-if="!type"
+    ng-if="!vm.type"
   >
-    {{data}}
+    {{vm.data}}
   </span>
 </span>

@@ -7,7 +7,7 @@
  * # fmqColumnSorter
  */
 angular.module('foundersMapQuestApp.columnSorter')
-  .directive('fmqColumnSorter', function (FMQ_MODULE_SETTINGS, SortStates) {
+  .directive('fmqColumnSorter', function (FMQ_MODULE_SETTINGS) {
     var moduleSettings = FMQ_MODULE_SETTINGS['foundersMapQuestApp.columnSorter'];
 
     return {
@@ -18,18 +18,23 @@ angular.module('foundersMapQuestApp.columnSorter')
       templateUrl: moduleSettings.moduleLocation + 'fmq-column-sorter.html',
       restrict: 'EA',
       replace: true,
-      link: function (scope) {
-        scope.SortStates = SortStates; //enumerator
+      controllerAs: 'vm',
+      bindToController: true,
+      controller: function ($scope, SortStates) {
+        var vm = this;
+        vm.SortStates = SortStates; //enumerator
 
-        scope.$watch('state', function () {
-          if (typeof scope.state === 'undefined') {
-            scope.state = SortStates.NONE;
+        $scope.$watch(function () {
+          return vm.state;
+        }, function () {
+          if (typeof vm.state === 'undefined') {
+            vm.state = SortStates.NONE;
           }
         });
 
-        scope.changeSortState = function () {
-          scope.state = SortStates.getNextState(scope.state);
-          scope.change({state: scope.state});
+        vm.changeSortState = function () {
+          vm.state = SortStates.getNextState(vm.state);
+          vm.change({state: vm.state});
         };
       }
     };

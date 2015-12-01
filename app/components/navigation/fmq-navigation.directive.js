@@ -7,17 +7,25 @@
  * # fmqNavigation
  */
 angular.module('foundersMapQuestApp.navigation')
-  .directive('fmqNavigation', function ($state, FMQ_MODULE_SETTINGS) {
+  .directive('fmqNavigation', function (FMQ_MODULE_SETTINGS) {
     var moduleSettings = FMQ_MODULE_SETTINGS['foundersMapQuestApp.navigation'];
 
     return {
       templateUrl: moduleSettings.moduleLocation + 'fmq-navigation.html',
       restrict: 'EA',
       replace: true,
-      link: function (scope) {
-        scope.$state = $state;
+      controllerAs: 'vm',
+      bindToController: true,
+      controller: function ($state, $rootScope) {
+        var vm = this;
+        vm.state = $state;
 
-        scope.items = scope.$state.get()
+        //watch for route change
+        $rootScope.$on('$stateChangeSuccess', function(event, toState) {
+          vm.currentName = toState.name;
+        });
+
+        vm.items = $state.get()
           .filter(function (state) { //filter urls of module paths
             return !state.abstract && typeof state.params !== 'undefined' && typeof state.params.label !== 'undefined';
           }).map(function (state) { //structure data with name and label

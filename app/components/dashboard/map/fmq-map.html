@@ -1,20 +1,20 @@
 <div ui-gmap-google-map
-  center="center"
-  zoom="zoom"
+  center="vm.center"
+  zoom="vm.zoom"
   options="{scrollwheel: false}"
 >
   <div ui-gmap-window
-    show="markerWindow.show"
-    coords="markerWindow.model.coords"
-    closeClick="closeMarkerWindow()"
-    templateUrl="markerTemplateUrl"
-    templateParameter="markerWindow"
+    show="vm.markerWindow.show"
+    coords="vm.markerWindow.model.coords"
+    closeClick="vm.closeMarkerWindow()"
+    templateUrl="vm.markerTemplateUrl"
+    templateParameter="vm.markerWindow"
   ></div>
 
   <div ui-gmap-markers
-    models="markers"
+    models="vm.markers"
     coords="'coords'"
-    events="markersEvents"
+    events="vm.markersEvents"
     doRebuildAll="true"
     fit="true"
   ></div>

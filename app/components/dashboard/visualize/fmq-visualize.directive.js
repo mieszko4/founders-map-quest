@@ -16,6 +16,9 @@ angular.module('foundersMapQuestApp.visualize')
         type: '@'
       },
       templateUrl: moduleSettings.moduleLocation + 'fmq-visualize.html',
+      controller: function () {},
+      controllerAs: 'vm',
+      bindToController: true,
       restrict: 'EA',
       replace: true
     };
