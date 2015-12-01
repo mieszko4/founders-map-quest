@@ -25,17 +25,23 @@ module.exports = function(config) {
       'bower_components/jquery/dist/jquery.js',
       'bower_components/angular/angular.js',
       'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js',
-      'bower_components/angular-route/angular-route.js',
       'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
       'bower_components/angular-local-storage/dist/angular-local-storage.js',
       'bower_components/angular-simple-logger/dist/angular-simple-logger.js',
       'bower_components/lodash/lodash.js',
       'bower_components/angular-google-maps/dist/angular-google-maps.js',
+      'bower_components/papaparse/papaparse.js',
+      'bower_components/angular-ui-router/release/angular-ui-router.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
-      "app/scripts/**/*.js",
-      "test/mock/**/*.js",
-      "test/spec/**/*.js"
+      "app/*.js",
+      "app/components/**/module.js",
+      "app/components/**/*.ctrl.js",
+      "app/components/**/*.directive.js",
+      "app/components/**/*.filter.js",
+      "app/components/**/*.service.js",
+      "app/components/**/*.spec.js",
+      "test/mock/**/*.js"
     ],
 
     // list of files / patterns to exclude

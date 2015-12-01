@@ -27,9 +27,13 @@ body {
   border-top: 1px solid #e5e5e5;
 }
 
+.nav.navbar-nav > li > a {
+  text-transform: capitalize;
+}
+
 // partials
-@import "main-page";
-@import "about-page";
-@import "error-page";
-@import "load-data-page";
-@import "show-image-page";
+@import "../components/dashboard/styles";
+@import "../components/dashboard/load-data/styles";
+@import "../components/dashboard/show-image/styles";
+@import "../components/about/styles";
+@import "../components/error/styles";

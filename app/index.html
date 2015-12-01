@@ -36,14 +36,14 @@
           </div>
 
           <div class="collapse navbar-collapse" id="js-navbar-collapse">
-            <ul fmq-navigation data-toggle="collapse" data-target="#js-navbar-collapse"></ul>
+            <fmq-navigation data-toggle="collapse" data-target="#js-navbar-collapse"></fmq-navigation>
           </div>
         </div>
       </div>
     </div>
 
     <div class="container">
-      <div ng-view></div>
+      <div ui-view="main"></div>
     </div>
 
     <div class="footer">
@@ -64,38 +64,66 @@
        ga('send', 'pageview');
     </script>
 
-    <!-- build:js(.) scripts/vendor.js -->
+    <!-- build:js(.) vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js"></script>
-    <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
     <script src="bower_components/angular-simple-logger/dist/angular-simple-logger.js"></script>
     <script src="bower_components/lodash/lodash.js"></script>
     <script src="bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
+    <script src="bower_components/papaparse/papaparse.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
-        <!-- build:js({.tmp,app}) scripts/scripts.js -->
-        <script src="scripts/app.js"></script>
-        <script src="scripts/controllers/main.js"></script>
-        <script src="scripts/controllers/about.js"></script>
-        <script src="scripts/directives/fmq-navigation.js"></script>
-        <script src="scripts/services/founders.js"></script>
-        <script src="scripts/controllers/load-data.js"></script>
-        <script src="scripts/directives/fmq-table.js"></script>
-        <script src="scripts/services/state.js"></script>
-        <script src="scripts/directives/fmq-map.js"></script>
-        <script src="scripts/filters/fmq-visualize.js"></script>
-        <script src="scripts/services/select-handler.js"></script>
-        <script src="scripts/services/sort-handler.js"></script>
-        <script src="scripts/services/filter-handler.js"></script>
-        <script src="scripts/directives/fmq-show-image.js"></script>
-        <script src="scripts/controllers/show-image.js"></script>
-        <script src="scripts/filters/decimal2dms.js"></script>
-        <script src="scripts/directives/fmq-file-reader.js"></script>
+        <!-- build:js({.tmp,app}) scripts.js -->
+        <script src="app.constants.js"></script>
+        <script src="app.module.js"></script>
+
+
+        <script src="components/founders-manager/module.js"></script>
+        <script src="components/founders-manager/column.service.js"></script>
+        <script src="components/founders-manager/csv.service.js"></script>
+        <script src="components/founders-manager/founders.service.js"></script>
+        <script src="components/founders-manager/helpers/select-handler.service.js"></script>
+        <script src="components/founders-manager/helpers/filter-handler.service.js"></script>
+        <script src="components/founders-manager/helpers/sort-handler.service.js"></script>
+        <script src="components/founders-manager/founders-manager.service.js"></script>
+
+        <script src="components/state/module.js"></script>
+        <script src="components/state/state.service.js"></script>
+
+        <script src="components/navigation/module.js"></script>
+        <script src="components/navigation/fmq-navigation.directive.js"></script>
+
+        <script src="components/column-sorter/module.js"></script>
+        <script src="components/column-sorter/sort-states.service.js"></script>
+        <script src="components/column-sorter/fmq-column-sorter.directive.js"></script>
+
+
+        <script src="components/dashboard/module.js"></script>
+        <script src="components/dashboard/dashboard.ctrl.js"></script>
+        <script src="components/dashboard/load-data/module.js"></script>
+        <script src="components/dashboard/load-data/load-data.ctrl.js"></script>
+        <script src="components/dashboard/load-data/fmq-file-reader.directive.js"></script>
+        <script src="components/dashboard/show-image/module.js"></script>
+        <script src="components/dashboard/show-image/show-image.ctrl.js"></script>
+        <script src="components/dashboard/show-image/fmq-show-image.directive.js"></script>
+
+        <script src="components/dashboard/map/module.js"></script>
+        <script src="components/dashboard/map/fmq-map.directive.js"></script>
+        <script src="components/dashboard/table/module.js"></script>
+        <script src="components/dashboard/table/fmq-table.directive.js"></script>
+        <script src="components/dashboard/visualize/module.js"></script>
+        <script src="components/dashboard/visualize/fmq-visualize.directive.js"></script>
+        <script src="components/dashboard/visualize/decimal2dms.filter.js"></script>
+
+        <script src="components/about/module.js"></script>
+
+        <script src="components/error/module.js"></script>
         <!-- endbuild -->
 </body>
 </html>
