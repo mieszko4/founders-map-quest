@@ -28,6 +28,10 @@ describe('Service: State', function () {
     State = _State_;
   }));
 
+  it('should exist', function () {
+    expect(!!State).toBe(true);
+  });
+
   it('should set and get a number', function () {
     expect(!!State).toBe(true);
 
