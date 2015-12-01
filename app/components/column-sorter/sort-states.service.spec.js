@@ -15,4 +15,17 @@ describe('Service: SortStates', function () {
     expect(!!SortStates).toBe(true);
   });
 
+  it('should have circular transitions', function () {
+    var state = SortStates.NONE;
+
+    state = SortStates.getNextState(state);
+    expect(state).toBe(SortStates.ASC);
+
+    state = SortStates.getNextState(state);
+    expect(state).toBe(SortStates.DESC);
+
+    state = SortStates.getNextState(state);
+    expect(state).toBe(SortStates.NONE);
+  });
+
 });

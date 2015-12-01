@@ -7,6 +7,9 @@ module.exports = function(config) {
   'use strict';
 
   config.set({
+    preprocessors: {
+      'app/components/**/*.html': ['ng-html2js']
+    },
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: true,
 
@@ -41,8 +44,14 @@ module.exports = function(config) {
       "app/components/**/*.filter.js",
       "app/components/**/*.service.js",
       "app/components/**/*.spec.js",
-      "test/mock/**/*.js"
+      "test/mock/**/*.js",
+      "app/components/**/*.html"
     ],
+
+    ngHtml2JsPreprocessor: {
+      stripPrefix: 'app/',
+      moduleName: 'templates'
+    },
 
     // list of files / patterns to exclude
     exclude: [
@@ -66,7 +75,8 @@ module.exports = function(config) {
     // Which plugins to enable
     plugins: [
       "karma-phantomjs-launcher",
-      "karma-jasmine"
+      "karma-jasmine",
+      "karma-ng-html2js-preprocessor"
     ],
 
     // Continuous Integration mode
