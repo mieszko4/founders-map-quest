@@ -1,7 +1,7 @@
 <ul class="nav navbar-nav">
   <li
     ng-repeat="item in vm.items"
-    ng-class="{active: vm.currentName == item.name}"
+    ui-sref-active="active"
   >
     <a ui-sref="{{item.name}}">{{item.label}}</a>
   </li>
