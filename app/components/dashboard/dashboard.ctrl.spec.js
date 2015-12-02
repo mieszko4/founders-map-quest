@@ -4,20 +4,28 @@ describe('Controller: DashboardCtrl', function () {
 
   // load the controller's module
   //beforeEach(module('templates'));
-  beforeEach(module('foundersMapQuestApp.dashboard'));
+  beforeEach(module('foundersMapQuestApp.dashboard', function ($stateProvider) {
+    $stateProvider
+      .state('root', {
+        url: ''
+      });
+  }));
 
   var vm,
     $scope,
+    $state,
+    SortStates,
     foundersManagerState,
+    emptyFoundersManager,
     tableHelpInfoState;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope, StateFactory, FoundersFactory, FoundersManagerFactory) {
+  beforeEach(inject(function ($controller, $rootScope, StateFactory, FoundersFactory, FoundersManagerFactory, _SortStates_, _$state_) {
     $scope = $rootScope.$new();
 
     foundersManagerState = StateFactory.create('foundersManager');
     var founders = FoundersFactory.createFromJson({
-      header: ['Id', 'Latitude', 'Longitude', 'Other'],
+      header: [{name: 'Id'}, {name: 'Latitude'}, {name: 'Longitude'}, {name: 'Other'}],
       items: [
         [0, 12.2, 14.3, 'http://milosz.ch/'],
         [1, 32.2, 54.3, 'http://milosz.ch/avatar.jpeg'],
@@ -26,14 +34,23 @@ describe('Controller: DashboardCtrl', function () {
     });
     var foundersManager = FoundersManagerFactory.create(founders);
 
+    emptyFoundersManager = FoundersManagerFactory.create(FoundersFactory.create());
+
     foundersManagerState.set(foundersManager.toJson());
     tableHelpInfoState = StateFactory.create('tableHelpInfo').set(true);
 
+    spyOn(_$state_, 'go');
+
     vm = $controller('DashboardCtrl', {
       $scope: $scope,
+      $state: _$state_,
       foundersManagerState: foundersManagerState,
       tableHelpInfoState: tableHelpInfoState
     });
+
+    SortStates = _SortStates_;
+
+    $state = _$state_;
   }));
 
   it('should exist', function () {
@@ -54,4 +71,69 @@ describe('Controller: DashboardCtrl', function () {
     expect(vm.tableHelpInfo).toBe(true);
   });
 
+  it('should apply state when markerColumn is modified', function () {
+    var value = JSON.stringify(foundersManagerState.get().founders.markerColumn);
+    $scope.$digest(); //first time is ignored
+
+    expect(value).toBe(JSON.stringify(foundersManagerState.get().founders.markerColumn));
+
+    value = JSON.stringify(foundersManagerState.get().founders.markerColumn);
+    vm.founders.chooseAsMarker(vm.founders.header[1]);
+    $scope.$digest();
+    expect(value).not.toBe(JSON.stringify(foundersManagerState.get().founders.markerColumn));
+  });
+
+  it('should apply state when selectedItems is modified', function () {
+    var value = JSON.stringify(foundersManagerState.get().selectedItems);
+    $scope.$digest(); //first time is ignored
+
+    expect(value).toBe(JSON.stringify(foundersManagerState.get().selectedItems));
+
+    value = JSON.stringify(foundersManagerState.get().selectedItems);
+    vm.foundersManager.toggleAllSelection();
+    $scope.$digest();
+    expect(value).not.toBe(JSON.stringify(foundersManagerState.get().selectedItems));
+  });
+
+  it('should apply state when filterStates is modified', function () {
+    var value = JSON.stringify(foundersManagerState.get().filterStates);
+    $scope.$digest(); //first time is ignored
+
+    expect(value).toBe(JSON.stringify(foundersManagerState.get().filterStates));
+
+    value = JSON.stringify(foundersManagerState.get().filterStates);
+    vm.foundersManager.setFilter(vm.founders.header[0], 'test');
+    $scope.$digest();
+    expect(value).not.toBe(JSON.stringify(foundersManagerState.get().filterStates));
+  });
+
+  it('should apply state when sortStates is modified', function () {
+    var value = JSON.stringify(foundersManagerState.get().sortStates);
+    $scope.$digest(); //first time is ignored
+
+    expect(value).toBe(JSON.stringify(foundersManagerState.get().sortStates));
+
+    value = JSON.stringify(foundersManagerState.get().sortStates);
+    vm.foundersManager.applySort(vm.founders.header[0], SortStates.DESC);
+    $scope.$digest();
+    expect(value).not.toBe(JSON.stringify(foundersManagerState.get().sortStates));
+  });
+
+  it('should apply state when tableHelpInfo is modified', function () {
+    var value = JSON.stringify(tableHelpInfoState.get());
+    vm.tableHelpInfo = false;
+    $scope.$digest(); //first time is not ignored
+    expect(value).not.toBe(JSON.stringify(tableHelpInfoState.get()));
+  });
+
+  it('should invoke $state.go when loadData is clicked', function () {
+    vm.loadData();
+    expect($state.go).toHaveBeenCalledWith(jasmine.any(String), {founders: vm.founders});
+  });
+
+  it('should invoke open marker', function () {
+    vm.mapHooks.openMarker = jasmine.createSpy('openMarker'); //template does not exist so the hook function does not exist
+    vm.viewOnMap(vm.founders.items[0]);
+    expect(vm.mapHooks.openMarker).toHaveBeenCalledWith(vm.founders.items[0]);
+  });
 });
