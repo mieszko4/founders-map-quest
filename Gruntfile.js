@@ -64,50 +64,6 @@ module.exports = function (grunt) {
       }
     },
 
-    jasmine: {
-      coverage: {
-        src: [
-          // bower:js
-          'bower_components/jquery/dist/jquery.js',
-          'bower_components/angular/angular.js',
-          'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js',
-          'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
-          'bower_components/angular-local-storage/dist/angular-local-storage.js',
-          'bower_components/angular-simple-logger/dist/angular-simple-logger.js',
-          'bower_components/lodash/lodash.js',
-          'bower_components/angular-google-maps/dist/angular-google-maps.js',
-          'bower_components/papaparse/papaparse.js',
-          'bower_components/angular-ui-router/release/angular-ui-router.js',
-          'bower_components/angular-mocks/angular-mocks.js',
-          // endbower
-
-          '<%= yeoman.app %>/*.js',
-          '<%= yeoman.app %>/components/**/module.js',
-          '<%= yeoman.app %>/components/**/*.ctrl.js',
-          '<%= yeoman.app %>/components/**/*.directive.js',
-          '<%= yeoman.app %>/components/**/*.filter.js',
-          '<%= yeoman.app %>/components/**/*.service.js',
-          '<%= yeoman.app %>/components/**/*.spec.js',
-          '<%= yeoman.app %>/**/*.js',
-          '!' + unitTestRegExp
-        ],
-        options: {
-          specs: [unitTestRegExp],
-          template: require('grunt-template-jasmine-istanbul'),
-          templateOptions: {
-            coverage: 'bin/coverage/coverage.json',
-            report: 'bin/coverage',
-            thresholds: {
-              lines: 75,
-              statements: 75,
-              branches: 75,
-              functions: 90
-            }
-          }
-        }
-      }
-    },
-
     // The actual grunt server settings
     connect: {
       options: {

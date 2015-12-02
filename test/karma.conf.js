@@ -8,6 +8,7 @@ module.exports = function(config) {
 
   config.set({
     preprocessors: {
+      'app/components/**/!(*.spec)+(.js)': 'coverage',
       'app/components/**/*.html': ['ng-html2js']
     },
     // enable / disable watching file and executing tests whenever any file changes
@@ -48,6 +49,11 @@ module.exports = function(config) {
       "app/components/**/*.html"
     ],
 
+    reporters: ['dots', 'coverage'],
+    coverageReporter: {
+      type : 'text'
+    },
+
     ngHtml2JsPreprocessor: {
       stripPrefix: 'app/',
       moduleName: 'templates'
@@ -76,6 +82,7 @@ module.exports = function(config) {
     plugins: [
       "karma-phantomjs-launcher",
       "karma-jasmine",
+      "karma-coverage",
       "karma-ng-html2js-preprocessor"
     ],
 
