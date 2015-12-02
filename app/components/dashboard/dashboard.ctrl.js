@@ -8,7 +8,7 @@
  * Controller of the foundersMapQuestApp.dashboard
  */
 angular.module('foundersMapQuestApp.dashboard')
-  .controller('DashboardCtrl', function ($scope, $state, foundersManagerState, tableHelpInfoState, FoundersManagerFactory, FMQ_MODULE_SETTINGS, $anchorScroll) {
+  .controller('DashboardCtrl', function ($scope, $state, foundersManagerState, tableHelpInfoState, FoundersManagerFactory, FMQ_MODULE_SETTINGS) {
     var vm = this;
     //set up data
     vm.foundersManager = FoundersManagerFactory.createFromJson(foundersManagerState.get());
@@ -43,9 +43,7 @@ angular.module('foundersMapQuestApp.dashboard')
     };
 
     //callback to view item on Map
-    vm.mapHooks = {};
     vm.viewOnMap = function (item) {
-      vm.mapHooks.openMarker(item);
-      $anchorScroll('fmq-map');
+      $state.go(FMQ_MODULE_SETTINGS['foundersMapQuestApp.map'].routes.map, {item: item});
     };
   });

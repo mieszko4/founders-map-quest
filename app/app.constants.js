@@ -31,6 +31,7 @@
       moduleLocation: 'components/dashboard/load-data/'
     },
     'foundersMapQuestApp.map': {
+      routes: {map: 'root.dashboard.map'},
       moduleLocation: 'components/dashboard/map/'
     },
     'foundersMapQuestApp.table': {
