@@ -60,7 +60,7 @@ describe('Controller: DashboardCtrl', function () {
     expect(!!vm).toBe(true);
   });
 
-  it('should set foundersManager, founders, tableHelpInfo, in scope', function () {
+  it('should set foundersManager, founders, tableHelpInfo in scope', function () {
     expect(!!vm.foundersManager).toBe(true);
 
     expect(!!vm.founders).toBe(true);
