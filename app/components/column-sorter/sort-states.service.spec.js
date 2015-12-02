@@ -15,6 +15,11 @@ describe('Service: SortStates', function () {
     expect(!!SortStates).toBe(true);
   });
 
+  it('should handle undefined state', function () {
+    var state = SortStates.getNextState();
+    expect(state).toBe(SortStates.ASC);
+  });
+
   it('should have circular transitions', function () {
     var state = SortStates.NONE;
 
