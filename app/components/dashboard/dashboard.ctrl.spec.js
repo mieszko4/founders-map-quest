@@ -15,12 +15,13 @@ describe('Controller: DashboardCtrl', function () {
     $scope,
     $state,
     SortStates,
+    FMQ_MODULE_SETTINGS,
     foundersManagerState,
     emptyFoundersManager,
     tableHelpInfoState;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope, StateFactory, FoundersFactory, FoundersManagerFactory, _SortStates_, _$state_) {
+  beforeEach(inject(function ($controller, $rootScope, StateFactory, FoundersFactory, FoundersManagerFactory, _SortStates_, _$state_, _FMQ_MODULE_SETTINGS_) {
     $scope = $rootScope.$new();
 
     foundersManagerState = StateFactory.create('foundersManager');
@@ -51,6 +52,8 @@ describe('Controller: DashboardCtrl', function () {
     SortStates = _SortStates_;
 
     $state = _$state_;
+
+    FMQ_MODULE_SETTINGS = _FMQ_MODULE_SETTINGS_;
   }));
 
   it('should exist', function () {
@@ -128,12 +131,13 @@ describe('Controller: DashboardCtrl', function () {
 
   it('should invoke $state.go when loadData is clicked', function () {
     vm.loadData();
-    expect($state.go).toHaveBeenCalledWith(jasmine.any(String), {founders: vm.founders});
+    expect($state.go).toHaveBeenCalledWith(FMQ_MODULE_SETTINGS['foundersMapQuestApp.loadData'].routes['load-data'], {founders: vm.founders});
   });
 
   it('should invoke open marker', function () {
-    vm.mapHooks.openMarker = jasmine.createSpy('openMarker'); //template does not exist so the hook function does not exist
-    vm.viewOnMap(vm.founders.items[0]);
-    expect(vm.mapHooks.openMarker).toHaveBeenCalledWith(vm.founders.items[0]);
+    var item = vm.founders.items[0];
+
+    vm.viewOnMap(item);
+    expect($state.go).toHaveBeenCalledWith(FMQ_MODULE_SETTINGS['foundersMapQuestApp.map'].routes.map, {item: item});
   });
 });
