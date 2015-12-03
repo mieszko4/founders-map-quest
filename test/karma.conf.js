@@ -51,7 +51,11 @@ module.exports = function(config) {
 
     reporters: ['dots', 'coverage'],
     coverageReporter: {
-      type : 'text'
+      dir: 'coverage',
+      reporters: [
+        {type : 'text'}//,
+        //{type: 'html', subdir: 'report-html'}
+      ]
     },
 
     ngHtml2JsPreprocessor: {

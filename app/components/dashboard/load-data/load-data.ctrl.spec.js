@@ -8,10 +8,12 @@ describe('Controller: vm', function () {
   var vm,
     $scope,
     Founders,
+    founders,
+    $controller,
     modalInstance;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope, _Founders_, FoundersFactory) {
+  beforeEach(inject(function (_$controller_, $rootScope, _Founders_, FoundersFactory) {
     $scope = $rootScope.$new();
     modalInstance = {                    // Create a mock object using spies
       close: jasmine.createSpy('modalInstance.close'),
@@ -21,7 +23,7 @@ describe('Controller: vm', function () {
       }
     };
 
-    var founders = FoundersFactory.createFromJson({
+    founders = FoundersFactory.createFromJson({
       header: [{name: 'Id'}, {name: 'Latitude'}, {name: 'Longitude'}, {name: 'Other'}],
       items: [
         [0, 12.2, 14.3, 'http://milosz.ch/'],
@@ -30,22 +32,31 @@ describe('Controller: vm', function () {
       ]
     });
 
+    $controller = _$controller_;
+    Founders = _Founders_;
+  }));
+
+  it('should exist', function () {
     vm = $controller('LoadDataCtrl', {
       $scope: $scope,
       $uibModalInstance: modalInstance,
       founders: founders,
       supportsFileReader: true,
-      Founders: _Founders_
+      Founders: Founders
     });
 
-    Founders = _Founders_;
-  }));
-
-  it('should exist', function () {
     expect(!!vm).toBe(true);
   });
 
   it('should set founders, supportsFileReader, delimiters, form, formValid in scope', function () {
+    vm = $controller('LoadDataCtrl', {
+      $scope: $scope,
+      $uibModalInstance: modalInstance,
+      founders: founders,
+      supportsFileReader: true,
+      Founders: Founders
+    });
+
     $scope.$digest();
 
     expect(!!vm.founders).toBe(true);
@@ -64,6 +75,14 @@ describe('Controller: vm', function () {
   });
 
   it('should apply coordinates automatically', function () {
+    vm = $controller('LoadDataCtrl', {
+      $scope: $scope,
+      $uibModalInstance: modalInstance,
+      founders: founders,
+      supportsFileReader: true,
+      Founders: Founders
+    });
+
     vm.form.latitudeColumn = null;
     vm.form.longitudeColumn = null;
     $scope.$digest();
@@ -80,6 +99,14 @@ describe('Controller: vm', function () {
   });
 
   it('should not apply coordinates automatically when header is equal', function () {
+    vm = $controller('LoadDataCtrl', {
+      $scope: $scope,
+      $uibModalInstance: modalInstance,
+      founders: founders,
+      supportsFileReader: true,
+      Founders: Founders
+    });
+
     vm.form.raw = 'Id;Latitude;Longitude\n0;1;2';
 
     //manually choose and apply for different header
@@ -106,6 +133,14 @@ describe('Controller: vm', function () {
   });
 
   it('should update coordinates in founders', function () {
+    vm = $controller('LoadDataCtrl', {
+      $scope: $scope,
+      $uibModalInstance: modalInstance,
+      founders: founders,
+      supportsFileReader: true,
+      Founders: Founders
+    });
+
     $scope.$apply();
 
     vm.founders.latitudeColumn = 3;
@@ -120,6 +155,14 @@ describe('Controller: vm', function () {
   });
 
   it('should change validity based on items, latitude, longitude', function () {
+    vm = $controller('LoadDataCtrl', {
+      $scope: $scope,
+      $uibModalInstance: modalInstance,
+      founders: founders,
+      supportsFileReader: true,
+      Founders: Founders
+    });
+
     $scope.$apply();
     expect(vm.formValid).toBe(true);
 
@@ -159,6 +202,14 @@ describe('Controller: vm', function () {
   });
 
   it('should have exit methods from dialog', function () {
+    vm = $controller('LoadDataCtrl', {
+      $scope: $scope,
+      $uibModalInstance: modalInstance,
+      founders: founders,
+      supportsFileReader: true,
+      Founders: Founders
+    });
+
     vm.ok();
     expect(modalInstance.close).toHaveBeenCalledWith(vm.founders);
 
@@ -167,11 +218,33 @@ describe('Controller: vm', function () {
   });
 
   it('should parse text from file', function () {
+    vm = $controller('LoadDataCtrl', {
+      $scope: $scope,
+      $uibModalInstance: modalInstance,
+      founders: founders,
+      supportsFileReader: true,
+      Founders: Founders
+    });
+
     vm.fileText = 'Id;Latitude;Longitude\n0;1;2';
     $scope.$apply();
 
     expect(vm.fileText).toBe('');
     expect(vm.founders.header.length).toBe(3);
     expect(vm.founders.items.length).toBe(1);
+
+    $scope.$apply(); //with empty fileText - ignores
+  });
+
+  it('should work with no FileReader', function () {
+    vm = $controller('LoadDataCtrl', {
+      $scope: $scope,
+      $uibModalInstance: modalInstance,
+      founders: founders,
+      supportsFileReader: false,
+      Founders: Founders
+    });
+
+    expect(vm.supportsFileReader).toBe(false);
   });
 });
