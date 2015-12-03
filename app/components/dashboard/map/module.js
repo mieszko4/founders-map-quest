@@ -13,7 +13,8 @@
    'foundersMapQuestApp.foundersManager',
    'foundersMapQuestApp.visualize',
 
-   'ui.router'
+   'ui.router',
+   'uiGmapgoogle-maps'
  ])
 
  .config(function ($stateProvider, FMQ_MODULE_SETTINGS) {

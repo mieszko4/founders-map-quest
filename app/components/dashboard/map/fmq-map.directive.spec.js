@@ -45,6 +45,29 @@ describe('Directive: fmqMap', function () {
     expect(vm.markers.length).toBe(0);
   });
 
+  it('should open marker window when clicked on marker', function () {
+    module('foundersMapQuestApp.map');
+    element = createElement();
+    $scope.foundersManager = foundersManager;
+    foundersManager.founders.latitudeColumn = 1;
+    foundersManager.founders.longitudeColumn = 2;
+
+    inject(function ($compile) {
+      element = $compile(element)($scope);
+      $scope.$apply();
+
+      var vm = element.isolateScope().vm;
+
+      expect(vm.markers.length).toBe(3);
+
+      //simulate marker click
+      vm.markersEvents.click.call(null, null, null, vm.markers[0]);
+
+      expect(vm.markerWindow.model).toBe(vm.markers[0]);
+      expect(vm.markerWindow.show).toBe(true);
+    });
+  });
+
   it('should have markers when latitude and longitude columns are defined', function () {
     module('foundersMapQuestApp.map');
     element = createElement();

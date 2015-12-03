@@ -18,8 +18,7 @@
    'foundersMapQuestApp.state',
 
    'ui.bootstrap',
-   'ui.router',
-   'uiGmapgoogle-maps',
+   'ui.router'
  ])
 
  .config(function ($stateProvider, FMQ_MODULE_SETTINGS) {
