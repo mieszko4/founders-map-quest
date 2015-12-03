@@ -24,14 +24,14 @@ angular.module('foundersMapQuestApp.loadData')
         fileField.bind('change', function (event) {
           scope.$evalAsync(function () {
             var reader = new FileReader();
-            reader.onload = function (e) {
+            reader.addEventListener('load', function (e) {
               scope.$evalAsync(function () {
                 scope.text = e.target.result;
                 if (scope.reset) {
                   fileField.val('');
                 }
               });
-            };
+            });
             reader.readAsText(event.target.files[0]);
           });
         });
