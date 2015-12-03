@@ -23,7 +23,7 @@ describe('Directive: fmqColumnSorter', function () {
     $scope.changeCallback = callbacks.change;
   }));
 
-  it('should make hidden element visible', inject(function ($compile, SortStates) {
+  it('should cycle through sort states', inject(function ($compile, SortStates) {
     element = angular.element('<fmq-column-sorter state="state" change="changeCallback(state)"></fmq-column-sorter>');
     element = $compile(element)($scope);
     $scope.$digest();

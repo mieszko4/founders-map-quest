@@ -90,7 +90,6 @@ angular.module('foundersMapQuestApp.map')
 
         //open marker for specified item
         var openMarker = function (item) {
-          //$anchorScroll('fmq-map'); TODO: enable
           //find right marker
           var foundMarker = null;
           vm.markers.forEach(function (marker) {
