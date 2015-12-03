@@ -1,7 +1,6 @@
 'use strict';
 
 describe('Directive: fmqMap', function () {
-
   // load the directive's module
   beforeEach(module('templates'));
 
@@ -161,7 +160,7 @@ describe('Directive: fmqMap', function () {
       current: {
         name: 'test',
       },
-      go: jasmine.createSpy()
+      go: jasmine.createSpy('$state.go')
     };
 
     module('foundersMapQuestApp.map', function ($provide) {
@@ -215,7 +214,7 @@ describe('Directive: fmqMap', function () {
       current: {
         name: 'test',
       },
-      go: jasmine.createSpy()
+      go: jasmine.createSpy('$state.go')
     };
 
     module('foundersMapQuestApp.map', function ($provide) {
@@ -268,7 +267,7 @@ describe('Directive: fmqMap', function () {
       current: {
         name: 'root',
       },
-      go: jasmine.createSpy()
+      go: jasmine.createSpy('$state.go')
     };
 
     module('foundersMapQuestApp.map', function ($provide) {
