@@ -12,8 +12,7 @@ angular.module('foundersMapQuestApp.map')
 
     return {
       scope: {
-        foundersManager: '=',
-        hooks: '='
+        foundersManager: '='
       },
       templateUrl: moduleSettings.moduleLocation + 'fmq-map.html',
       restrict: 'EA',
