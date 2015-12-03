@@ -1,5 +1,5 @@
 <span
-  ng-attr-class="vm.type-{{vm.type || 'unknown'}}"
+  ng-attr-class="type-{{vm.type || 'unknown'}}"
 >
   <a
     ng-if="vm.type == 'image'"
@@ -19,7 +19,6 @@
 
   <span
     ng-if="vm.type == 'latitude' || vm.type == 'longitude'"
-    uib-tooltip="View on map"
   >
     <span
       class="glyphicon glyphicon-map-marker"
