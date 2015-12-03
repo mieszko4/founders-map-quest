@@ -7,8 +7,8 @@ describe('Directive: fmqFileReader', function () {
   // load the directive's module
   beforeEach(module('templates'));
   beforeEach(module('foundersMapQuestApp.loadData', function ($provide) {
-    eventListener = jasmine.createSpy();
-    readAsText = jasmine.createSpy();
+    eventListener = jasmine.createSpy('eventListener');
+    readAsText = jasmine.createSpy('readAsText');
     var dummyFileReader = spyOn(window, 'FileReader').and.returnValue({
       addEventListener: eventListener,
       readAsText: readAsText
