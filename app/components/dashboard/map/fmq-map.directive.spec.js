@@ -1,13 +1,52 @@
 'use strict';
 
 describe('Directive: fmqMap', function () {
-  // load the directive's module
-  beforeEach(module('templates'));
-
   var element,
     foundersManager,
     $rootScope,
     $scope;
+
+  var $state = {
+    current: {
+      name: 'test',
+    },
+    go: jasmine.createSpy('$state.go')
+  };
+  var FMQ_MODULE_SETTINGS = {
+    'foundersMapQuestApp.map': {
+      routes: {
+        map: 'test'
+      },
+      moduleLocation: 'components/dashboard/map/'
+    }
+  };
+  var $stateParams = {
+    item: null
+  };
+
+  // load the directive's module
+  beforeEach(module('templates'));
+  beforeEach(module('foundersMapQuestApp.map', function ($provide) {
+    $provide.value('$state', $state);
+
+    $provide.constant('FMQ_MODULE_SETTINGS', FMQ_MODULE_SETTINGS);
+
+    $provide.value('$uiViewScroll', function () {
+      return {
+        then: function (callback) {
+          callback.call(null);
+        }
+      };
+    });
+
+    $provide.value('$stateParams', $stateParams);
+  }));
+
+  afterEach(function () {
+    $state.current.name = 'test';
+    $state.go.calls.reset();
+    $stateParams.item = null;
+  });
 
   function createElement() {
     inject(function (_$rootScope_, FoundersFactory, FoundersManagerFactory) {
@@ -30,7 +69,6 @@ describe('Directive: fmqMap', function () {
   }
 
   it('should not have markers when latitude and longitude columns are not defined', function () {
-    module('foundersMapQuestApp.map');
     element = createElement();
     $scope.foundersManager = foundersManager;
 
@@ -45,7 +83,6 @@ describe('Directive: fmqMap', function () {
   });
 
   it('should open marker window when clicked on marker', function () {
-    module('foundersMapQuestApp.map');
     element = createElement();
     $scope.foundersManager = foundersManager;
     foundersManager.founders.latitudeColumn = 1;
@@ -68,7 +105,6 @@ describe('Directive: fmqMap', function () {
   });
 
   it('should have markers when latitude and longitude columns are defined', function () {
-    module('foundersMapQuestApp.map');
     element = createElement();
 
     foundersManager.founders.latitudeColumn = 1;
@@ -85,7 +121,6 @@ describe('Directive: fmqMap', function () {
   });
 
   it('should open and close window', function () {
-    module('foundersMapQuestApp.map');
     element = createElement();
 
     foundersManager.founders.latitudeColumn = 1;
@@ -110,7 +145,6 @@ describe('Directive: fmqMap', function () {
   });
 
   it('should update markers when foundersManager.selectedItems, foundersManager.filterStates, foundersManager.markerColumn changes', function () {
-    module('foundersMapQuestApp.map');
     element = createElement();
 
     foundersManager.founders.latitudeColumn = 1;
@@ -156,38 +190,8 @@ describe('Directive: fmqMap', function () {
   });
 
   it('should open marker when state matches', function () {
-    var $state = {
-      current: {
-        name: 'test',
-      },
-      go: jasmine.createSpy('$state.go')
-    };
-
-    module('foundersMapQuestApp.map', function ($provide) {
-      $provide.value('$state', $state);
-
-      $provide.constant('FMQ_MODULE_SETTINGS', {
-        'foundersMapQuestApp.map': {
-          routes: {
-            map: 'test'
-          },
-          moduleLocation: 'components/dashboard/map/'
-        }
-      });
-
-      $provide.value('$uiViewScroll', function () {
-        return {
-          then: function (callback) {
-            callback.call(null);
-          }
-        };
-      });
-
-      $provide.service('$stateParams', function () {
-        this.item = foundersManager.founders.items[0];
-      });
-    });
     element = createElement();
+    $stateParams.item = foundersManager.founders.items[0];
 
     foundersManager.founders.latitudeColumn = 1;
     foundersManager.founders.longitudeColumn = 2;
@@ -210,37 +214,7 @@ describe('Directive: fmqMap', function () {
   });
 
   it('should not open marker when state matches', function () {
-    var $state = {
-      current: {
-        name: 'test',
-      },
-      go: jasmine.createSpy('$state.go')
-    };
-
-    module('foundersMapQuestApp.map', function ($provide) {
-      $provide.value('$state', $state);
-
-      $provide.constant('FMQ_MODULE_SETTINGS', {
-        'foundersMapQuestApp.map': {
-          routes: {
-            map: 'test'
-          },
-          moduleLocation: 'components/dashboard/map/'
-        }
-      });
-
-      $provide.value('$uiViewScroll', function () {
-        return {
-          then: function (callback) {
-            callback.call(null);
-          }
-        };
-      });
-
-      $provide.service('$stateParams', function () {
-        this.item = 'non-existing';
-      });
-    });
+    $stateParams.item = 'non-existing';
     element = createElement();
 
     foundersManager.founders.latitudeColumn = 1;
@@ -263,33 +237,7 @@ describe('Directive: fmqMap', function () {
   });
 
   it('should open marker when state changes and matches', function () {
-    var $state = {
-      current: {
-        name: 'root',
-      },
-      go: jasmine.createSpy('$state.go')
-    };
-
-    module('foundersMapQuestApp.map', function ($provide) {
-      $provide.value('$state', $state);
-
-      $provide.constant('FMQ_MODULE_SETTINGS', {
-        'foundersMapQuestApp.map': {
-          routes: {
-            map: 'test'
-          },
-          moduleLocation: 'components/dashboard/map/'
-        }
-      });
-
-      $provide.value('$uiViewScroll', function () {
-        return {
-          then: function (callback) {
-            callback.call(null);
-          }
-        };
-      });
-    });
+    $state.current.name = 'root';
     element = createElement();
 
     foundersManager.founders.latitudeColumn = 1;
