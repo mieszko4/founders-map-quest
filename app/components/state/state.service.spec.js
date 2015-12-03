@@ -6,13 +6,24 @@ describe('Service: StateFactory', function () {
   beforeEach(module('foundersMapQuestApp.state'));
 
   // instantiate service
-  var StateFactory;
-  beforeEach(inject(function (_StateFactory_) {
+  var StateFactory,
+    State;
+  beforeEach(inject(function (_StateFactory_, _State_, localStorageService) {
     StateFactory = _StateFactory_;
+    State = _State_;
+    localStorageService.clearAll();
   }));
 
   it('should exist', function () {
     expect(!!StateFactory).toBe(true);
+  });
+
+  it('should create a State with key', function () {
+    var state = StateFactory.create('test');
+
+    expect(state.key).toBe('test');
+    expect(state.value).toBe(null);
+    expect(state instanceof State);
   });
 
 });
@@ -24,8 +35,9 @@ describe('Service: State', function () {
 
   // instantiate service
   var State;
-  beforeEach(inject(function (_State_) {
+  beforeEach(inject(function (_State_, localStorageService) {
     State = _State_;
+    localStorageService.clearAll();
   }));
 
   it('should exist', function () {
