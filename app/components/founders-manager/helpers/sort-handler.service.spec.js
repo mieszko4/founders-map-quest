@@ -16,27 +16,27 @@ describe('Service: SortHandler', function () {
   });
 
   it('should return state', function () {
-    var SortStates = {0: 'state1'};
+    var sortStates = {0: 'state1'};
 
-    expect(SortHandler.getSortState(SortStates, 0)).toBe('state1');
-    expect(SortHandler.getSortState(SortStates, 'non-existing')).not.toBeDefined();
+    expect(SortHandler.getSortState(sortStates, 0)).toBe('state1');
+    expect(SortHandler.getSortState(sortStates, 'non-existing')).not.toBeDefined();
   });
 
   it('should return sort keys', function () {
-    var SortStates = {0: 'state1', 1: 'state2'};
+    var sortStates = {0: 'state1', 1: 'state2'};
 
-    expect(SortHandler.getSortKeys(SortStates)).toEqual(['0', '1']);
+    expect(SortHandler.getSortKeys(sortStates)).toEqual(['0', '1']);
   });
 
-  it('should return apply sort', function () {
-    var SortStates = {0: 'state1', 1: 'state2'};
+  it('should apply sort', function () {
+    var sortStates = {0: 'state1', 1: 'state2'};
 
-    expect(SortHandler.applySort(SortStates, 'state1', 1)).toEqual({
+    expect(SortHandler.applySort(sortStates, 1, 'state1')).toEqual({
       0: 'state1',
       1: 'state1'
     });
 
-    expect(SortHandler.applySort(SortStates, 'state3', 'non-existing')).toEqual({
+    expect(SortHandler.applySort(sortStates, 'non-existing', 'state3')).toEqual({
       0: 'state1',
       1: 'state1',
       'non-existing': 'state3'
