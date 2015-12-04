@@ -53,7 +53,7 @@ angular.module('foundersMapQuestApp.foundersManager')
       var key = (this.founders.items || []).indexOf(item);
 
       if (key !== -1) {
-        this.selectedItems = SelectHandler.toggleSelection(this.founders.items, key, this.selectedItems);
+        this.selectedItems = SelectHandler.toggleSelection(this.selectedItems, key);
         return true;
       } else {
         return false;
