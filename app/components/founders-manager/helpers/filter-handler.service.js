@@ -30,10 +30,10 @@ angular.module('foundersMapQuestApp.foundersManager')
 
           var search = filterStates[key];
           if (typeof search !== 'undefined' && search !== '') {
-            var searchLowered = search.toLowerCase();
+            //treat all values as strings
+            var searchLowered = (''+search).toLowerCase();
             var value = item[key];
 
-            //treat all values as strings
             if ((''+value).toLowerCase().indexOf(searchLowered) === -1) {
               include = false;
             }
