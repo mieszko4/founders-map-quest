@@ -76,10 +76,6 @@ angular.module('foundersMapQuestApp.table')
         });
 
         //sorting
-        vm.getSort = function (column) {
-          vm.foundersManager.getSort(column);
-        };
-
         vm.applySort = function (column, state) {
           vm.foundersManager.applySort(column, state);
         };
