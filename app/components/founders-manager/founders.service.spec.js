@@ -48,7 +48,7 @@ describe('Service: FoundersFactory', function () {
   });
 
 
-  it('should create a Csv from json', function () {
+  it('should create a Founders from json', function () {
     var header = [
       'a',
       'b',
@@ -74,6 +74,35 @@ describe('Service: FoundersFactory', function () {
     });
 
     expect(founders.header.length).toBe(3);
+    expect(founders.items).toBe(items);
+    expect(founders.delimiter).toBe(delimiter);
+
+    expect(founders.latitudeColumn).toBe(latitudeColumn);
+    expect(founders.longitudeColumn).toBe(longitudeColumn);
+    expect(founders.markerColumn).toBe(markerColumn);
+    expect(founders instanceof Founders);
+  });
+
+  it('should create a Founders from json without header', function () {
+    var items = [
+      [1, 2, 3],
+      [4, 5, 6]
+    ];
+    var delimiter = ';';
+
+    var latitudeColumn = 1;
+    var longitudeColumn = 2;
+    var markerColumn = 1;
+
+    var founders = FoundersFactory.createFromJson({
+      items: items,
+      delimiter: delimiter,
+      latitudeColumn: latitudeColumn,
+      longitudeColumn: longitudeColumn,
+      markerColumn: markerColumn
+    });
+
+    expect(founders.header.length).toBe(0);
     expect(founders.items).toBe(items);
     expect(founders.delimiter).toBe(delimiter);
 
@@ -155,7 +184,7 @@ describe('Service: Founders', function () {
     expect(founders instanceof Csv);
   });
 
-  it('should create a Csv', function () {
+  it('should create a Founders', function () {
     var header = [
       new Column('a'),
       new Column('b'),
