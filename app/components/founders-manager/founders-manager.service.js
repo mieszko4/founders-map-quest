@@ -102,7 +102,7 @@ angular.module('foundersMapQuestApp.foundersManager')
       var key = this.founders.header.indexOf(column);
 
       if (key !== -1) {
-        this.sortStates = SortHandler.applySort(this.sortStates, state, key);
+        this.sortStates = SortHandler.applySort(this.sortStates, key, state);
         return true;
       } else {
         return false;
