@@ -26,6 +26,9 @@ describe('Directive: fmqMap', function () {
 
   // load the directive's module
   beforeEach(module('templates'));
+  beforeEach(function () {
+    angular.module('uiGmapgoogle-maps', []);
+  });
   beforeEach(module('foundersMapQuestApp.map', function ($provide) {
     $provide.value('$state', $state);
 
