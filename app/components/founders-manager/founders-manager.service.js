@@ -38,7 +38,11 @@ angular.module('foundersMapQuestApp.foundersManager')
     };
 
     FoundersManager.prototype.isSelected = function (item) {
-      return SelectHandler.isSelected(this.selectedItems, (this.founders.items || []).indexOf(item));
+      var key = (this.founders.items || []).indexOf(item);
+
+      if (key !== -1) {
+        return SelectHandler.isSelected(this.selectedItems, key);
+      }
     };
 
     FoundersManager.prototype.toggleAllSelection = function () {
@@ -46,16 +50,34 @@ angular.module('foundersMapQuestApp.foundersManager')
     };
 
     FoundersManager.prototype.toggleSelection = function (item) {
-      return SelectHandler.toggleSelection(this.founders.items || [], (this.founders.items || []).indexOf(item), this.selectedItems);
+      var key = (this.founders.items || []).indexOf(item);
+
+      if (key !== -1) {
+        this.selectedItems = SelectHandler.toggleSelection(this.founders.items, key, this.selectedItems);
+        return true;
+      } else {
+        return false;
+      }
     };
 
     //filtering
     FoundersManager.prototype.setFilter = function (column, value) {
-      this.filterStates = FilterHandler.setFilter(this.filterStates, this.founders.header.indexOf(column), value);
+      var key = this.founders.header.indexOf(column);
+
+      if (key !== -1) {
+        this.filterStates = FilterHandler.setFilter(this.filterStates, key, value);
+        return true;
+      } else {
+        return false;
+      }
     };
 
     FoundersManager.prototype.getFilter = function (column) {
-      return FilterHandler.getFilter(this.filterStates, this.founders.header.indexOf(column));
+      var key = this.founders.header.indexOf(column);
+
+      if (key !== -1) {
+        return FilterHandler.getFilter(this.filterStates, key);
+      }
     };
 
     FoundersManager.prototype.resetFilters = function () {
@@ -68,12 +90,23 @@ angular.module('foundersMapQuestApp.foundersManager')
 
     //sorting
     FoundersManager.prototype.getSort = function (column) {
-      return SortHandler.getSortState(this.sortStates, this.founders.header.indexOf(column));
+      var key = this.founders.header.indexOf(column);
+
+      if (key !== -1) {
+        return SortHandler.getSortState(this.sortStates, key);
+      }
     };
 
     FoundersManager.prototype.applySort = function (column, state) {
       this.sortStates = SortHandler.resetSorts(); //support only one column sort
-      this.sortStates = SortHandler.applySort(this.sortStates, state, this.founders.header.indexOf(column));
+      var key = this.founders.header.indexOf(column);
+
+      if (key !== -1) {
+        this.sortStates = SortHandler.applySort(this.sortStates, state, key);
+        return true;
+      } else {
+        return false;
+      }
     };
 
     FoundersManager.prototype.getSortConfig = function () {
