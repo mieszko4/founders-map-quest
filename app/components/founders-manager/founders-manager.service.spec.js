@@ -138,17 +138,36 @@ describe('Service: FoundersManager', function () {
     expect(foundersManager.isSelected(foundersManager.founders.items[1])).toBe(false);
     expect(foundersManager.isSelected(foundersManager.founders.items[2])).toBe(false);
 
-    foundersManager.toggleSelection(foundersManager.founders.items[0]);
+    expect(foundersManager.toggleSelection(foundersManager.founders.items[0])).toBe(true);
     expect(foundersManager.isSelected(foundersManager.founders.items[0])).toBe(true);
     expect(foundersManager.isSelected(foundersManager.founders.items[1])).toBe(false);
     expect(foundersManager.isSelected(foundersManager.founders.items[2])).toBe(false);
     expect(foundersManager.allSelected()).toBe(false);
 
-    foundersManager.toggleSelection(foundersManager.founders.items[1]);
-    foundersManager.toggleSelection(foundersManager.founders.items[2]);
+    expect(foundersManager.toggleSelection(foundersManager.founders.items[1])).toBe(true);
+    expect(foundersManager.toggleSelection(foundersManager.founders.items[2])).toBe(true);
     expect(foundersManager.isSelected(foundersManager.founders.items[0])).toBe(true);
     expect(foundersManager.isSelected(foundersManager.founders.items[1])).toBe(true);
     expect(foundersManager.isSelected(foundersManager.founders.items[2])).toBe(true);
+    expect(foundersManager.allSelected()).toBe(true);
+  });
+
+  it('should manage selection for not defined items', function () {
+    var founders = createFounders();
+    founders.items = null;
+    var foundersManager = new FoundersManager(founders);
+
+    //test all
+    expect(foundersManager.allSelected()).toBe(true);
+    foundersManager.toggleAllSelection();
+    expect(foundersManager.allSelected()).toBe(true);
+
+    //test single non-existing
+    var item = 'non-existing';
+    expect(foundersManager.isSelected(item)).not.toBeDefined();
+
+    expect(foundersManager.toggleSelection(item)).toBe(false);
+    expect(foundersManager.isSelected(item)).not.toBeDefined();
     expect(foundersManager.allSelected()).toBe(true);
   });
 
@@ -167,7 +186,7 @@ describe('Service: FoundersManager', function () {
     expect(foundersManager.passesFilter(foundersManager.founders.items[2])).toBe(true);
 
     //set passing filter
-    foundersManager.setFilter(foundersManager.founders.header[0], '4');
+    expect(foundersManager.setFilter(foundersManager.founders.header[0], '4')).toBe(true);
     expect(foundersManager.getFilter(foundersManager.founders.header[0])).toBe('4');
     expect(foundersManager.passesFilter(foundersManager.founders.items[0])).toBe(false);
     expect(foundersManager.passesFilter(foundersManager.founders.items[1])).toBe(true);
@@ -175,6 +194,29 @@ describe('Service: FoundersManager', function () {
 
     //all pass
     foundersManager.resetFilters();
+    expect(foundersManager.passesFilter(foundersManager.founders.items[0])).toBe(true);
+    expect(foundersManager.passesFilter(foundersManager.founders.items[1])).toBe(true);
+    expect(foundersManager.passesFilter(foundersManager.founders.items[2])).toBe(true);
+  });
+
+  it('should manage filtering for not defined column', function () {
+    var founders = createFounders();
+    var foundersManager = new FoundersManager(founders);
+
+    //all empty filters
+    expect(foundersManager.getFilter(foundersManager.founders.header[0])).not.toBeDefined();
+    expect(foundersManager.getFilter(foundersManager.founders.header[1])).not.toBeDefined();
+    expect(foundersManager.getFilter(foundersManager.founders.header[2])).not.toBeDefined();
+
+    //all pass
+    expect(foundersManager.passesFilter(foundersManager.founders.items[0])).toBe(true);
+    expect(foundersManager.passesFilter(foundersManager.founders.items[1])).toBe(true);
+    expect(foundersManager.passesFilter(foundersManager.founders.items[2])).toBe(true);
+
+    //set passing filter
+    var column = 'non-existing';
+    expect(foundersManager.setFilter(column, '4')).toBe(false);
+    expect(foundersManager.getFilter(column)).not.toBeDefined();
     expect(foundersManager.passesFilter(foundersManager.founders.items[0])).toBe(true);
     expect(foundersManager.passesFilter(foundersManager.founders.items[1])).toBe(true);
     expect(foundersManager.passesFilter(foundersManager.founders.items[2])).toBe(true);
@@ -195,7 +237,7 @@ describe('Service: FoundersManager', function () {
     });
 
     //asc
-    foundersManager.applySort(foundersManager.founders.header[0], SortStates.ASC);
+    expect(foundersManager.applySort(foundersManager.founders.header[0], SortStates.ASC)).toBe(true);
     expect(foundersManager.getSort(foundersManager.founders.header[0])).toBe(SortStates.ASC);
     expect(foundersManager.getSort(foundersManager.founders.header[1])).not.toBeDefined();
     expect(foundersManager.getSort(foundersManager.founders.header[2])).not.toBeDefined();
@@ -206,7 +248,7 @@ describe('Service: FoundersManager', function () {
     });
 
     //desc another
-    foundersManager.applySort(foundersManager.founders.header[1], SortStates.DESC);
+    expect(foundersManager.applySort(foundersManager.founders.header[1], SortStates.DESC)).toBe(true);
     expect(foundersManager.getSort(foundersManager.founders.header[0])).not.toBeDefined();
     expect(foundersManager.getSort(foundersManager.founders.header[1])).toBe(SortStates.DESC);
     expect(foundersManager.getSort(foundersManager.founders.header[2])).not.toBeDefined();
@@ -217,7 +259,7 @@ describe('Service: FoundersManager', function () {
     });
 
     //reset same
-    foundersManager.applySort(foundersManager.founders.header[1], SortStates.NONE);
+    expect(foundersManager.applySort(foundersManager.founders.header[1], SortStates.NONE)).toBe(true);
     expect(foundersManager.getSort(foundersManager.founders.header[0])).not.toBeDefined();
     expect(foundersManager.getSort(foundersManager.founders.header[1])).toBe(SortStates.NONE);
     expect(foundersManager.getSort(foundersManager.founders.header[2])).not.toBeDefined();
@@ -228,7 +270,7 @@ describe('Service: FoundersManager', function () {
     });
 
     //asc same
-    foundersManager.applySort(foundersManager.founders.header[1], SortStates.ASC);
+    expect(foundersManager.applySort(foundersManager.founders.header[1], SortStates.ASC)).toBe(true);
     expect(foundersManager.getSort(foundersManager.founders.header[0])).not.toBeDefined();
     expect(foundersManager.getSort(foundersManager.founders.header[1])).toBe(SortStates.ASC);
     expect(foundersManager.getSort(foundersManager.founders.header[2])).not.toBeDefined();
@@ -250,4 +292,26 @@ describe('Service: FoundersManager', function () {
     });
   });
 
+  it('should manage sorting for not defined column', function () {
+    var founders = createFounders();
+    var foundersManager = new FoundersManager(founders);
+
+    //initial - undefined
+    expect(foundersManager.getSort(foundersManager.founders.header[0])).not.toBeDefined();
+    expect(foundersManager.getSort(foundersManager.founders.header[1])).not.toBeDefined();
+    expect(foundersManager.getSort(foundersManager.founders.header[2])).not.toBeDefined();
+
+    expect(foundersManager.getSortConfig()).toEqual({
+      predicate: undefined,
+      reverse: false
+    });
+
+    //asc
+    var column = 'non-existing';
+    expect(foundersManager.applySort(column, SortStates.ASC)).toBe(false);
+    expect(foundersManager.getSort(column)).not.toBeDefined();
+    expect(foundersManager.getSort(foundersManager.founders.header[0])).not.toBeDefined();
+    expect(foundersManager.getSort(foundersManager.founders.header[1])).not.toBeDefined();
+    expect(foundersManager.getSort(foundersManager.founders.header[2])).not.toBeDefined();
+  });
 });
