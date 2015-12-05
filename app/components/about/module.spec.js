@@ -15,11 +15,14 @@ describe('Module: foundersMapQuestApp.about', function () {
 
   // load the directive's module
   beforeEach(module('templates'));
-  beforeEach(module('foundersMapQuestApp.constants', function (FMQ_MODULE_SETTINGS, FMQ_ROOT_URL, FMQ_ROOT_STATE) {
-    settings = FMQ_MODULE_SETTINGS['foundersMapQuestApp.about'];
-    rootUrl = FMQ_ROOT_URL;
-    rootState = FMQ_ROOT_STATE;
-  }));
+  beforeEach(function () {
+    module('foundersMapQuestApp.constants');
+    module(function (FMQ_MODULE_SETTINGS, FMQ_ROOT_URL, FMQ_ROOT_STATE) {
+      settings = FMQ_MODULE_SETTINGS['foundersMapQuestApp.about'];
+      rootUrl = FMQ_ROOT_URL;
+      rootState = FMQ_ROOT_STATE;
+    });
+  });
   beforeEach(module('foundersMapQuestApp.about', function ($stateProvider) {
     $stateProvider
       .state(rootState, {

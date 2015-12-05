@@ -37,11 +37,14 @@ describe('Module: foundersMapQuestApp.dashboard', function () {
 
   // load the directive's module
   beforeEach(module('templates'));
-  beforeEach(module('foundersMapQuestApp.constants', function (FMQ_MODULE_SETTINGS, FMQ_ROOT_URL, FMQ_ROOT_STATE) {
-    settings = FMQ_MODULE_SETTINGS['foundersMapQuestApp.dashboard'];
-    rootUrl = FMQ_ROOT_URL;
-    rootState = FMQ_ROOT_STATE;
-  }));
+  beforeEach(function () {
+    module('foundersMapQuestApp.constants');
+    module(function (FMQ_MODULE_SETTINGS, FMQ_ROOT_URL, FMQ_ROOT_STATE) {
+      settings = FMQ_MODULE_SETTINGS['foundersMapQuestApp.dashboard'];
+      rootUrl = FMQ_ROOT_URL;
+      rootState = FMQ_ROOT_STATE;
+    });
+  });
   beforeEach(module('foundersMapQuestApp.dashboard', function ($stateProvider) {
     $stateProvider
       .state(rootState, {
