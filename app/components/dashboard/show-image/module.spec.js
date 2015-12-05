@@ -14,6 +14,12 @@ describe('Module: foundersMapQuestApp.showImage', function () {
     }};
   }
 
+  function resolve(value) {
+    return {forModal: function (modalDefinition) {
+      return $injector.invoke(modalDefinition.resolve[value]);
+    }};
+  }
+
   var $location,
     settings,
     rootState,
@@ -21,6 +27,7 @@ describe('Module: foundersMapQuestApp.showImage', function () {
     $state,
     $stateParams,
     $rootScope,
+    $injector,
     $uibModal;
 
   // load the directive's module
@@ -45,11 +52,12 @@ describe('Module: foundersMapQuestApp.showImage', function () {
     ;
   }));
 
-  beforeEach(inject(function (_$location_, _$rootScope_, _$state_, _$stateParams_, _$uibModal_) {
+  beforeEach(inject(function (_$location_, _$rootScope_, _$state_, _$stateParams_, _$injector_, _$uibModal_) {
     $location = _$location_;
     $rootScope = _$rootScope_;
     $state = _$state_;
     $stateParams = _$stateParams_;
+    $injector = _$injector_;
 
     spyOn(_$uibModal_, 'open').and.callThrough();
     $uibModal = _$uibModal_;
@@ -62,20 +70,81 @@ describe('Module: foundersMapQuestApp.showImage', function () {
     expect($uibModal.open).toHaveBeenCalled();
   });
 
+  it('should redirect to root when going to show-image when no image passed', function () {
+    goFrom(rootUrl + '/').toState(settings.routes['show-image'], {image: null});
+    expect($state.current.name).toEqual(rootState);
+    expect($stateParams.image).not.toBeDefined();
+    expect($uibModal.open).toHaveBeenCalled();
+
+    //resolve
+    var modalDefinition = $uibModal.open.calls.mostRecent().args[0];
+    var resolved = resolve('image').forModal(modalDefinition);
+    expect(resolved).toEqual(null);
+  });
+
   it('should have item when item passed', function () {
     var image = 'http://milosz.ch/self.jpg';
 
-    //onEnter
     goFrom(rootUrl + '/').toState(settings.routes['show-image'], {image: image});
     expect($state.current.name).toEqual(settings.routes['show-image']);
     expect($stateParams.image).toEqual(image);
     expect($uibModal.open).toHaveBeenCalled();
 
-    //onExit
+    //resolve
+    var modalDefinition = $uibModal.open.calls.mostRecent().args[0];
+    var resolved = resolve('image').forModal(modalDefinition);
+    expect(resolved).toEqual(image);
+  });
+
+  //onExit
+  it('should close modal and not return anything when redirect', function () {
+    var image = 'http://milosz.ch/self.jpg';
+
+    goFrom(rootUrl + '/').toState(settings.routes['show-image'], {image: image});
+    expect($state.current.name).toEqual(settings.routes['show-image']);
+    expect($stateParams.image).toEqual(image);
+    expect($uibModal.open).toHaveBeenCalled();
+
     var modalInstance = $uibModal.open.calls.mostRecent().returnValue;
     spyOn(modalInstance, 'close');
+
     goFrom(rootUrl + '/show-image').toState(rootState);
     expect(modalInstance.close).toHaveBeenCalled();
     expect($state.current.name).toEqual(rootState);
+    expect($stateParams).toEqual({});
+  });
+
+  it('should not return anything when dismissed', function () {
+    var image = 'http://milosz.ch/self.jpg';
+
+    goFrom(rootUrl + '/').toState(settings.routes['show-image'], {image: image});
+    expect($state.current.name).toEqual(settings.routes['show-image']);
+    expect($stateParams.image).toEqual(image);
+    expect($uibModal.open).toHaveBeenCalled();
+
+    spyOn($state, 'go').and.callThrough();
+    var modalInstance = $uibModal.open.calls.mostRecent().returnValue;
+    modalInstance.dismiss();
+    $rootScope.$apply();
+
+    expect($state.current.name).toEqual(rootState);
+    expect($state.go).toHaveBeenCalledWith('^');
+  });
+
+  it('should not return anything when closed', function () {
+    var image = 'http://milosz.ch/self.jpg';
+
+    goFrom(rootUrl + '/').toState(settings.routes['show-image'], {image: image});
+    expect($state.current.name).toEqual(settings.routes['show-image']);
+    expect($stateParams.image).toEqual(image);
+    expect($uibModal.open).toHaveBeenCalled();
+
+    spyOn($state, 'go').and.callThrough();
+    var modalInstance = $uibModal.open.calls.mostRecent().returnValue;
+    modalInstance.close();
+    $rootScope.$apply();
+
+    expect($state.current.name).toEqual(rootState);
+    expect($state.go).toHaveBeenCalledWith('^');
   });
 });
