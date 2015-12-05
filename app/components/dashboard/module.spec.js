@@ -129,4 +129,18 @@ describe('Module: foundersMapQuestApp.dashboard', function () {
     var resolved = resolve('tableHelpInfoState').forStateAndView(settings.routes.dashboard, 'main@');
     expect(resolved.get()).toEqual(tableHelpInfo);
   });
+
+  it('should have tableHelpInfoState from state', function () {
+    var key = 'fmq.tableHelpInfo';
+
+    //resolve
+    cleanState(key);
+    var tableHelpInfo = false;
+
+    var tableHelpInfoState = StateFactory.create(key).set(tableHelpInfo);
+    tableHelpInfoState.save();
+
+    var resolved = resolve('tableHelpInfoState').forStateAndView(settings.routes.dashboard, 'main@');
+    expect(resolved.get()).toEqual(tableHelpInfo);
+  });
 });
