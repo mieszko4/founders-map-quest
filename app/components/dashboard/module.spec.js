@@ -65,6 +65,7 @@ describe('Module: foundersMapQuestApp.dashboard', function () {
   it('should go to dashboard', function () {
     goTo(rootUrl + '/dashboard');
     expect($state.current.name).toEqual(settings.routes.dashboard);
+    expect($stateParams.founders).toEqual(null);
   });
 
   it('should have default foundersManagerState when null founders passed and clean state', inject(function (FoundersManagerFactory, FoundersFactory) {

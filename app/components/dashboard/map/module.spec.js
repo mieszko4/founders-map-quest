@@ -54,6 +54,7 @@ describe('Module: foundersMapQuestApp.map', function () {
   it('should go to map', function () {
     goTo(rootUrl + '/map');
     expect($state.current.name).toEqual(settings.routes.map);
+    expect($stateParams.item).toEqual(null);
   });
 
   it('should have item when item passed', inject(function (FoundersFactory) {
