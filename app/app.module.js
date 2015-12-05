@@ -25,12 +25,12 @@
     });
   })
 
- .config(function ($stateProvider, $urlRouterProvider, FMQ_ROOT_URL) {
+ .config(function ($stateProvider, $urlRouterProvider, FMQ_ROOT_URL, FMQ_ROOT_STATE) {
    $urlRouterProvider
     .when(FMQ_ROOT_URL + '/', FMQ_ROOT_URL + '/dashboard');
 
    $stateProvider
-    .state('root', {
+    .state(FMQ_ROOT_STATE, {
       url: FMQ_ROOT_URL
     });
  });

@@ -20,7 +20,7 @@ module.exports = function (grunt) {
   };
 
   // Unit test matcher
-  var unitTestRegExp = '<%= yeoman.app %>/components/**/*.spec.js';
+  var unitTestRegExp = '<%= yeoman.app %>/**/*.spec.js';
 
   // Define the configuration for all the tasks
   grunt.initConfig({

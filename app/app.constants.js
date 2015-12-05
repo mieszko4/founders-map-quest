@@ -52,4 +52,5 @@
     }
   })
   .constant('FMQ_ROOT_URL', '')
+  .constant('FMQ_ROOT_STATE', 'root')
   .constant('FMQ_ANIMATE', true);
