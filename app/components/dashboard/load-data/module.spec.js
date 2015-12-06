@@ -180,30 +180,6 @@ describe('Module: foundersMapQuestApp.loadData', function () {
   });
 
   describe('without FileReader', function () {
-    function reloadModuleScripts(name, async) {
-      var previousAsync;
-
-      if (async) {
-        previousAsync = angular.element.ajaxSetup().async;
-        angular.element.ajaxSetup({async: false});
-      }
-
-      angular.element('script').filter(function () {
-        var src = (angular.element(this).attr('src') || '');
-        return src.indexOf(name) !== -1 && src.indexOf('.spec.js') === -1;
-      }).each(function () {
-        var $element = angular.element(this);
-        var src = $element.attr('src'); //.split('?')[0] + '?' + Math.random();
-
-        $element.remove();
-        angular.element.getScript(src);
-      });
-
-      if (async) {
-        angular.element.ajaxSetup({async: previousAsync});
-      }
-    }
-
     var previousFileReader;
 
     beforeAll(function () {
@@ -213,8 +189,6 @@ describe('Module: foundersMapQuestApp.loadData', function () {
 
     afterAll(function () {
       window.FileReader = previousFileReader;
-
-      reloadModuleScripts(settings.moduleLocation, true);
     });
 
     // load the directive's module
@@ -229,8 +203,6 @@ describe('Module: foundersMapQuestApp.loadData', function () {
         settings = FMQ_MODULE_SETTINGS['foundersMapQuestApp.loadData'];
         rootUrl = FMQ_ROOT_URL;
         rootState = FMQ_ROOT_STATE;
-
-        reloadModuleScripts(settings.moduleLocation, true);
       });
     });
     beforeEach(module('foundersMapQuestApp.loadData', function ($stateProvider) {
