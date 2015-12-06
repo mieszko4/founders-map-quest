@@ -63,6 +63,24 @@ describe('Service: CsvFactory', function () {
     expect(csv instanceof Csv);
   });
 
+  it('should create a Csv from json without header', function () {
+    var items = [
+      [1, 2, 3],
+      [4, 5, 6]
+    ];
+    var delimiter = ';';
+
+    var csv = CsvFactory.createFromJson({
+      items: items,
+      delimiter: delimiter
+    });
+
+    expect(csv.header.length).toBe(0);
+    expect(csv.items).toBe(items);
+    expect(csv.delimiter).toBe(delimiter);
+    expect(csv instanceof Csv);
+  });
+
   it('should create a Csv from raw csv', function () {
     var csv = CsvFactory.createFromRaw('a;b;c\n1;2;3\n4;5;6');
 

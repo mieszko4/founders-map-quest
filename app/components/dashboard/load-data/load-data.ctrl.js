@@ -76,7 +76,6 @@ angular.module('foundersMapQuestApp.loadData')
     };
 
     // get data from uploaded local file
-    vm.supportsFileReader = supportsFileReader;
     if (supportsFileReader) {
       $scope.$watch(function () {
         return vm.fileText;

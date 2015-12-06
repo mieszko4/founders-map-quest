@@ -53,13 +53,11 @@ describe('Directive: fmqNavigation', function () {
 
     $state.go('page1');
     $scope.$digest();
-    expect($scope.vm.currentName).toBe('page1');
     expect(element.find('li:eq(0)').hasClass('active')).toBe(true);
     expect(element.find('li:eq(1)').hasClass('active')).toBe(false);
 
     $state.go('page2');
     $scope.$digest();
-    expect($scope.vm.currentName).toBe('page2');
     expect(element.find('li:eq(0)').hasClass('active')).toBe(false);
     expect(element.find('li:eq(1)').hasClass('active')).toBe(true);
   }));

@@ -12,14 +12,13 @@ angular.module('foundersMapQuestApp.map')
 
     return {
       scope: {
-        foundersManager: '=',
-        hooks: '='
+        foundersManager: '='
       },
       templateUrl: moduleSettings.moduleLocation + 'fmq-map.html',
       restrict: 'EA',
       controllerAs: 'vm',
       bindToController: true,
-      controller: function ($scope) {
+      controller: function ($scope, $rootScope, $state, $stateParams, $uiViewScroll, $element, $window) {
         var vm = this;
         var founders = vm.foundersManager.founders;
 
@@ -88,9 +87,9 @@ angular.module('foundersMapQuestApp.map')
           updateMarkers();
         });
 
-        //Hooks for other directives
-        vm.hooks = vm.hooks || {};
-        vm.hooks.openMarker = function (item) {
+
+        //open marker for specified item
+        var openMarker = function (item) {
           //find right marker
           var foundMarker = null;
           vm.markers.forEach(function (marker) {
@@ -105,6 +104,24 @@ angular.module('foundersMapQuestApp.map')
             vm.closeMarkerWindow();
           }
         };
+
+        var applyMapState = function (state, params) {
+          if (state.name !== FMQ_MODULE_SETTINGS['foundersMapQuestApp.map'].routes.map) {
+            return;
+          }
+
+          $uiViewScroll($element).then(function () {
+            angular.element($window).one('scroll', function () {
+              $state.go('^');
+            });
+          });
+          openMarker(params.item);
+        };
+        applyMapState($state.current, $stateParams);
+
+        $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams) {
+          applyMapState(toState, toParams);
+        });
       }
     };
   });

@@ -11,8 +11,39 @@ describe('Service: SortHandler', function () {
     SortHandler = _SortHandler_;
   }));
 
-  it('should do something', function () {
+  it('should exist', function () {
     expect(!!SortHandler).toBe(true);
   });
 
+  it('should return state', function () {
+    var sortStates = {0: 'state1'};
+
+    expect(SortHandler.getSortState(sortStates, 0)).toBe('state1');
+    expect(SortHandler.getSortState(sortStates, 'non-existing')).not.toBeDefined();
+  });
+
+  it('should return sort keys', function () {
+    var sortStates = {0: 'state1', 1: 'state2'};
+
+    expect(SortHandler.getSortKeys(sortStates)).toEqual(['0', '1']);
+  });
+
+  it('should apply sort', function () {
+    var sortStates = {0: 'state1', 1: 'state2'};
+
+    expect(SortHandler.applySort(sortStates, 1, 'state1')).toEqual({
+      0: 'state1',
+      1: 'state1'
+    });
+
+    expect(SortHandler.applySort(sortStates, 'non-existing', 'state3')).toEqual({
+      0: 'state1',
+      1: 'state1',
+      'non-existing': 'state3'
+    });
+  });
+
+  it('should reset sort', function () {
+    expect(SortHandler.resetSorts()).toEqual({});
+  });
 });

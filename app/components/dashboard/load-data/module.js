@@ -15,7 +15,9 @@
    'ui.bootstrap',
    'ui.router'
  ])
- .value('FileReader', typeof window.FileReader !== 'undefined' ? window.FileReader : false) //inject non-angular services
+ .config(function ($provide) {
+   $provide.value('FileReader', typeof window.FileReader !== 'undefined' ? window.FileReader : false); //inject non-angular services
+ })
 
  .config(function ($stateProvider, FMQ_MODULE_SETTINGS) {
    var modalInstance;

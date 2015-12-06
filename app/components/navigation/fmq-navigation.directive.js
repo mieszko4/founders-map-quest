@@ -16,14 +16,9 @@ angular.module('foundersMapQuestApp.navigation')
       replace: true,
       controllerAs: 'vm',
       bindToController: true,
-      controller: function ($state, $rootScope) {
+      controller: function ($state) {
         var vm = this;
         vm.state = $state;
-
-        //watch for route change
-        $rootScope.$on('$stateChangeSuccess', function(event, toState) {
-          vm.currentName = toState.name;
-        });
 
         vm.items = $state.get()
           .filter(function (state) { //filter urls of module paths

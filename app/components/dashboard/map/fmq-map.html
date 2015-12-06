@@ -1,21 +1,21 @@
-<div ui-gmap-google-map
+<ui-gmap-google-map
   center="vm.center"
   zoom="vm.zoom"
   options="{scrollwheel: false}"
 >
-  <div ui-gmap-window
+  <ui-gmap-window
     show="vm.markerWindow.show"
     coords="vm.markerWindow.model.coords"
     closeClick="vm.closeMarkerWindow()"
     templateUrl="vm.markerTemplateUrl"
     templateParameter="vm.markerWindow"
-  ></div>
+  ></ui-gmap-window>
 
-  <div ui-gmap-markers
+  <ui-gmap-markers
     models="vm.markers"
     coords="'coords'"
     events="vm.markersEvents"
     doRebuildAll="true"
     fit="true"
-  ></div>
-</div>
+  ></ui-gmap-markers>
+</ui-gmap-google-map>

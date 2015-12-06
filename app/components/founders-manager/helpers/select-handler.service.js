@@ -32,7 +32,7 @@ angular.module('foundersMapQuestApp.foundersManager')
       },
 
       //reverse select
-      toggleSelection: function (items, key, selectedItems) {
+      toggleSelection: function (selectedItems, key) {
         if (service.isSelected(selectedItems, key)) {
           delete selectedItems[key];
         } else {

@@ -16,7 +16,7 @@ angular.module('foundersMapQuestApp.foundersManager')
       getSortKeys: function (sortStates) {
         return Object.keys(sortStates);
       },
-      applySort: function (sortStates, state, key) {
+      applySort: function (sortStates, key, state) {
         sortStates[key] = state;
 
         return sortStates;

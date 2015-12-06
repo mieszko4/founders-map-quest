@@ -3,7 +3,4 @@
 /.tmp
 /.sass-cache
 /bower_components
-
-/bin
-/.grunt
-/_SpecRunner.html
+/coverage

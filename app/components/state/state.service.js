@@ -22,7 +22,7 @@ angular.module('foundersMapQuestApp.state')
     var State = function (key) {
       this.key = key;
       var value = localStorageService.get(key);
-      this.value = (typeof value !== 'undefined') ? value : null;
+      this.value = value;
     };
 
     State.prototype.set = function (value) {

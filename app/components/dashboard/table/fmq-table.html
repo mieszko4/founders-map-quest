@@ -80,13 +80,13 @@
         </a>
       </td>
       <td ng-repeat="value in item">
-        <span
-          fmq-visualize
+        <fmq-visualize
           data="{{value}}"
           type="{{type = vm.founders.detectType(value, vm.founders.header[$index])}}"
           ng-class="{'item-viewer': type == 'longitude' || type == 'latitude'}"
           ng-click="(type == 'longitude' || type == 'latitude') && vm.viewItem( {item: item})"
-        ></span>
+          ng-attr-uib-tooltip="{{((type == 'longitude' || type == 'latitude') && 'View on map') || undefined}}"
+        ></fmq-visualize>
       </td>
     </tr>
     <tr ng-if="filtered.length == 0">
