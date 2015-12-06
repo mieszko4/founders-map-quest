@@ -3,11 +3,11 @@
 describe('foundersMapQuestApp typical usage', function() {
   it('should automatically redirect to /dasboard when location hash/fragment is empty', function() {
     browser.get('index.html');
-    expect(browser.getLocationAbsUrl()).toMatch("/dasboard");
+    expect(browser.getLocationAbsUrl()).toMatch('/dasboard');
   });
 
   describe('should load data', function () {
-    
+
   });
 
     /*

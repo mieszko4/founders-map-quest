@@ -45,7 +45,6 @@ module.exports = function(config) {
       "app/components/**/*.filter.js",
       "app/components/**/*.service.js",
       "app/**/*.spec.js",
-      "test/mock/**/*.js",
       "app/components/**/*.html"
     ],
 
