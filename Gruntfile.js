@@ -35,7 +35,7 @@ module.exports = function (grunt) {
         tasks: ['wiredep']
       },
       js: {
-        files: ['<%= yeoman.app %>/components/**/*.js', '!' + unitTestRegExp],
+        files: ['<%= yeoman.app %>/**/*.js', '!' + unitTestRegExp],
         tasks: ['newer:jshint:all', 'newer:jscs:all'],
         options: {
           livereload: '<%= connect.options.livereload %>'
@@ -124,7 +124,7 @@ module.exports = function (grunt) {
       all: {
         src: [
           'Gruntfile.js',
-          '<%= yeoman.app %>/components/**/*.js',
+          '<%= yeoman.app %>/**/*.js',
           '!' + unitTestRegExp
         ]
       },
@@ -145,7 +145,7 @@ module.exports = function (grunt) {
       all: {
         src: [
           'Gruntfile.js',
-          '<%= yeoman.app %>/components/**/*.js'
+          '<%= yeoman.app %>/**/*.js'
         ]
       },
       test: {

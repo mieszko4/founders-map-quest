@@ -8,7 +8,7 @@ module.exports = function(config) {
 
   config.set({
     preprocessors: {
-      'app/components/**/!(*.spec)+(.js)': 'coverage',
+      'app/**/!(*.spec)+(.js)': 'coverage',
       'app/components/**/*.html': ['ng-html2js']
     },
     // enable / disable watching file and executing tests whenever any file changes
@@ -44,7 +44,7 @@ module.exports = function(config) {
       "app/components/**/*.directive.js",
       "app/components/**/*.filter.js",
       "app/components/**/*.service.js",
-      "app/components/**/*.spec.js",
+      "app/**/*.spec.js",
       "test/mock/**/*.js",
       "app/components/**/*.html"
     ],
