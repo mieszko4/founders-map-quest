@@ -209,19 +209,6 @@ describe('Module: foundersMapQuestApp.loadData', function () {
     beforeAll(function () {
       previousFileReader = window.FileReader;
       window.FileReader = undefined;
-
-      module('foundersMapQuestApp.constants');
-      module(function (FMQ_MODULE_SETTINGS, FMQ_ROOT_URL, FMQ_ROOT_STATE, $provide) {
-        //override load-data's route
-        FMQ_MODULE_SETTINGS['foundersMapQuestApp.loadData'].routes['load-data'] = 'root.load-data';
-        $provide.constant('FMQ_MODULE_SETTINGS', FMQ_MODULE_SETTINGS);
-
-        settings = FMQ_MODULE_SETTINGS['foundersMapQuestApp.loadData'];
-        rootUrl = FMQ_ROOT_URL;
-        rootState = FMQ_ROOT_STATE;
-      });
-
-      reloadModuleScripts(settings.moduleLocation, true);
     });
 
     afterAll(function () {
@@ -232,6 +219,20 @@ describe('Module: foundersMapQuestApp.loadData', function () {
 
     // load the directive's module
     beforeEach(module('templates'));
+    beforeEach(function () {
+      module('foundersMapQuestApp.constants');
+      module(function (FMQ_MODULE_SETTINGS, FMQ_ROOT_URL, FMQ_ROOT_STATE, $provide) {
+        //override load-data's route
+        FMQ_MODULE_SETTINGS['foundersMapQuestApp.loadData'].routes['load-data'] = 'root.load-data';
+        $provide.constant('FMQ_MODULE_SETTINGS', FMQ_MODULE_SETTINGS);
+
+        settings = FMQ_MODULE_SETTINGS['foundersMapQuestApp.loadData'];
+        rootUrl = FMQ_ROOT_URL;
+        rootState = FMQ_ROOT_STATE;
+
+        reloadModuleScripts(settings.moduleLocation, true);
+      });
+    });
     beforeEach(module('foundersMapQuestApp.loadData', function ($stateProvider) {
       $stateProvider
         .state(rootState, {
