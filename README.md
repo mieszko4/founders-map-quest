@@ -16,10 +16,14 @@ You can see [demo page here](https://milosz.ch/fmq/).
 * node (5.1.1)
 * npm (3.3.12)
 * compass
+
+### For testing
+
 * phantomjs
 * protractor
 * karma
 * jasmine
+* chrome
 
 After cloning, run `npm install` and `bower install`.
 
