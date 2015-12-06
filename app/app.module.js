@@ -27,7 +27,8 @@
 
  .config(function ($stateProvider, $urlRouterProvider, FMQ_ROOT_URL, FMQ_ROOT_STATE) {
    $urlRouterProvider
-    .when(FMQ_ROOT_URL + '/', FMQ_ROOT_URL + '/dashboard');
+    .when(FMQ_ROOT_URL + '/', FMQ_ROOT_URL + '/dashboard')
+    .when(FMQ_ROOT_URL, FMQ_ROOT_URL + '/dashboard');
 
    $stateProvider
     .state(FMQ_ROOT_STATE, {
