@@ -21,6 +21,7 @@ module.exports = function (grunt) {
 
   // Unit test matcher
   var unitTestRegExp = '<%= yeoman.app %>/**/*.spec.js';
+  var e2eTestRegExp = 'test/**/*.e2e.js';
 
   // Define the configuration for all the tasks
   grunt.initConfig({
@@ -40,6 +41,10 @@ module.exports = function (grunt) {
         options: {
           livereload: '<%= connect.options.livereload %>'
         }
+      },
+      jsE2e: {
+        files: [e2eTestRegExp],
+        tasks: ['newer:jshint:e2e', 'newer:jscs:e2e']
       },
       jsTest: {
         files: [unitTestRegExp],
@@ -130,9 +135,15 @@ module.exports = function (grunt) {
       },
       test: {
         options: {
-          jshintrc: 'test/.jshintrc'
+          jshintrc: 'test/.unit.jshintrc'
         },
         src: [unitTestRegExp]
+      },
+      e2e: {
+        options: {
+          jshintrc: 'test/.e2e.jshintrc'
+        },
+        src: [e2eTestRegExp]
       }
     },
 
@@ -150,6 +161,9 @@ module.exports = function (grunt) {
       },
       test: {
         src: [unitTestRegExp]
+      },
+      e2e: {
+        src: [e2eTestRegExp]
       }
     },
 
@@ -508,6 +522,7 @@ module.exports = function (grunt) {
   grunt.registerTask('default', [
     'newer:jshint',
     'newer:jscs',
+    'newer:e2e',
     'test',
     'build'
   ]);
