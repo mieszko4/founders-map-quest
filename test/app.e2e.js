@@ -14,7 +14,7 @@ describe('foundersMapQuestApp typical usage', function() {
     });
 
     it('should have nagation bar', function () {
-      expect(element(by.css('.navbar-nav')).isDisplayed()).toBe(true);
+      expect(element(by.className('navbar-nav')).isDisplayed()).toBe(true);
       lis.count().then(function(count) {
         expect(count).toBe(2);
       });
@@ -96,7 +96,7 @@ describe('foundersMapQuestApp typical usage', function() {
     var loadButton;
     beforeAll(function () {
       browser.get('index.html#/dashboard');
-      loadButton = element(by.css('.fmq-dashboard-page .btn-load-data'));
+      loadButton = element(by.partialButtonText('Load data'));
     });
 
     it('should have load button showing that data is not loaded yet', function () {
@@ -121,7 +121,7 @@ describe('foundersMapQuestApp typical usage', function() {
       loadData;
     beforeAll(function () {
       browser.get('index.html#/dashboard');
-      loadButton = element(by.css('.fmq-dashboard-page .btn-load-data'));
+      loadButton = element(by.partialButtonText('Load data'));
     });
 
     it('should open load data dialog', function () {
@@ -133,15 +133,15 @@ describe('foundersMapQuestApp typical usage', function() {
     });
 
     it('should have empty form', function () {
-      var raw =  element(by.model('vm.form.raw'));
+      var raw = element(by.model('vm.form.raw'));
       var delimiter = element.all(by.model('vm.form.delimiter')).filter(function (input) {
         return input.isSelected();
-      });
-      var latitudeColumn =  element(by.model('vm.form.latitudeColumn'));
-      var longitudeColumn =  element(by.model('vm.form.longitudeColumn'));
+      }).first();
+      var latitudeColumn = element(by.model('vm.form.latitudeColumn'));
+      var longitudeColumn = element(by.model('vm.form.longitudeColumn'));
 
       expect(raw.getAttribute('value')).toBe('');
-      expect(delimiter.getAttribute('value')).toEqual([',']);
+      expect(delimiter.getAttribute('value')).toBe(',');
       expect(latitudeColumn.getAttribute('value')).toBe('');
       expect(longitudeColumn.getAttribute('value')).toBe('');
     });
@@ -156,45 +156,39 @@ describe('foundersMapQuestApp typical usage', function() {
       browser.get('index.html#/dashboard/load-data');
       expect(browser.getLocationAbsUrl()).toMatch('/load-data');
 
-      chooseFile = element(by.css('.fmq-load-data-page input[type=file]'));
-      modalFooter = element(by.css('.modal-footer'));
+      chooseFile = element(by.buttonText('Choose File'));
+      modalFooter = element(by.className('modal-footer'));
     });
 
     it('should have choose file button', function () {
-      chooseFile.element(by.xpath('..')).getText().then(function (text) {
-        expect(text.toLowerCase()).toMatch('choose file');
-      });
+      expect(chooseFile.isPresent()).toBe(true);
     });
 
     it('should parse data taken from file', function () {
       var fileToUpload = 'fixtures/sample.colon.csv',
       absolutePath = path.resolve(__dirname, fileToUpload);
 
-      chooseFile.sendKeys(absolutePath);
+      chooseFile.element(by.tagName('input')).sendKeys(absolutePath);
 
-      var raw =  element(by.model('vm.form.raw'));
-      var delimiter =  element.all(by.model('vm.form.delimiter')).filter(function (input) {
+      var raw = element(by.model('vm.form.raw'));
+      var delimiter = element.all(by.model('vm.form.delimiter')).filter(function (input) {
         return input.isSelected();
-      });
-      var latitudeColumn =  element(by.model('vm.form.latitudeColumn'));
-      var longitudeColumn =  element(by.model('vm.form.longitudeColumn'));
+      }).first();
+      var latitudeColumn = element(by.model('vm.form.latitudeColumn'));
+      var longitudeColumn = element(by.model('vm.form.longitudeColumn'));
 
       expect(raw.getAttribute('value')).not.toBe('');
-      expect(delimiter.getAttribute('value')).toEqual([';']);
+      expect(delimiter.getAttribute('value')).toBe(';');
       expect(latitudeColumn.getAttribute('value')).toBe('number:9');
       expect(longitudeColumn.getAttribute('value')).toBe('number:10');
     });
 
     it('should load data', function () {
-      modalFooter.all(by.css('button')).filter(function (button) {
-        return button.getText().then(function (text) {
-          return text.toLowerCase().match('load');
-        });
-      }).then(function (filteredButtons) {
-        expect(filteredButtons.length).toBe(1);
-        filteredButtons[0].click();
-        expect(browser.getLocationAbsUrl()).toMatch('/dashboard');
-      });
+      var load = modalFooter.element(by.buttonText('Load'));
+      expect(load.isDisplayed()).toBe(true);
+      expect(load.isEnabled()).toBe(true);
+      load.click();
+      expect(browser.getLocationAbsUrl()).toMatch('/dashboard');
     });
   });
 
@@ -245,33 +239,32 @@ describe('foundersMapQuestApp typical usage', function() {
       browser.get('index.html#/dashboard/load-data');
       expect(browser.getLocationAbsUrl()).toMatch('/load-data');
 
-      modalFooter = element(by.css('.modal-footer'));
+      modalFooter = element(by.className('modal-footer'));
     });
 
     it('should have empty form', function () {
-      var raw =  element(by.model('vm.form.raw'));
+      var raw = element(by.model('vm.form.raw'));
       var delimiter = element.all(by.model('vm.form.delimiter')).filter(function (input) {
         return input.isSelected();
-      });
-      var latitudeColumn =  element(by.model('vm.form.latitudeColumn'));
-      var longitudeColumn =  element(by.model('vm.form.longitudeColumn'));
+      }).first();
+      var latitudeColumn = element(by.model('vm.form.latitudeColumn'));
+      var longitudeColumn = element(by.model('vm.form.longitudeColumn'));
 
       expect(raw.getAttribute('value')).toBe('');
-      expect(delimiter.getAttribute('value')).toEqual([',']);
+      expect(delimiter.getAttribute('value')).toBe(',');
       expect(latitudeColumn.getAttribute('value')).toBe('');
       expect(longitudeColumn.getAttribute('value')).toBe('');
+
+      var load = modalFooter.element(by.buttonText('Load'));
+      expect(load.isDisplayed()).toBe(true);
+      expect(load.isEnabled()).toBe(false);
     });
 
     it('should go back to dashboard on cancel', function () {
-      modalFooter.all(by.css('button')).filter(function (button) {
-        return button.getText().then(function (text) {
-          return text.toLowerCase().match('cancel');
-        });
-      }).then(function (filteredButtons) {
-        expect(filteredButtons.length).toBe(1);
-        filteredButtons[0].click();
-        expect(browser.getLocationAbsUrl()).toMatch('/dashboard');
-      });
+      var cancel = modalFooter.element(by.buttonText('Cancel'));
+      expect(cancel.isDisplayed()).toBe(true);
+      cancel.click();
+      expect(browser.getLocationAbsUrl()).toMatch('/dashboard');
     });
   });
 
@@ -282,7 +275,7 @@ describe('foundersMapQuestApp typical usage', function() {
       browser.get('index.html#/dashboard');
       expect(browser.getLocationAbsUrl()).toMatch('/dashboard');
 
-      loadButton = element(by.css('.fmq-dashboard-page .btn-load-data'));
+      loadButton = element(by.partialButtonText('Load data'));
     });
 
     it('should have load again button', function () {
@@ -298,15 +291,15 @@ describe('foundersMapQuestApp typical usage', function() {
     });
 
     it('should not have empty form', function () {
-      var raw =  element(by.model('vm.form.raw'));
-      var delimiter =  element.all(by.model('vm.form.delimiter')).filter(function (input) {
+      var raw = element(by.model('vm.form.raw'));
+      var delimiter = element.all(by.model('vm.form.delimiter')).filter(function (input) {
         return input.isSelected();
-      });
-      var latitudeColumn =  element(by.model('vm.form.latitudeColumn'));
-      var longitudeColumn =  element(by.model('vm.form.longitudeColumn'));
+      }).first();
+      var latitudeColumn = element(by.model('vm.form.latitudeColumn'));
+      var longitudeColumn = element(by.model('vm.form.longitudeColumn'));
 
       expect(raw.getAttribute('value')).not.toBe('');
-      expect(delimiter.getAttribute('value')).toEqual([';']);
+      expect(delimiter.getAttribute('value')).toBe(';');
       expect(latitudeColumn.getAttribute('value')).toBe('number:9');
       expect(longitudeColumn.getAttribute('value')).toBe('number:10');
     });
