@@ -1,6 +1,7 @@
 'use strict';
 var path = require('path');
 
+//Note: google map does not create markers in DOM, this function checks if markers are availabe in google.maps API
 function markersVisible (mapSelector, expectedCount) {
   return browser.executeScript(function (mapSelector, expectedCount) {
     /* globals angular, google */
@@ -23,18 +24,19 @@ function markersVisible (mapSelector, expectedCount) {
   }, mapSelector, expectedCount);
 }
 
-describe('foundersMapQuestApp typical usage', function() {
+describe('foundersMapQuestApp navigation', function () {
+  var lis;
+
+  beforeAll(function () {
+    lis = element.all(by.css('.navbar-nav li'));
+  });
+
   it('should automatically redirect to /dasboard when location hash/fragment is empty', function() {
     browser.get('index.html');
     expect(browser.getLocationAbsUrl()).toMatch('/dashboard');
   });
 
   describe('should show navigation', function () {
-    var lis;
-    beforeAll(function () {
-      lis = element.all(by.css('.navbar-nav li'));
-    });
-
     it('should have nagation bar', function () {
       expect(element(by.className('navbar-nav')).isDisplayed()).toBe(true);
       expect(lis.count()).toBe(2);
@@ -62,13 +64,7 @@ describe('foundersMapQuestApp typical usage', function() {
   });
 
   describe('should navigate', function () {
-    var lis;
-    beforeAll(function () {
-      lis = element.all(by.css('.navbar-nav li'));
-    });
-
     it('should go to Dashboard', function () {
-      //go to not-found page
       browser.get('index.html#/non-existing');
       expect(browser.getLocationAbsUrl()).toMatch('/non-existing');
 
@@ -83,7 +79,6 @@ describe('foundersMapQuestApp typical usage', function() {
     });
 
     it('should go to About', function () {
-      //go to not-found page
       browser.get('index.html#/non-existing');
       expect(browser.getLocationAbsUrl()).toMatch('/non-existing');
 
@@ -98,25 +93,61 @@ describe('foundersMapQuestApp typical usage', function() {
     });
 
     it('should not go to show-image directly', function () {
-      //go to not-found page
       browser.get('index.html#/non-existing');
       browser.get('index.html#/dashboard/show-image');
       expect(browser.getLocationAbsUrl()).toMatch('/dashboard');
     });
 
-    it('should not go to map when it is not loaded', function () {
-      //go to not-found page
+    it('should not go to map directly', function () {
       browser.get('index.html#/non-existing');
       browser.get('index.html#/dashboard/map');
       expect(browser.getLocationAbsUrl()).toMatch('/dashboard');
     });
   });
+});
 
-  describe('should show dashboard with load button only', function () {
+describe('foundersMapQuestApp typical usage', function () {
+  var dashboardMapSelector = '.fmq-dashboard-page .map-container';
+
+  function getDashboardPage() {
+    return element(by.className('fmq-dashboard-page'));
+  }
+
+  function getLoadDataModal() {
+    return element(by.className('fmq-load-data-page'));
+  }
+
+  function getShowImageModal() {
+    return element(by.className('fmq-show-image-page'));
+  }
+
+  function checkLoadDataFormExpectations(expectedRaw, expectedDelimiter, expectedLatitudeColumn, expectedLongitudeColumn) {
+    var modal = getLoadDataModal();
+
+    var raw = modal.element(by.model('vm.form.raw'));
+    var delimiter = modal.all(by.model('vm.form.delimiter')).filter(function (input) {
+      return input.isSelected();
+    }).first();
+    var latitudeColumn = modal.element(by.model('vm.form.latitudeColumn'));
+    var longitudeColumn = modal.element(by.model('vm.form.longitudeColumn'));
+
+    if (expectedRaw !== null) {
+      expect(raw.getAttribute('value')).toBe(expectedRaw);
+    } else {
+      expect(raw.getAttribute('value')).not.toBe('');
+    }
+
+    expect(delimiter.getAttribute('value')).toBe(expectedDelimiter);
+    expect(latitudeColumn.getAttribute('value')).toBe(expectedLatitudeColumn);
+    expect(longitudeColumn.getAttribute('value')).toBe(expectedLongitudeColumn);
+  }
+
+  describe('dashboard without loaded data', function () {
     var loadButton;
+
     beforeAll(function () {
       browser.get('index.html#/dashboard');
-      loadButton = element(by.partialButtonText('Load data'));
+      loadButton = getDashboardPage().element(by.partialButtonText('Load data'));
     });
 
     it('should have load button showing that data is not loaded yet', function () {
@@ -124,50 +155,38 @@ describe('foundersMapQuestApp typical usage', function() {
       loadButton.getText().then(function (text) {
         expect(text.toLowerCase()).not.toMatch('again');
       });
-      expect(element(by.css('.fmq-dashboard-page .data-loaded')).isPresent()).toBe(false);
+      expect(getDashboardPage().element(by.className('data-loaded')).isPresent()).toBe(false);
     });
 
     it('should not have table visible', function () {
-      expect(element(by.css('.fmq-dashboard-page .table-container')).isDisplayed()).toBe(false);
+      expect(getDashboardPage().element(by.className('table-container')).isDisplayed()).toBe(false);
     });
 
     it('should not have map visible', function () {
-      expect(element(by.css('.fmq-dashboard-page .map-container')).isPresent()).toBe(false);
+      expect(getDashboardPage().element(by.className('map-container')).isPresent()).toBe(false);
     });
   });
 
-  describe('should show load data dialog with empty data', function () {
-    var loadButton,
-      loadData;
+  describe('load data modal with empty data', function () {
+    var loadButton;
+
     beforeAll(function () {
       browser.get('index.html#/dashboard');
-      loadButton = element(by.partialButtonText('Load data'));
+      loadButton = getDashboardPage().element(by.partialButtonText('Load data'));
     });
 
-    it('should open load data dialog', function () {
+    it('should open load data modal', function () {
       loadButton.click();
       expect(browser.getLocationAbsUrl()).toMatch('/load-data');
-
-      loadData = element(by.css('.fmq-load-data-page'));
-      expect(loadData.isDisplayed()).toBe(true);
+      expect(getLoadDataModal().isDisplayed()).toBe(true);
     });
 
     it('should have empty form', function () {
-      var raw = element(by.model('vm.form.raw'));
-      var delimiter = element.all(by.model('vm.form.delimiter')).filter(function (input) {
-        return input.isSelected();
-      }).first();
-      var latitudeColumn = element(by.model('vm.form.latitudeColumn'));
-      var longitudeColumn = element(by.model('vm.form.longitudeColumn'));
-
-      expect(raw.getAttribute('value')).toBe('');
-      expect(delimiter.getAttribute('value')).toBe(',');
-      expect(latitudeColumn.getAttribute('value')).toBe('');
-      expect(longitudeColumn.getAttribute('value')).toBe('');
+      checkLoadDataFormExpectations('', ',', '', '');
     });
   });
 
-  describe('should load data from file', function () {
+  describe('load data modal using file', function () {
     var chooseFile,
       modalFooter;
 
@@ -176,8 +195,8 @@ describe('foundersMapQuestApp typical usage', function() {
       browser.get('index.html#/dashboard/load-data');
       expect(browser.getLocationAbsUrl()).toMatch('/load-data');
 
-      chooseFile = element(by.buttonText('Choose File'));
-      modalFooter = element(by.className('modal-footer'));
+      chooseFile = getLoadDataModal().element(by.buttonText('Choose File'));
+      modalFooter = getLoadDataModal().element(by.className('modal-footer'));
     });
 
     it('should have choose file button', function () {
@@ -190,31 +209,20 @@ describe('foundersMapQuestApp typical usage', function() {
 
       chooseFile.element(by.tagName('input')).sendKeys(absolutePath);
 
-      var raw = element(by.model('vm.form.raw'));
-      var delimiter = element.all(by.model('vm.form.delimiter')).filter(function (input) {
-        return input.isSelected();
-      }).first();
-      var latitudeColumn = element(by.model('vm.form.latitudeColumn'));
-      var longitudeColumn = element(by.model('vm.form.longitudeColumn'));
-
-      expect(raw.getAttribute('value')).not.toBe('');
-      expect(delimiter.getAttribute('value')).toBe(';');
-      expect(latitudeColumn.getAttribute('value')).toBe('number:9');
-      expect(longitudeColumn.getAttribute('value')).toBe('number:10');
+      checkLoadDataFormExpectations(null, ';', 'number:9', 'number:10');
     });
 
-    it('should load data', function () {
-      var load = modalFooter.element(by.buttonText('Load'));
-      expect(load.isDisplayed()).toBe(true);
-      expect(load.isEnabled()).toBe(true);
-      load.click();
+    it('should submit loaded data', function () {
+      var loadButton = modalFooter.element(by.buttonText('Load'));
+      expect(loadButton.isDisplayed()).toBe(true);
+      expect(loadButton.isEnabled()).toBe(true);
+      loadButton.click();
       expect(browser.getLocationAbsUrl()).toMatch('/dashboard');
     });
   });
 
-  describe('should display map and table', function () {
+  describe('dashboard with loaded data', function () {
     var table,
-      mapSelector = '.fmq-dashboard-page .map-container',
       map,
       tableHelpInfo,
       resetButton,
@@ -223,21 +231,29 @@ describe('foundersMapQuestApp typical usage', function() {
 
     function expectRowsAndMarkers(expectedCount) {
       if (expectedCount === 0) {
-        expect(table.all(by.css('tbody tr')).count()).toBe(1);
-        expect(table.all(by.css('tbody tr')).first().getText()).toMatch('No items');
+        expect(getTableRows().count()).toBe(1);
+        expect(getTableRows().first().getText()).toMatch('No items');
       } else {
-        expect(table.all(by.css('tbody tr')).count()).toBe(expectedCount);
-        expect(table.all(by.css('tbody tr')).first().getText()).not.toMatch('No items');
-        expect(markersVisible(mapSelector, expectedCount)).toBe(true);
+        expect(getTableRows().count()).toBe(expectedCount);
+        expect(getTableRows().first().getText()).not.toMatch('No items');
+        expect(markersVisible(dashboardMapSelector, expectedCount)).toBe(true);
       }
     }
 
-    beforeAll(function () {
-      table = element(by.css('.fmq-dashboard-page .table-container'));
-      map = element(by.css(mapSelector));
+    function getItemViewers(index) {
+      return getTableRows().get(index).all(by.className('item-viewer'));
+    }
 
-      tableHelpInfo = element.all(by.className('alert')).first();
-      resetButton = element(by.className('filters-sorts-reset'));
+    function getTableRows() {
+      return table.all(by.css('tbody tr'));
+    }
+
+    beforeAll(function () {
+      table = getDashboardPage().element(by.className('table-container'));
+      map = getDashboardPage().element(by.className('map-container'));
+
+      tableHelpInfo = getDashboardPage().all(by.className('alert')).first();
+      resetButton = getDashboardPage().element(by.className('filters-sorts-reset'));
 
       columnChoosers = table.all(by.className('marker-column-chooser')).filter(function (columnChooser) {
         return columnChooser.isDisplayed();
@@ -246,7 +262,7 @@ describe('foundersMapQuestApp typical usage', function() {
       columnSorters = table.all(by.className('column-sorter'));
     });
 
-    it('should have map and table present', function () {
+    it('should have map, table and table alert present', function () {
       expect(table.isDisplayed()).toBe(true);
       expect(map.isDisplayed()).toBe(true);
 
@@ -254,141 +270,179 @@ describe('foundersMapQuestApp typical usage', function() {
       expect(resetButton.isDisplayed()).toBe(true);
     });
 
-    it('should dismiss tableHelpInfo', function () {
+    it('should dismiss table alert', function () {
       tableHelpInfo.element(by.className('close')).click();
       expect(tableHelpInfo.isDisplayed()).toBe(false);
     });
 
-    it('should filter by input', function () {
-      var filters = table.all(by.model('vm.filterStates[$index]'));
+    describe('item filtering', function () {
+      var filters;
 
-      expectRowsAndMarkers(3);
+      beforeAll(function () {
+        filters = table.all(by.model('vm.filterStates[$index]'));
+      });
 
-      filters.get(1).clear().sendKeys('le');
-      expectRowsAndMarkers(2);
+      it('should filter company name column', function () {
+        expectRowsAndMarkers(3);
 
-      filters.get(1).clear().sendKeys('oo');
-      expectRowsAndMarkers(1);
+        filters.get(1).clear().sendKeys('le');
+        expectRowsAndMarkers(2);
 
-      filters.get(0).clear().sendKeys('1');
-      expectRowsAndMarkers(1);
+        filters.get(1).clear().sendKeys('oo');
+        expectRowsAndMarkers(1);
+      });
 
-      filters.get(0).clear().sendKeys('2');
-      expectRowsAndMarkers(0);
+      it('should filter id column with company name column', function () {
+        filters.get(0).clear().sendKeys('1');
+        expectRowsAndMarkers(1);
 
-      resetButton.click();
-      expectRowsAndMarkers(3);
+        filters.get(0).clear().sendKeys('2');
+        expectRowsAndMarkers(0);
+      });
+
+      it('should reset filters', function () {
+        resetButton.click();
+        expectRowsAndMarkers(3);
+      });
     });
 
-    it('should filter by selection and view-item not be clickable for unselected items', function () {
-      var selectionElements = table.all(by.className('item-selector'));
+    describe('item selection', function () {
+      var selectionElements;
 
-      expectRowsAndMarkers(3);
+      beforeAll(function () {
+        selectionElements = table.all(by.className('item-selector'));
+      });
 
-      selectionElements.get(0).click();
-      expect(markersVisible(mapSelector, 2)).toBe(true);
+      it('should select/deselect single items', function () {
+        expectRowsAndMarkers(3);
 
-      selectionElements.get(0).click();
-      expect(markersVisible(mapSelector, 3)).toBe(true);
+        selectionElements.get(0).click();
+        expect(markersVisible(dashboardMapSelector, 2)).toBe(true);
 
-      selectionElements.get(0).click();
-      selectionElements.get(2).click();
-      expect(markersVisible(mapSelector, 1)).toBe(true);
+        selectionElements.get(0).click();
+        expect(markersVisible(dashboardMapSelector, 3)).toBe(true);
 
-      //check it is not clickable
-      var itemViewers = table.all(by.css('tbody tr')).get(0).all(by.className('item-viewer'));
-      expect(itemViewers.isDisplayed()).toEqual([true, true]); //latitude and longitude
-      itemViewers.first().click().then(function () {
-        throw 'Latitude should not be clickable';
-      }, function () {});
-      itemViewers.first().click().then(function () {
-        throw 'Longitude should not be clickable';
-      }, function () {});
+        selectionElements.get(0).click();
+        selectionElements.get(2).click();
 
-      table.element(by.className('all-items-selector')).click();
-      expectRowsAndMarkers(3);
+        expect(markersVisible(dashboardMapSelector, 1)).toBe(true);
+      });
+
+      it('should not show marker for deselected items', function () {
+        expect(getItemViewers(0).isDisplayed()).toEqual([true, true]); //latitude and longitude
+        getItemViewers(0).first().click().then(function () {
+          throw 'Latitude should not be clickable';
+        }, function () {});
+        getItemViewers(0).first().click().then(function () {
+          throw 'Longitude should not be clickable';
+        }, function () {});
+      });
+
+      it('should select all items', function () {
+        table.element(by.className('all-items-selector')).click();
+        expectRowsAndMarkers(3);
+      });
     });
 
-    it('should open marker by clicking on item viewer links', function () {
-      var itemViewers,
-        markerWindow;
+    describe('item coordinate links and markers', function () {
+      function getMarkerWindow() {
+        return map.element(by.className('gm-pro-popup'));
+      }
 
-      //check first column (id)
-      expect(columnChoosers.get(0).getAttribute('class')).toMatch('active');
+      it('should open marker window for id column', function () {
+        expect(columnChoosers.get(0).getAttribute('class')).toMatch('active');
 
-      itemViewers = table.all(by.css('tbody tr')).get(0).all(by.className('item-viewer')); //first item
-      expect(itemViewers.isDisplayed()).toEqual([true, true]); //latitude and longitude
+        expect(getItemViewers(0).isDisplayed()).toEqual([true, true]); //latitude and longitude
 
-      itemViewers.first().click(); //click latitude
-      markerWindow = map.element(by.className('gm-pro-popup'));
-      expect(markerWindow.isDisplayed()).toBe(true);
-      expect(markerWindow.getText()).toMatch('1');
+        getItemViewers(0).first().click(); //click latitude
+        expect(getMarkerWindow().isDisplayed()).toBe(true);
+        expect(getMarkerWindow().getText()).toMatch('1');
+      });
 
-      //change columnMarker to photo
-      columnChoosers.get(7).click();
-      expect(columnChoosers.get(7).getAttribute('class')).toMatch('active');
+      it('should open marker window fo photo column', function () {
+        columnChoosers.get(7).click();
+        expect(columnChoosers.get(7).getAttribute('class')).toMatch('active');
 
-      itemViewers = table.all(by.css('tbody tr')).get(0).all(by.className('item-viewer')); //first item
-      expect(itemViewers.isDisplayed()).toEqual([true, true]); //latitude and longitude
+        expect(getItemViewers(0).isDisplayed()).toEqual([true, true]); //latitude and longitude
 
-      itemViewers.get(1).click(); //click longitude
-      markerWindow = map.element(by.className('gm-pro-popup'));
-      expect(markerWindow.isDisplayed()).toBe(true);
-      expect(markerWindow.element(by.tagName('img')).getAttribute('src')).toMatch('http://interviewsummary.com/wp-content/uploads/2013/07/larry-page-and-sergey-brin-of-google-620x400.jpg');
+        getItemViewers(0).get(1).click(); //click longitude
+        expect(getMarkerWindow().isDisplayed()).toBe(true);
+        expect(getMarkerWindow().element(by.tagName('img')).getAttribute('src')).toMatch('http://interviewsummary.com/wp-content/uploads/2013/07/larry-page-and-sergey-brin-of-google-620x400.jpg');
+      });
     });
 
-    it('should sort', function () {
-      expect(markersVisible(mapSelector, 3)).toBe(true);
+    describe('item sorting', function () {
+      beforeEach(function () {
+        expect(markersVisible(dashboardMapSelector, 3)).toBe(true);
+      });
 
-      columnSorters.get(1).click();
-      expect(table.all(by.css('tbody tr')).get(0).getText()).toMatch('Apple');
-      expect(table.all(by.css('tbody tr')).get(1).getText()).toMatch('Google');
-      expect(table.all(by.css('tbody tr')).get(2).getText()).toMatch('Microsoft');
+      afterEach(function () {
+        expect(markersVisible(dashboardMapSelector, 3)).toBe(true);
+      });
 
-      columnSorters.get(1).click();
-      expect(table.all(by.css('tbody tr')).get(1).getText()).toMatch('Google');
-      expect(table.all(by.css('tbody tr')).get(0).getText()).toMatch('Microsoft');
-      expect(table.all(by.css('tbody tr')).get(2).getText()).toMatch('Apple');
+      it('should sort by company name', function () {
+        columnSorters.get(1).click();
+        expect(getTableRows().get(0).getText()).toMatch('Apple');
+        expect(getTableRows().get(1).getText()).toMatch('Google');
+        expect(getTableRows().get(2).getText()).toMatch('Microsoft');
 
-      columnSorters.get(0).click();
-      expect(table.all(by.css('tbody tr')).get(0).getText()).toMatch('Google');
-      expect(table.all(by.css('tbody tr')).get(1).getText()).toMatch('Apple');
-      expect(table.all(by.css('tbody tr')).get(2).getText()).toMatch('Microsoft');
+        columnSorters.get(1).click();
+        expect(getTableRows().get(1).getText()).toMatch('Google');
+        expect(getTableRows().get(0).getText()).toMatch('Microsoft');
+        expect(getTableRows().get(2).getText()).toMatch('Apple');
+      });
 
-      columnSorters.get(0).click();
-      expect(table.all(by.css('tbody tr')).get(0).getText()).toMatch('Microsoft');
-      expect(table.all(by.css('tbody tr')).get(1).getText()).toMatch('Apple');
-      expect(table.all(by.css('tbody tr')).get(2).getText()).toMatch('Google');
+      it('should sort by id', function () {
+        columnSorters.get(0).click();
+        expect(getTableRows().get(0).getText()).toMatch('Google');
+        expect(getTableRows().get(1).getText()).toMatch('Apple');
+        expect(getTableRows().get(2).getText()).toMatch('Microsoft');
 
-      expect(markersVisible(mapSelector, 3)).toBe(true);
+        columnSorters.get(0).click();
+        expect(getTableRows().get(0).getText()).toMatch('Microsoft');
+        expect(getTableRows().get(1).getText()).toMatch('Apple');
+        expect(getTableRows().get(2).getText()).toMatch('Google');
+      });
 
-      resetButton.click();
-      expect(table.all(by.css('tbody tr')).get(0).getText()).toMatch('Google');
-      expect(table.all(by.css('tbody tr')).get(1).getText()).toMatch('Apple');
-      expect(table.all(by.css('tbody tr')).get(2).getText()).toMatch('Microsoft');
-
-      expect(markersVisible(mapSelector, 3)).toBe(true);
+      it('should reset soritng', function () {
+        resetButton.click();
+        expect(getTableRows().get(0).getText()).toMatch('Google');
+        expect(getTableRows().get(1).getText()).toMatch('Apple');
+        expect(getTableRows().get(2).getText()).toMatch('Microsoft');
+      });
     });
 
-    it('should show image', function () {
-      var item = table.all(by.css('tbody tr')).get(0);
-      var image = item.element(by.className('type-image'));
+    describe('show image', function () {
+      var item,
+        modalFooter,
+        image;
 
-      expect(image.isDisplayed()).toBe(true);
-      image.element(by.tagName('a')).click();
-      expect(browser.getLocationAbsUrl()).toMatch('/show-image');
+      beforeAll(function () {
+        item = getTableRows().get(0);
+        image = item.element(by.className('type-image'));
+        modalFooter = getShowImageModal().element(by.className('modal-footer'));
+      });
 
-      var modalFooter = element(by.className('modal-footer'));
-      expect(modalFooter.isDisplayed()).toBe(true);
+      it('should navigate to show image', function () {
+        expect(image.isDisplayed()).toBe(true);
+        image.element(by.tagName('a')).click();
+        expect(browser.getLocationAbsUrl()).toMatch('/show-image');
+      });
 
-      var close = modalFooter.element(by.buttonText('Close'));
-      expect(close.isDisplayed()).toBe(true);
-      close.click();
-      expect(browser.getLocationAbsUrl()).toMatch('/dashboard');
+      it('should display show image modal', function () {
+        expect(modalFooter.isDisplayed()).toBe(true);
+      });
+
+      it('should navigate back to dashboard when modal closes', function () {
+        var close = modalFooter.element(by.buttonText('Close'));
+        expect(close.isDisplayed()).toBe(true);
+        close.click();
+        expect(browser.getLocationAbsUrl()).toMatch('/dashboard');
+      });
     });
   });
 
-  describe('should show load data with empty form when going directly and data is loaded', function () {
+  describe('load data modal when data is loaded', function () {
     var modalFooter;
 
     beforeAll(function () {
@@ -396,69 +450,51 @@ describe('foundersMapQuestApp typical usage', function() {
       browser.get('index.html#/dashboard/load-data');
       expect(browser.getLocationAbsUrl()).toMatch('/load-data');
 
-      modalFooter = element(by.className('modal-footer'));
+      modalFooter = getLoadDataModal().element(by.className('modal-footer'));
     });
 
-    it('should have empty form', function () {
-      var raw = element(by.model('vm.form.raw'));
-      var delimiter = element.all(by.model('vm.form.delimiter')).filter(function (input) {
-        return input.isSelected();
-      }).first();
-      var latitudeColumn = element(by.model('vm.form.latitudeColumn'));
-      var longitudeColumn = element(by.model('vm.form.longitudeColumn'));
+    describe('load data modal accessed from url', function () {
+      it('should have empty form', function () {
+        checkLoadDataFormExpectations('', ',', '', '');
 
-      expect(raw.getAttribute('value')).toBe('');
-      expect(delimiter.getAttribute('value')).toBe(',');
-      expect(latitudeColumn.getAttribute('value')).toBe('');
-      expect(longitudeColumn.getAttribute('value')).toBe('');
+        var load = modalFooter.element(by.buttonText('Load'));
+        expect(load.isDisplayed()).toBe(true);
+        expect(load.isEnabled()).toBe(false);
+      });
 
-      var load = modalFooter.element(by.buttonText('Load'));
-      expect(load.isDisplayed()).toBe(true);
-      expect(load.isEnabled()).toBe(false);
-    });
-
-    it('should go back to dashboard on cancel', function () {
-      var cancel = modalFooter.element(by.buttonText('Cancel'));
-      expect(cancel.isDisplayed()).toBe(true);
-      cancel.click();
-      expect(browser.getLocationAbsUrl()).toMatch('/dashboard');
-    });
-  });
-
-  describe('should show load data with non-empty form when going from dashboard', function () {
-    var loadButton;
-
-    beforeAll(function () {
-      browser.get('index.html#/dashboard');
-      expect(browser.getLocationAbsUrl()).toMatch('/dashboard');
-
-      loadButton = element(by.partialButtonText('Load data'));
-    });
-
-    it('should have load again button', function () {
-      expect(loadButton.isPresent()).toBe(true);
-      loadButton.getText().then(function (text) {
-        expect(text.toLowerCase()).toMatch('again');
+      it('should go back to dashboard on cancel', function () {
+        var cancel = modalFooter.element(by.buttonText('Cancel'));
+        expect(cancel.isDisplayed()).toBe(true);
+        cancel.click();
+        expect(browser.getLocationAbsUrl()).toMatch('/dashboard');
       });
     });
 
-    it('should navigate to load-data', function () {
-      loadButton.click();
-      expect(browser.getLocationAbsUrl()).toMatch('/load-data');
-    });
+    describe('load data modal accessed from load data button', function () {
+      var loadButton;
 
-    it('should not have empty form', function () {
-      var raw = element(by.model('vm.form.raw'));
-      var delimiter = element.all(by.model('vm.form.delimiter')).filter(function (input) {
-        return input.isSelected();
-      }).first();
-      var latitudeColumn = element(by.model('vm.form.latitudeColumn'));
-      var longitudeColumn = element(by.model('vm.form.longitudeColumn'));
+      beforeAll(function () {
+        browser.get('index.html#/dashboard');
+        expect(browser.getLocationAbsUrl()).toMatch('/dashboard');
 
-      expect(raw.getAttribute('value')).not.toBe('');
-      expect(delimiter.getAttribute('value')).toBe(';');
-      expect(latitudeColumn.getAttribute('value')).toBe('number:9');
-      expect(longitudeColumn.getAttribute('value')).toBe('number:10');
+        loadButton = getDashboardPage().element(by.partialButtonText('Load data'));
+      });
+
+      it('should have load again button', function () {
+        expect(loadButton.isPresent()).toBe(true);
+        loadButton.getText().then(function (text) {
+          expect(text.toLowerCase()).toMatch('again');
+        });
+      });
+
+      it('should navigate to load-data', function () {
+        loadButton.click();
+        expect(browser.getLocationAbsUrl()).toMatch('/load-data');
+      });
+
+      it('should not have empty form', function () {
+        checkLoadDataFormExpectations(null, ';', 'number:9', 'number:10');
+      });
     });
   });
 });
