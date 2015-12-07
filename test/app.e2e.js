@@ -218,7 +218,8 @@ describe('foundersMapQuestApp typical usage', function() {
       map,
       tableHelpInfo,
       resetButton,
-      columnChoosers;
+      columnChoosers,
+      columnSorters;
 
     function expectRowsAndMarkers(expectedCount) {
       if (expectedCount === 0) {
@@ -241,6 +242,8 @@ describe('foundersMapQuestApp typical usage', function() {
       columnChoosers = table.all(by.className('marker-column-chooser')).filter(function (columnChooser) {
         return columnChooser.isDisplayed();
       });
+
+      columnSorters = table.all(by.className('column-sorter'));
     });
 
     it('should have map and table present', function () {
@@ -335,7 +338,36 @@ describe('foundersMapQuestApp typical usage', function() {
     });
 
     it('should sort', function () {
-      //TODO
+      expect(markersVisible(mapSelector, 3)).toBe(true);
+
+      columnSorters.get(1).click();
+      expect(table.all(by.css('tbody tr')).get(0).getText()).toMatch('Apple');
+      expect(table.all(by.css('tbody tr')).get(1).getText()).toMatch('Google');
+      expect(table.all(by.css('tbody tr')).get(2).getText()).toMatch('Microsoft');
+
+      columnSorters.get(1).click();
+      expect(table.all(by.css('tbody tr')).get(1).getText()).toMatch('Google');
+      expect(table.all(by.css('tbody tr')).get(0).getText()).toMatch('Microsoft');
+      expect(table.all(by.css('tbody tr')).get(2).getText()).toMatch('Apple');
+
+      columnSorters.get(0).click();
+      expect(table.all(by.css('tbody tr')).get(0).getText()).toMatch('Google');
+      expect(table.all(by.css('tbody tr')).get(1).getText()).toMatch('Apple');
+      expect(table.all(by.css('tbody tr')).get(2).getText()).toMatch('Microsoft');
+
+      columnSorters.get(0).click();
+      expect(table.all(by.css('tbody tr')).get(0).getText()).toMatch('Microsoft');
+      expect(table.all(by.css('tbody tr')).get(1).getText()).toMatch('Apple');
+      expect(table.all(by.css('tbody tr')).get(2).getText()).toMatch('Google');
+
+      expect(markersVisible(mapSelector, 3)).toBe(true);
+
+      resetButton.click();
+      expect(table.all(by.css('tbody tr')).get(0).getText()).toMatch('Google');
+      expect(table.all(by.css('tbody tr')).get(1).getText()).toMatch('Apple');
+      expect(table.all(by.css('tbody tr')).get(2).getText()).toMatch('Microsoft');
+
+      expect(markersVisible(mapSelector, 3)).toBe(true);
     });
 
     it('should show image', function () {
