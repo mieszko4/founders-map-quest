@@ -1,6 +1,28 @@
 'use strict';
 var path = require('path');
 
+function markersVisible (mapSelector, expectedCount) {
+  return browser.executeScript(function (mapSelector, expectedCount) {
+    /* globals angular, google */
+    var models = angular.element(mapSelector).find('ui-gmap-google-map .angular-google-map-markers').data('$uiGmapMarkersController').getScope().models;
+
+    //check count
+    if (models.length !== expectedCount) {
+      return false;
+    }
+
+    //check if on map
+    var points = models.map(function (model) {
+      return new google.maps.LatLng(model.coords.latitude, model.coords.longitude);
+    });
+    var map = angular.element(mapSelector).find('ui-gmap-google-map').data('$uiGmapGoogleMapController').getMap();
+    var bounds = map.getBounds();
+    return points.every(function (point) {
+      return bounds.contains(point);
+    });
+  }, mapSelector, expectedCount);
+}
+
 describe('foundersMapQuestApp typical usage', function() {
   it('should automatically redirect to /dasboard when location hash/fragment is empty', function() {
     browser.get('index.html');
@@ -192,13 +214,25 @@ describe('foundersMapQuestApp typical usage', function() {
 
   describe('should display map and table', function () {
     var table,
+      mapSelector = '.fmq-dashboard-page .map-container',
       map,
       tableHelpInfo,
       resetButton;
 
+    function expectRowsAndMarkers(expectedCount) {
+      if (expectedCount === 0) {
+        expect(table.all(by.css('tbody tr')).count()).toBe(1);
+        expect(table.all(by.css('tbody tr')).first().getText()).toMatch('No items');
+      } else {
+        expect(table.all(by.css('tbody tr')).count()).toBe(expectedCount);
+        expect(table.all(by.css('tbody tr')).first().getText()).not.toMatch('No items');
+        expect(markersVisible(mapSelector, expectedCount)).toBe(true);
+      }
+    }
+
     beforeAll(function () {
       table = element(by.css('.fmq-dashboard-page .table-container'));
-      map = element(by.css('.fmq-dashboard-page .map-container'));
+      map = element(by.css(mapSelector));
 
       tableHelpInfo = element.all(by.className('alert')).first();
       resetButton = element(by.className('filters-sorts-reset'));
@@ -222,24 +256,19 @@ describe('foundersMapQuestApp typical usage', function() {
       var filters = element.all(by.model('vm.filterStates[$index]'));
 
       filters.get(1).clear().sendKeys('le');
-      expect(table.all(by.css('tbody tr')).count()).toBe(2);
-      expect(table.all(by.css('tbody tr')).first().getText()).not.toMatch('No items');
+      expectRowsAndMarkers(2);
 
       filters.get(1).clear().sendKeys('oo');
-      expect(table.all(by.css('tbody tr')).count()).toBe(1);
-      expect(table.all(by.css('tbody tr')).first().getText()).not.toMatch('No items');
+      expectRowsAndMarkers(1);
 
       filters.get(0).clear().sendKeys('1');
-      expect(table.all(by.css('tbody tr')).count()).toBe(1);
-      expect(table.all(by.css('tbody tr')).first().getText()).not.toMatch('No items');
+      expectRowsAndMarkers(1);
 
       filters.get(0).clear().sendKeys('2');
-      expect(table.all(by.css('tbody tr')).count()).toBe(1);
-      expect(table.all(by.css('tbody tr')).first().getText()).toMatch('No items');
+      expectRowsAndMarkers(0);
 
       resetButton.click();
-      expect(table.all(by.css('tbody tr')).count()).toBe(3);
-      expect(table.all(by.css('tbody tr')).first().getText()).not.toMatch('No items');
+      expectRowsAndMarkers(3);
     });
 
     it('should filter by selection', function () {
