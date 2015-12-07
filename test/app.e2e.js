@@ -217,7 +217,8 @@ describe('foundersMapQuestApp typical usage', function() {
       mapSelector = '.fmq-dashboard-page .map-container',
       map,
       tableHelpInfo,
-      resetButton;
+      resetButton,
+      columnChoosers;
 
     function expectRowsAndMarkers(expectedCount) {
       if (expectedCount === 0) {
@@ -236,6 +237,10 @@ describe('foundersMapQuestApp typical usage', function() {
 
       tableHelpInfo = element.all(by.className('alert')).first();
       resetButton = element(by.className('filters-sorts-reset'));
+
+      columnChoosers = table.all(by.className('marker-column-chooser')).filter(function (columnChooser) {
+        return columnChooser.isDisplayed();
+      });
     });
 
     it('should have map and table present', function () {
@@ -286,10 +291,37 @@ describe('foundersMapQuestApp typical usage', function() {
       selectionElements.get(0).click();
       selectionElements.get(2).click();
       expect(markersVisible(mapSelector, 1)).toBe(true);
+
+      table.element(by.className('all-items-selector')).click();
+      expectRowsAndMarkers(3);
     });
 
-    it('should select marker', function () {
-      //TODO
+    it('should open marker by clicking on item viewer links', function () {
+      var itemViewers,
+        markerWindow;
+
+      //check first column (id)
+      expect(columnChoosers.get(0).getAttribute('class')).toMatch('active');
+
+      itemViewers = table.all(by.css('tbody tr')).get(0).all(by.className('item-viewer')); //first item
+      expect(itemViewers.isDisplayed()).toEqual([true, true]); //latitude and longitude
+
+      itemViewers.first().click(); //click latitude
+      markerWindow = map.element(by.className('gm-pro-popup'));
+      expect(markerWindow.isDisplayed()).toBe(true);
+      expect(markerWindow.getText()).toMatch('1');
+
+      //change columnMarker to photo
+      columnChoosers.get(7).click();
+      expect(columnChoosers.get(7).getAttribute('class')).toMatch('active');
+
+      itemViewers = table.all(by.css('tbody tr')).get(0).all(by.className('item-viewer')); //first item
+      expect(itemViewers.isDisplayed()).toEqual([true, true]); //latitude and longitude
+
+      itemViewers.get(1).click(); //click longitude
+      markerWindow = map.element(by.className('gm-pro-popup'));
+      expect(markerWindow.isDisplayed()).toBe(true);
+      expect(markerWindow.element(by.tagName('img')).getAttribute('src')).toMatch('http://interviewsummary.com/wp-content/uploads/2013/07/larry-page-and-sergey-brin-of-google-620x400.jpg');
     });
 
     it('should sort', function () {
@@ -297,10 +329,6 @@ describe('foundersMapQuestApp typical usage', function() {
     });
 
     it('should show image', function () {
-      //TODO
-    });
-
-    it('should go to map and open marker', function () {
       //TODO
     });
   });
