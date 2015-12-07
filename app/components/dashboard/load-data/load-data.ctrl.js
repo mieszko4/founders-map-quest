@@ -8,13 +8,13 @@
  * Controller of the foundersMapQuestApp.loadData
  */
 angular.module('foundersMapQuestApp.loadData')
-  .controller('LoadDataCtrl', function ($scope, $uibModalInstance, founders, supportsFileReader, Csv, Founders) {
+  .controller('LoadDataCtrl', function ($scope, $uibModalInstance, founders, supportsFileReader, Csv) {
     var vm = this;
 
     //set up data
     vm.founders = founders;
     vm.supportsFileReader = supportsFileReader;
-    vm.delimiters = Founders.delimiters;
+    vm.delimiters = Csv.delimiters;
     vm.form = {
       raw: founders.encodeToRaw(),
       delimiter: founders.delimiter,
