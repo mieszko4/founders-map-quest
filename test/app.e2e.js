@@ -371,7 +371,20 @@ describe('foundersMapQuestApp typical usage', function() {
     });
 
     it('should show image', function () {
-      //TODO
+      var item = table.all(by.css('tbody tr')).get(0);
+      var image = item.element(by.className('type-image'));
+
+      expect(image.isDisplayed()).toBe(true);
+      image.element(by.tagName('a')).click();
+      expect(browser.getLocationAbsUrl()).toMatch('/show-image');
+
+      var modalFooter = element(by.className('modal-footer'));
+      expect(modalFooter.isDisplayed()).toBe(true);
+
+      var close = modalFooter.element(by.buttonText('Close'));
+      expect(close.isDisplayed()).toBe(true);
+      close.click();
+      expect(browser.getLocationAbsUrl()).toMatch('/dashboard');
     });
   });
 
