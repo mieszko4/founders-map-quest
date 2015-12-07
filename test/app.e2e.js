@@ -277,7 +277,7 @@ describe('foundersMapQuestApp typical usage', function() {
       expectRowsAndMarkers(3);
     });
 
-    it('should filter by selection', function () {
+    it('should filter by selection and view-item not be clickable for unselected items', function () {
       var selectionElements = table.all(by.className('item-selector'));
 
       expectRowsAndMarkers(3);
@@ -291,6 +291,16 @@ describe('foundersMapQuestApp typical usage', function() {
       selectionElements.get(0).click();
       selectionElements.get(2).click();
       expect(markersVisible(mapSelector, 1)).toBe(true);
+
+      //check it is not clickable
+      var itemViewers = table.all(by.css('tbody tr')).get(0).all(by.className('item-viewer'));
+      expect(itemViewers.isDisplayed()).toEqual([true, true]); //latitude and longitude
+      itemViewers.first().click().then(function () {
+        throw 'Latitude should not be clickable';
+      }, function () {});
+      itemViewers.first().click().then(function () {
+        throw 'Longitude should not be clickable';
+      }, function () {});
 
       table.element(by.className('all-items-selector')).click();
       expectRowsAndMarkers(3);
