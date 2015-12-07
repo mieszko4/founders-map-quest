@@ -7,13 +7,13 @@ describe('Controller: vm', function () {
 
   var vm,
     $scope,
-    Founders,
+    Csv,
     founders,
     $controller,
     modalInstance;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function (_$controller_, $rootScope, _Founders_, FoundersFactory) {
+  beforeEach(inject(function (_$controller_, $rootScope, _Csv_, FoundersFactory) {
     $scope = $rootScope.$new();
     modalInstance = {                    // Create a mock object using spies
       close: jasmine.createSpy('modalInstance.close'),
@@ -33,7 +33,7 @@ describe('Controller: vm', function () {
     });
 
     $controller = _$controller_;
-    Founders = _Founders_;
+    Csv = _Csv_;
   }));
 
   it('should exist', function () {
@@ -42,7 +42,7 @@ describe('Controller: vm', function () {
       $uibModalInstance: modalInstance,
       founders: founders,
       supportsFileReader: true,
-      Founders: Founders
+      Csv: Csv
     });
 
     expect(!!vm).toBe(true);
@@ -54,7 +54,7 @@ describe('Controller: vm', function () {
       $uibModalInstance: modalInstance,
       founders: founders,
       supportsFileReader: true,
-      Founders: Founders
+      Csv: Csv
     });
 
     $scope.$digest();
@@ -64,7 +64,8 @@ describe('Controller: vm', function () {
     expect(vm.founders.items.length).toBe(3);
 
     expect(vm.supportsFileReader).toBe(true);
-    expect(vm.delimiters).toEqual(Founders.delimiters);
+    expect(vm.delimiters).toBeDefined();
+    expect(vm.delimiters).toEqual(Csv.delimiters);
 
     expect(!!vm.form).toBe(true);
     expect(!!vm.form.raw).toBe(true);
@@ -80,7 +81,7 @@ describe('Controller: vm', function () {
       $uibModalInstance: modalInstance,
       founders: founders,
       supportsFileReader: true,
-      Founders: Founders
+      Csv: Csv
     });
 
     vm.form.latitudeColumn = null;
@@ -104,7 +105,7 @@ describe('Controller: vm', function () {
       $uibModalInstance: modalInstance,
       founders: founders,
       supportsFileReader: true,
-      Founders: Founders
+      Csv: Csv
     });
 
     vm.form.raw = 'Id;Latitude;Longitude\n0;1;2';
@@ -138,7 +139,7 @@ describe('Controller: vm', function () {
       $uibModalInstance: modalInstance,
       founders: founders,
       supportsFileReader: true,
-      Founders: Founders
+      Csv: Csv
     });
 
     $scope.$apply();
@@ -160,7 +161,7 @@ describe('Controller: vm', function () {
       $uibModalInstance: modalInstance,
       founders: founders,
       supportsFileReader: true,
-      Founders: Founders
+      Csv: Csv
     });
 
     $scope.$apply();
@@ -207,7 +208,7 @@ describe('Controller: vm', function () {
       $uibModalInstance: modalInstance,
       founders: founders,
       supportsFileReader: true,
-      Founders: Founders
+      Csv: Csv
     });
 
     vm.ok();
@@ -223,7 +224,7 @@ describe('Controller: vm', function () {
       $uibModalInstance: modalInstance,
       founders: founders,
       supportsFileReader: true,
-      Founders: Founders
+      Csv: Csv
     });
 
     vm.fileText = 'Id;Latitude;Longitude\n0;1;2';
@@ -242,7 +243,7 @@ describe('Controller: vm', function () {
       $uibModalInstance: modalInstance,
       founders: founders,
       supportsFileReader: false,
-      Founders: Founders
+      Csv: Csv
     });
 
     expect(vm.supportsFileReader).toBe(false);
