@@ -15,9 +15,7 @@ describe('foundersMapQuestApp typical usage', function() {
 
     it('should have nagation bar', function () {
       expect(element(by.className('navbar-nav')).isDisplayed()).toBe(true);
-      lis.count().then(function(count) {
-        expect(count).toBe(2);
-      });
+      expect(lis.count()).toBe(2);
     });
 
     it('should have Dashboard as menu', function () {
@@ -194,24 +192,46 @@ describe('foundersMapQuestApp typical usage', function() {
 
   describe('should display table and map', function () {
     var map,
-      table;
+      table,
+      resetButton;
 
     beforeAll(function () {
       map = element(by.css('.fmq-dashboard-page .map-container'));
       table = element(by.css('.fmq-dashboard-page .table-container'));
+
+      resetButton = element(by.className('filters-sorts-reset'));
     });
 
-    it('should have elements present', function () {
+    it('should have map and table present', function () {
       expect(map.isDisplayed()).toBe(true);
       expect(table.isDisplayed()).toBe(true);
-    });
 
-    it('should filter by text', function () {
-      //TODO
+      expect(resetButton.isDisplayed()).toBe(true);
     });
 
     it('should filter by selection', function () {
-      //TODO
+      expect(table.all(by.css('tbody tr')).count()).toBe(3);
+      var filters = element.all(by.model('vm.filterStates[$index]'));
+
+      filters.get(1).clear().sendKeys('le');
+      expect(table.all(by.css('tbody tr')).count()).toBe(2);
+      expect(table.all(by.css('tbody tr')).first().getText()).not.toMatch('No items');
+
+      filters.get(1).clear().sendKeys('oo');
+      expect(table.all(by.css('tbody tr')).count()).toBe(1);
+      expect(table.all(by.css('tbody tr')).first().getText()).not.toMatch('No items');
+
+      filters.get(0).clear().sendKeys('1');
+      expect(table.all(by.css('tbody tr')).count()).toBe(1);
+      expect(table.all(by.css('tbody tr')).first().getText()).not.toMatch('No items');
+
+      filters.get(0).clear().sendKeys('2');
+      expect(table.all(by.css('tbody tr')).count()).toBe(1);
+      expect(table.all(by.css('tbody tr')).first().getText()).toMatch('No items');
+
+      resetButton.click();
+      expect(table.all(by.css('tbody tr')).count()).toBe(3);
+      expect(table.all(by.css('tbody tr')).first().getText()).not.toMatch('No items');
     });
 
     it('should select marker', function () {
