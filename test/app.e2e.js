@@ -252,8 +252,9 @@ describe('foundersMapQuestApp typical usage', function() {
     });
 
     it('should filter by input', function () {
-      expect(table.all(by.css('tbody tr')).count()).toBe(3);
-      var filters = element.all(by.model('vm.filterStates[$index]'));
+      var filters = table.all(by.model('vm.filterStates[$index]'));
+
+      expectRowsAndMarkers(3);
 
       filters.get(1).clear().sendKeys('le');
       expectRowsAndMarkers(2);
@@ -272,7 +273,19 @@ describe('foundersMapQuestApp typical usage', function() {
     });
 
     it('should filter by selection', function () {
+      var selectionElements = table.all(by.className('item-selector'));
 
+      expectRowsAndMarkers(3);
+
+      selectionElements.get(0).click();
+      expect(markersVisible(mapSelector, 2)).toBe(true);
+
+      selectionElements.get(0).click();
+      expect(markersVisible(mapSelector, 3)).toBe(true);
+
+      selectionElements.get(0).click();
+      selectionElements.get(2).click();
+      expect(markersVisible(mapSelector, 1)).toBe(true);
     });
 
     it('should select marker', function () {
