@@ -190,26 +190,34 @@ describe('foundersMapQuestApp typical usage', function() {
     });
   });
 
-  describe('should display table and map', function () {
-    var map,
-      table,
+  describe('should display map and table', function () {
+    var table,
+      map,
+      tableHelpInfo,
       resetButton;
 
     beforeAll(function () {
-      map = element(by.css('.fmq-dashboard-page .map-container'));
       table = element(by.css('.fmq-dashboard-page .table-container'));
+      map = element(by.css('.fmq-dashboard-page .map-container'));
 
+      tableHelpInfo = element.all(by.className('alert')).first();
       resetButton = element(by.className('filters-sorts-reset'));
     });
 
     it('should have map and table present', function () {
-      expect(map.isDisplayed()).toBe(true);
       expect(table.isDisplayed()).toBe(true);
+      expect(map.isDisplayed()).toBe(true);
 
+      expect(tableHelpInfo.isDisplayed()).toBe(true);
       expect(resetButton.isDisplayed()).toBe(true);
     });
 
-    it('should filter by selection', function () {
+    it('should dismiss tableHelpInfo', function () {
+      tableHelpInfo.element(by.className('close')).click();
+      expect(tableHelpInfo.isDisplayed()).toBe(false);
+    });
+
+    it('should filter by input', function () {
       expect(table.all(by.css('tbody tr')).count()).toBe(3);
       var filters = element.all(by.model('vm.filterStates[$index]'));
 
@@ -232,6 +240,10 @@ describe('foundersMapQuestApp typical usage', function() {
       resetButton.click();
       expect(table.all(by.css('tbody tr')).count()).toBe(3);
       expect(table.all(by.css('tbody tr')).first().getText()).not.toMatch('No items');
+    });
+
+    it('should filter by selection', function () {
+
     });
 
     it('should select marker', function () {
